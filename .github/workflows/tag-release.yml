@@ -95,7 +95,6 @@ jobs:
                 shell: pwsh
                 run: |
                     npm install -g @elgato/cli@latest
-                    streamdeck --version
 
             -   name: Pack Stream Deck plugin
                 shell: pwsh
@@ -201,7 +200,6 @@ jobs:
                 shell: pwsh
                 run: |
                     npm install -g @elgato/cli@latest
-                    streamdeck --version
 
             -   name: Pack Stream Deck plugin
                 shell: pwsh
