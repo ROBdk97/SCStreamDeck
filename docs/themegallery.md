@@ -1,5 +1,10 @@
 # Theme Gallery
 
+See also:
+
+- [Themes](themes.md)
+- [Usage](usage.md#control-panel-key)
+
 ## Default
 
 ![Default](assets/images/default-theme.png){ style="width:50%; height:auto;" }

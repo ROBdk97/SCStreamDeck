@@ -2,6 +2,11 @@
 
 The plugin supports themes for the Property Inspector UI.
 
+See also:
+
+- [Theme Gallery](themegallery.md)
+- [Usage](usage.md#control-panel-key)
+
 ## Pick a Theme
 
 1. Add `Control Panel` to any key.

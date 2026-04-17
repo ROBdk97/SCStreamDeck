@@ -3,12 +3,13 @@
 Welcome to the Star Citizen Stream Deck Plugin!
 This plugin lets you control various aspects of Star Citizen from your Elgato Stream Deck.
 
-[Download Simple](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin){ .md-button }
-[Download Advanced](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin){ .md-button }
-[Install Guide](install.md){ .md-button }
-[Troubleshooting](troubleshooting.md){ .md-button }
+## Quick Links
 
-
+- [Download Simple](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin)
+- [Download Advanced](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin)
+- [Install Guide](install.md)
+- [Troubleshooting](troubleshooting.md)
+- [FAQ](faq.md)
 
 ## Quick Start
 
@@ -38,4 +39,15 @@ This plugin lets you control various aspects of Star Citizen from your Elgato St
 - **Custom Language Support**: Supports custom language files for localization when using custom global.ini from the community, e.g. [StarCitizen-Deutsch-INI by rjcncpt](https://github.com/rjcncpt/StarCitizen-Deutsch-INI).
 - **Theme Support**: Themes for customizing the appearance of the plugin. Includes a template for creating your own themes!
 - **Click Sound**: Provides audio feedback on key presses with configurable sound files (.wav and .mp3).
+
+## Documentation
+
+- [Download & Installation](install.md)
+- [Update & Uninstall](update.md)
+- [Usage](usage.md)
+- [Themes](themes.md)
+- [Theme Gallery](themegallery.md)
+- [Troubleshooting](troubleshooting.md)
+- [FAQ](faq.md)
+- [Support the Project](support.md)
 
