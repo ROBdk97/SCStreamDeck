@@ -29,7 +29,7 @@ namespace WindowsInput
                 throw new ArgumentException("The input array was empty", "inputs");
             }
 
-            uint successful = NativeMethods.SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
+            uint successful = NativeMethods.SendInput((uint)inputs.Length, inputs, Marshal.SizeOf<INPUT>());
             if (successful != inputs.Length)
             {
                 throw new Exception(

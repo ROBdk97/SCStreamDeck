@@ -15,7 +15,7 @@
       ],
       "SupportedInMultiActions": true,
       "Tooltip": "Star Citizen Adaptive Key",
-      "UUID": "com.jarex985.scstreamdeck.adaptivekey",
+      "UUID": "com.robdk97.scstreamdeck.adaptivekey",
       "PropertyInspectorPath": "PropertyInspector/Keys/AdaptiveKey.html"
     },
     {
@@ -40,7 +40,7 @@
       ],
       "SupportedInMultiActions": false,
       "Tooltip": "Star Citizen Adaptive Dial",
-      "UUID": "com.jarex985.scstreamdeck.adaptivedial",
+      "UUID": "com.robdk97.scstreamdeck.adaptivedial",
       "PropertyInspectorPath": "PropertyInspector/Dials/AdaptiveDial.html"
     },
     {
@@ -63,7 +63,7 @@
       ],
       "SupportedInMultiActions": false,
       "Tooltip": "Star Citizen Toggle Key",
-      "UUID": "com.jarex985.scstreamdeck.togglekey",
+      "UUID": "com.robdk97.scstreamdeck.togglekey",
       "PropertyInspectorPath": "PropertyInspector/Keys/ToggleKey.html",
       "DisableAutomaticStates": true
     },
@@ -83,18 +83,18 @@
       ],
       "SupportedInMultiActions": false,
       "Tooltip": "Star Citizen Control Panel",
-      "UUID": "com.jarex985.scstreamdeck.controlpanel",
+      "UUID": "com.robdk97.scstreamdeck.controlpanel",
       "PropertyInspectorPath": "PropertyInspector/Keys/ControlPanel.html"
     }
   ],
-  "Author": "Jarex985",
+  "Author": "ROBdk97",
   "Name": "Star Citizen Stream Deck",
-  "UUID": "com.jarex985.scstreamdeck",
+  "UUID": "com.robdk97.scstreamdeck",
   "Description": "Plugin that provides bindable actions for Star Citizen via Stream Deck.\nThis Plugin is not endorsed by or affiliated with the Cloud Imperium or Roberts Space Industries group of companies. All game content and materials are copyright Cloud Imperium Rights LLC and Cloud Imperium Rights Ltd.. Star Citizen®,Squadron 42®, Roberts Space Industries®, and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC. All rights reserved.",
   "Icon": "Images/pluginIcon",
-  "URL": "https://github.com/Jarex985/SCStreamDeck",
+  "URL": "https://github.com/ROBdk97/SCStreamDeck",
   "Version": "1.2.0.0",
-  "CodePath": "com.jarex985.scstreamdeck.exe",
+  "CodePath": "com.robdk97.scstreamdeck.exe",
   "Category": "Star Citizen Stream Deck",
   "CategoryIcon": "Images/categoryIcon",
   "OS": [

@@ -12,7 +12,7 @@ namespace SCStreamDeck.ActionKeys;
 ///     Automatically adjusts behavior based on action activation modes.
 /// </summary>
 [SuppressMessage("ReSharper", "UnusedType.Global", Justification = "Stream Deck action instantiated via SDK reflection")]
-[PluginActionId("com.jarex985.scstreamdeck.adaptivekey")]
+[PluginActionId("com.robdk97.scstreamdeck.adaptivekey")]
 public sealed class AdaptiveKey(SDConnection connection, InitialPayload payload) : SCActionBase(connection, payload)
 {
     #region Public Methods

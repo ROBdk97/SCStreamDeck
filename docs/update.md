@@ -16,6 +16,6 @@
 3. Go to the `Plugins` tab.
 4. Select `Star Citizen Stream Deck`.
 5. Right-click and choose `Uninstall`.
-6. If this doesn't work, close the Stream Deck software, go to `%APPDATA%\Elgato\StreamDeck\Plugins`, and delete the folder named `com.jarex985.scstreamdeck.sdPlugin`.
+6. If this doesn't work, close the Stream Deck software, go to `%APPDATA%\Elgato\StreamDeck\Plugins`, and delete the folder named `com.robdk97.scstreamdeck.sdPlugin`.
 
 

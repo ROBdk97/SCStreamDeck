@@ -1,9 +1,9 @@
 ![Star Citizen Stream Deck Plugin](./docs/assets/images/scsd-banner.png)
 
 
-User Guide: https://jarex985.github.io/SCStreamDeck/  
-Download latest Release: [Here](https://github.com/Jarex985/SCStreamDeck/releases/latest/download/com.jarex985.scstreamdeck.streamDeckPlugin)  
-Report bugs / feature requests: https://github.com/Jarex985/SCStreamDeck/issues
+User Guide: https://robdk97.github.io/SCStreamDeck/  
+Download latest Release: [Here](https://github.com/ROBdk97/SCStreamDeck/releases/latest)  
+Report bugs / feature requests: https://github.com/ROBdk97/SCStreamDeck/issues
 
 <br>
 
@@ -18,17 +18,23 @@ Report bugs / feature requests: https://github.com/Jarex985/SCStreamDeck/issues
 
 [![Windows 10+](https://img.shields.io/badge/Windows-10%2B-blue?logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![Stream Deck v6.4+](https://img.shields.io/badge/Stream%20Deck%20App-6.4%2B-purple?logo=elgato&logoColor=white)](https://www.elgato.com/s/stream-deck-app)
-[![.NET 8 Desktop Runtime](https://img.shields.io/badge/.NET%20Desktop%20Runtime-8.0-blue?logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/download/dotnet/8.0)
+
+## Installation Options
+
+| Method | Package | Runtime requirement |
+| --- | --- | --- |
+| Simple | `com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin` | None |
+| Advanced | `com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin` | Install [.NET 10 Desktop Runtime x64](https://dotnet.microsoft.com/download/dotnet/10.0) |
 
 ## Project Info
 
 ### Status
-[![GitHub release](https://img.shields.io/github/release/Jarex985/SCStreamDeck?include_prereleases=&sort=semver&color=2ea44f)](https://github.com/Jarex985/SCStreamDeck/releases/)
+[![GitHub release](https://img.shields.io/github/release/ROBdk97/SCStreamDeck?include_prereleases=&sort=semver&color=2ea44f)](https://github.com/ROBdk97/SCStreamDeck/releases/)
 [![License](https://img.shields.io/badge/License-MIT-2ea44f)](LICENSE.md)
 [![Contributions - welcome](https://img.shields.io/badge/Contributions-welcome-2ea44f)](CONTRIBUTING.md)  
 
-![Code scanning](https://github.com/Jarex985/SCStreamDeck/workflows/CodeQL/badge.svg)
-[![CI](https://github.com/Jarex985/SCStreamDeck/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Jarex985/SCStreamDeck/actions/workflows/ci.yml)
+![Code scanning](https://github.com/ROBdk97/SCStreamDeck/workflows/CodeQL/badge.svg)
+[![CI](https://github.com/ROBdk97/SCStreamDeck/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ROBdk97/SCStreamDeck/actions/workflows/ci.yml)
 
 ### Programming Languages
 [![C#](https://img.shields.io/badge/C%23-239120?logo=c-sharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp)
@@ -39,9 +45,9 @@ Report bugs / feature requests: https://github.com/Jarex985/SCStreamDeck/issues
 [![JetBrains Rider](https://img.shields.io/badge/JetBrains%20Rider-000000?logo=JetBrains&logoColor=white)](https://www.jetbrains.com/rider/)
 [![JetBrains WebStorm](https://img.shields.io/badge/JetBrains%20WebStorm-000000?logo=JetBrains&logoColor=white)](https://www.jetbrains.com/webstorm/)
 ### Support / Funding
-[![Buy Me A Coffee](https://img.shields.io/badge/BuyMeACoffee-Support-yellow?style=flat&logo=buy-me-a-coffee&logoColor=white)](https://www.buymeacoffee.com/jarex9851)
-[![Ko-Fi](https://img.shields.io/badge/Ko--Fi-Support-orange?style=flat&logo=kofi&logoColor=white)](https://ko-fi.com/jarex985)
-[![PayPal](https://img.shields.io/badge/PayPal-Support-blue?style=flat&logo=paypal&logoColor=white)](https://www.paypal.me/jarex985)
+[![Buy Me A Coffee](https://img.shields.io/badge/BuyMeACoffee-Support-yellow?style=flat&logo=buy-me-a-coffee&logoColor=white)](https://www.buymeacoffee.com/robdk971)
+[![Ko-Fi](https://img.shields.io/badge/Ko--Fi-Support-orange?style=flat&logo=kofi&logoColor=white)](https://ko-fi.com/robdk97)
+[![PayPal](https://img.shields.io/badge/PayPal-Support-blue?style=flat&logo=paypal&logoColor=white)](https://www.paypal.me/robdk97)
 
 
 
@@ -62,7 +68,7 @@ Report bugs / feature requests: https://github.com/Jarex985/SCStreamDeck/issues
 
 ## Installation
 
-See the full installation guide: https://jarex985.github.io/SCStreamDeck/install/
+See the full installation guide: https://robdk97.github.io/SCStreamDeck/install/
 
 ## Known Limitations
 
@@ -95,3 +101,4 @@ This project was inspired by the following repositories (code rewritten from scr
 - [unp4k by dolkensp](https://github.com/dolkensp/unp4k) - for letting me browse through the P4K file and understand its structure.
 - [SCJMapper-V2 by SCToolsfactory](https://github.com/SCToolsfactory/SCJMapper-V2) - for the great work on Star Citizen keybindings extraction.
 - [streamdeck-starcitizen by mhwlng](https://github.com/mhwlng/streamdeck-starcitizen) - for the initial idea of a Stream Deck plugin for Star Citizen. :)
+- [SCStreamDeck by Jarex985](https://github.com/Jarex985/SCStreamDeck) - Forked because the owner was inactive

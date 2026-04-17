@@ -11,7 +11,7 @@ namespace SCStreamDeck.ActionKeys;
 ///     ToggleKey: short press executes binding on KeyUp; long hold flips state at threshold and suppresses execution.
 /// </summary>
 [SuppressMessage("ReSharper", "UnusedType.Global", Justification = "Stream Deck action instantiated via SDK reflection")]
-[PluginActionId("com.jarex985.scstreamdeck.togglekey")]
+[PluginActionId("com.robdk97.scstreamdeck.togglekey")]
 public sealed class ToggleKey : SCActionBase
 {
     private const double DefaultResetHoldSeconds = 1.0;

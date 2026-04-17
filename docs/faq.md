@@ -20,7 +20,7 @@ See [Themes](themes.md).
 
 Use GitHub Issues if possible:
 
-- [https://github.com/Jarex985/SCStreamDeck/issues](https://github.com/Jarex985/SCStreamDeck/issues)
+- [https://github.com/ROBdk97/SCStreamDeck/issues](https://github.com/ROBdk97/SCStreamDeck/issues)
 
 Include:
 

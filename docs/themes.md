@@ -16,7 +16,7 @@ You can create your own theme by copying `_theme-template.css` and changing a fe
 
 Template file location:
 
-`%APPDATA%\Elgato\StreamDeck\Plugins\com.jarex985.scstreamdeck.sdPlugin\PropertyInspector\css\themes\`
+`%APPDATA%\Elgato\StreamDeck\Plugins\com.robdk97.scstreamdeck.sdPlugin\PropertyInspector\css\themes\`
 
 You will find RGB color values defined as:
 

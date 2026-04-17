@@ -1,0 +1,237 @@
+name: Tag Release
+
+permissions:
+    contents: write
+
+on:
+    push:
+        tags:
+            - "v*"
+
+env:
+    DOTNET_PROJECT: PluginCore\PluginCore.csproj
+    PLUGIN_FOLDER: PluginCore\bin\Release\com.robdk97.scstreamdeck.sdPlugin
+
+jobs:
+    build-stream-deck-plugin-simple:
+        name: Build Stream Deck Plugin (Simple)
+        runs-on: windows-latest
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Setup Node.js 20 with npm cache
+                if: ${{ hashFiles('PluginCore/package-lock.json') != '' }}
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 20
+                    cache: npm
+                    cache-dependency-path: PluginCore/package-lock.json
+
+            -   name: Setup Node.js 20
+                if: ${{ hashFiles('PluginCore/package-lock.json') == '' }}
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 20
+
+            -   name: Setup .NET 10
+                uses: actions/setup-dotnet@v4
+                with:
+                    global-json-file: global.json
+
+            -   name: Clean plugin output
+                shell: pwsh
+                run: |
+                    Remove-Item -Path $env:PLUGIN_FOLDER, 'plugin-out' -Recurse -Force -ErrorAction SilentlyContinue
+
+            -   name: npm ci
+                shell: pwsh
+                run: |
+                    if (Test-Path 'PluginCore\package-lock.json') {
+                        Push-Location 'PluginCore'
+                        npm ci
+                        Pop-Location
+                    }
+                    else {
+                        Write-Host 'No PluginCore\package-lock.json found; skipping npm ci.'
+                    }
+
+            -   name: npm run build
+                shell: pwsh
+                run: |
+                    if (Test-Path 'PluginCore\package.json') {
+                        Push-Location 'PluginCore'
+                        npm run build
+                        Pop-Location
+                    }
+                    else {
+                        Write-Host 'No PluginCore\package.json found; skipping npm run build.'
+                    }
+
+            -   name: Extract version from tag
+                id: version
+                shell: pwsh
+                run: |
+                    "version=$($env:GITHUB_REF_NAME.Substring(1))" >> $env:GITHUB_OUTPUT
+
+            -   name: Publish plugin output
+                shell: pwsh
+                run: |
+                    dotnet publish $env:DOTNET_PROJECT `
+                        -c Release `
+                        -r win-x64 `
+                        --self-contained true `
+                        -o $env:PLUGIN_FOLDER `
+                        -p:PublishSingleFile=true `
+                        -p:IncludeNativeLibrariesForSelfExtract=true `
+                        -p:DebugType=None `
+                        -p:DebugSymbols=false `
+                        -p:Version=${{ steps.version.outputs.version }} `
+                        -p:AssemblyVersion=${{ steps.version.outputs.version }} `
+                        -p:FileVersion=${{ steps.version.outputs.version }}
+
+            -   name: Pack Stream Deck plugin
+                uses: neilenns/streamdeck-cli-pack@v2
+                with:
+                    path: ${{ env.PLUGIN_FOLDER }}
+                    outputPath: plugin-out
+                    version: ${{ steps.version.outputs.version }}
+                    force: true
+
+            -   name: Rename packaged plugin
+                shell: pwsh
+                run: |
+                    Rename-Item `
+                        -Path 'plugin-out\com.robdk97.scstreamdeck.streamDeckPlugin' `
+                        -NewName 'com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin'
+
+            -   name: Upload Stream Deck plugin artifact
+                uses: actions/upload-artifact@v4
+                with:
+                    name: stream-deck-plugin-simple
+                    path: plugin-out\com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin
+                    if-no-files-found: error
+
+    build-stream-deck-plugin-advanced:
+        name: Build Stream Deck Plugin (Advanced)
+        runs-on: windows-latest
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Setup Node.js 20 with npm cache
+                if: ${{ hashFiles('PluginCore/package-lock.json') != '' }}
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 20
+                    cache: npm
+                    cache-dependency-path: PluginCore/package-lock.json
+
+            -   name: Setup Node.js 20
+                if: ${{ hashFiles('PluginCore/package-lock.json') == '' }}
+                uses: actions/setup-node@v4
+                with:
+                    node-version: 20
+
+            -   name: Setup .NET 10
+                uses: actions/setup-dotnet@v4
+                with:
+                    global-json-file: global.json
+
+            -   name: Clean plugin output
+                shell: pwsh
+                run: |
+                    Remove-Item -Path $env:PLUGIN_FOLDER, 'plugin-out' -Recurse -Force -ErrorAction SilentlyContinue
+
+            -   name: npm ci
+                shell: pwsh
+                run: |
+                    if (Test-Path 'PluginCore\package-lock.json') {
+                        Push-Location 'PluginCore'
+                        npm ci
+                        Pop-Location
+                    }
+                    else {
+                        Write-Host 'No PluginCore\package-lock.json found; skipping npm ci.'
+                    }
+
+            -   name: npm run build
+                shell: pwsh
+                run: |
+                    if (Test-Path 'PluginCore\package.json') {
+                        Push-Location 'PluginCore'
+                        npm run build
+                        Pop-Location
+                    }
+                    else {
+                        Write-Host 'No PluginCore\package.json found; skipping npm run build.'
+                    }
+
+            -   name: Extract version from tag
+                id: version
+                shell: pwsh
+                run: |
+                    "version=$($env:GITHUB_REF_NAME.Substring(1))" >> $env:GITHUB_OUTPUT
+
+            -   name: Publish plugin output
+                shell: pwsh
+                run: |
+                    dotnet publish $env:DOTNET_PROJECT `
+                        -c Release `
+                        -r win-x64 `
+                        -p:SelfContained=false `
+                        -o $env:PLUGIN_FOLDER `
+                        -p:PublishSingleFile=true `
+                        -p:IncludeNativeLibrariesForSelfExtract=true `
+                        -p:DebugType=None `
+                        -p:DebugSymbols=false `
+                        -p:Version=${{ steps.version.outputs.version }} `
+                        -p:AssemblyVersion=${{ steps.version.outputs.version }} `
+                        -p:FileVersion=${{ steps.version.outputs.version }}
+
+            -   name: Pack Stream Deck plugin
+                uses: neilenns/streamdeck-cli-pack@v2
+                with:
+                    path: ${{ env.PLUGIN_FOLDER }}
+                    outputPath: plugin-out
+                    version: ${{ steps.version.outputs.version }}
+                    force: true
+
+            -   name: Rename packaged plugin
+                shell: pwsh
+                run: |
+                    Rename-Item `
+                        -Path 'plugin-out\com.robdk97.scstreamdeck.streamDeckPlugin' `
+                        -NewName 'com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin'
+
+            -   name: Upload Stream Deck plugin artifact
+                uses: actions/upload-artifact@v4
+                with:
+                    name: stream-deck-plugin-advanced
+                    path: plugin-out\com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin
+                    if-no-files-found: error
+
+    publish-github-release:
+        name: Publish GitHub Release
+        runs-on: ubuntu-latest
+        needs:
+            - build-stream-deck-plugin-simple
+            - build-stream-deck-plugin-advanced
+
+        steps:
+            -   name: Download release assets
+                uses: actions/download-artifact@v4
+                with:
+                    path: release-assets
+                    pattern: "*"
+                    merge-multiple: true
+
+            -   name: Create GitHub release
+                uses: softprops/action-gh-release@v2
+                with:
+                    name: Release ${{ github.ref_name }}
+                    files: release-assets/*
+                    fail_on_unmatched_files: true
+                    generate_release_notes: true

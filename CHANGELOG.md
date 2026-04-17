@@ -158,7 +158,7 @@ Notes:
 - The plugin checks these paths if auto-detection does not find a valid installation
 - Instructions for editing `custom-paths.ini` are included in the file
 
-Path to plugin: `%APPDATA%\Elgato\StreamDeck\Plugins\com.jarex985.scstreamdeck.sdPlugin`
+Path to plugin: `%APPDATA%\Elgato\StreamDeck\Plugins\com.robdk97.scstreamdeck.sdPlugin`
 
 ### Bug Fixes
 

@@ -2,19 +2,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <LangVersion>12</LangVersion>
-    <AssemblyName>com.jarex985.scstreamdeck</AssemblyName>
+    <AssemblyName>com.robdk97.scstreamdeck</AssemblyName>
     <RootNamespace>SCStreamDeck</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyTitle>SC Stream Deck</AssemblyTitle>
     <AssemblyDescription>Plugin that provides bindable actions for Star Citizen via Stream Deck.</AssemblyDescription>
-    <AssemblyCompany>Jarex985</AssemblyCompany>
+    <AssemblyCompany>ROBdk97</AssemblyCompany>
     <AssemblyProduct>SC Stream Deck</AssemblyProduct>
-    <AssemblyCopyright>Copyright 2025 Jarex985</AssemblyCopyright>
+    <AssemblyCopyright>Copyright 2025 ROBdk97</AssemblyCopyright>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <ComVisible>false</ComVisible>
@@ -26,10 +25,10 @@
     <NoWarn>NU1701, CA1014</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\com.jarex985.scstreamdeck.sdPlugin\</OutputPath>
+    <OutputPath>bin\Debug\com.robdk97.scstreamdeck.sdPlugin\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\com.jarex985.scstreamdeck.sdPlugin\</OutputPath>
+    <OutputPath>bin\Release\com.robdk97.scstreamdeck.sdPlugin\</OutputPath>
   </PropertyGroup>
 
   <!-- EditorConfig -->
@@ -42,23 +41,23 @@
 
   <!-- External Libraries -->
   <ItemGroup>
-    <InternalsVisibleTo Include="Tests"/>
-    <PackageReference Include="NAudio" Version="2.2.1"/>
-    <ProjectReference Include="..\InputSimulatorPlus\WindowsInput\WindowsInput.csproj"/>
-    <PackageReference Include="CommandLineParser" Version="2.9.1"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.101">
+    <InternalsVisibleTo Include="Tests" />
+    <PackageReference Include="NAudio" Version="2.3.0" />
+    <ProjectReference Include="..\InputSimulatorPlus\WindowsInput\WindowsInput.csproj" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="10.0.202">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1"/>
-    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="10.0.1"/>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4"/>
-    <PackageReference Include="NLog" Version="6.0.7"/>
-    <PackageReference Include="SharpZipLibP4k" Version="1.4.2"/>
-    <PackageReference Include="StreamDeck-Tools" Version="6.3.2"/>
-    <PackageReference Include="System.Drawing.Common" Version="10.0.1"/>
-    <PackageReference Include="ZstdSharp.Port" Version="0.8.7"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.6" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.6" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="10.0.6" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NLog" Version="6.1.2" />
+    <PackageReference Include="SharpZipLibP4k" Version="1.4.2" />
+    <PackageReference Include="StreamDeck-Tools" Version="7.0.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.6" />
+    <PackageReference Include="ZstdSharp.Port" Version="0.8.7" />
   </ItemGroup>
 
   <!-- Manifest & Property Inspector -->
@@ -72,7 +71,45 @@
   </ItemGroup>
 
   <Target Name="BuildPropertyInspectorAssets" BeforeTargets="CopyFilesToOutputDirectory">
-    <Exec Command="dotnet run --project &quot;$(MSBuildProjectDirectory)\..\Tools\PiAssetsBuilder\PiAssetsBuilder.csproj&quot; --configuration $(Configuration) -- &quot;$(MSBuildProjectDirectory)\PropertyInspector&quot;"/>
+    <Exec Command="dotnet run --project &quot;$(MSBuildProjectDirectory)\..\Tools\PiAssetsBuilder\PiAssetsBuilder.csproj&quot; --configuration $(Configuration) -- &quot;$(MSBuildProjectDirectory)\PropertyInspector&quot;" />
+  </Target>
+
+  <Target Name="RemoveStalePublishRuntimeFolders" BeforeTargets="CopyFilesToOutputDirectory">
+    <ItemGroup>
+      <StalePublishRuntimeFolders Include="$(OutputPath)win-x64" />
+      <StalePublishRuntimeFolders Include="$(OutputPath)win-x86" />
+      <StalePublishRuntimeFolders Include="$(OutputPath)win-arm64" />
+    </ItemGroup>
+
+    <RemoveDir Directories="@(StalePublishRuntimeFolders)" />
+  </Target>
+
+  <Target Name="RemoveUnusedRuntimeAssets" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <UnusedRuntimeFolders Include="$(OutputPath)runtimes\osx" />
+      <UnusedRuntimeFolders Include="$(OutputPath)runtimes\win-arm64" />
+      <UnusedRuntimeFolders Include="$(OutputPath)runtimes\win-x86" />
+      <UnusedRuntimeFiles Include="$(OutputPath)runtimes\win-x64\native\libSkiaSharp.pdb" />
+    </ItemGroup>
+
+    <RemoveDir Directories="@(UnusedRuntimeFolders)" />
+    <Delete Files="@(UnusedRuntimeFiles)" />
+  </Target>
+
+  <Target Name="RemoveUnusedPublishedAssets" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release'">
+    <ItemGroup>
+      <StalePublishedRuntimeFolders Include="$(PublishDir)win-x64" />
+      <StalePublishedRuntimeFolders Include="$(PublishDir)win-x86" />
+      <StalePublishedRuntimeFolders Include="$(PublishDir)win-arm64" />
+      <UnusedPublishedRuntimeFolders Include="$(PublishDir)runtimes\osx" />
+      <UnusedPublishedRuntimeFolders Include="$(PublishDir)runtimes\win-arm64" />
+      <UnusedPublishedRuntimeFolders Include="$(PublishDir)runtimes\win-x86" />
+      <UnusedPublishedFiles Include="$(PublishDir)libSkiaSharp.pdb" />
+      <UnusedPublishedFiles Include="$(PublishDir)runtimes\win-x64\native\libSkiaSharp.pdb" />
+    </ItemGroup>
+
+    <RemoveDir Directories="@(StalePublishedRuntimeFolders);@(UnusedPublishedRuntimeFolders)" />
+    <Delete Files="@(UnusedPublishedFiles)" />
   </Target>
 
   <!-- Plugin Images -->

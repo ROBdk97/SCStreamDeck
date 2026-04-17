@@ -2,20 +2,20 @@
 
 ## Plugin is stuck on "Loading functions..."
 
-1. Make sure .NET 8 Desktop Runtime x64 is installed. [Requirements](install.md#requirements)
+1. If you installed the **advanced** package, make sure .NET 10 Desktop Runtime x64 is installed. [Requirements](install.md#requirements)
 2. Close Stream Deck completely then open it again.
-3. If the issue persists, go to `%APPDATA%\Elgato\StreamDeck\Plugins\com.jarex985.scstreamdeck.sdPlugin\`.
+3. If the issue persists, go to `%APPDATA%\Elgato\StreamDeck\Plugins\com.robdk97.scstreamdeck.sdPlugin\`.
 4. Open the plugin log file (`pluginlog.log`) and check for errors.
-5. If there is no log file, this indicates that .NET 8 Desktop Runtime x64 is not installed correctly (x86 vs x64 issue). Reinstall the correct version.
+5. If you installed the **advanced** package and there is no log file, this usually indicates that .NET 10 Desktop Runtime x64 is not installed correctly (x86 vs x64 issue). Reinstall the correct version.
 
 ## The plugin does not show up in Stream Deck
 
 1. Confirm the Stream Deck app is version 6.4+.
-2. Confirm .NET 8 Desktop Runtime is installed. [Requirements](install.md#requirements)
+2. If you installed the **advanced** package, confirm .NET 10 Desktop Runtime is installed. [Requirements](install.md#requirements)
 3. Close Stream Deck completely then open it again.
-4. Go to `%APPDATA%\Elgato\StreamDeck\Plugins`. If you see a folder named `com.jarex985.scstreamdeck.sdPlugin`, delete it and try reinstalling after confirming steps 1 and 2.
+4. Go to `%APPDATA%\Elgato\StreamDeck\Plugins`. If you see a folder named `com.robdk97.scstreamdeck.sdPlugin`, delete it and try reinstalling after confirming steps 1 and 2.
 
-## Double-clicking `com.jarex985.scstreamdeck.streamDeckPlugin` does nothing
+## Double-clicking the downloaded `.streamDeckPlugin` file does nothing
 
 1. Right-click the downloaded file and choose `Properties`.
 2. If you see an `Unblock` checkbox, enable it.
@@ -49,7 +49,7 @@ Use a keyboard bind for Stream Deck actions for best reliability.
 
 This has been disabled by default, if you want to enable it:
 
-1. Go to `%APPDATA%\Elgato\StreamDeck\Plugins\com.jarex985.scstreamdeck.sdPlugin\`.
+1. Go to `%APPDATA%\Elgato\StreamDeck\Plugins\com.robdk97.scstreamdeck.sdPlugin\`.
 2. Open `manifest.json` in a text editor.
 3. Find the line with `"SupportedInMultiActions": false,` and change it to `"SupportedInMultiActions": true,`.
 
