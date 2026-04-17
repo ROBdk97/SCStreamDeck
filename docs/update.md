@@ -3,7 +3,9 @@
 ## Update
 
 1. Uninstall the old version (see below).
-2. Download the latest release.
+2. Download the correct latest-release package:
+   - [Simple / runtime included](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin)
+   - [Advanced / runtime required](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin)
 3. Double-click it to install.
 
 !!! important "Uninstall required"

@@ -71,6 +71,19 @@ public sealed class KeybindingLoaderService(IFileSystem fileSystem)
         }
     }
 
+    public bool LoadKeybindings(KeybindingDataFile dataFile)
+    {
+        if (!IsValidDataFile(dataFile))
+        {
+            SetNotLoaded();
+            Log.Err($"[{nameof(KeybindingLoaderService)}] Invalid keybinding data file format");
+            return false;
+        }
+
+        CacheDataFile(dataFile);
+        return true;
+    }
+
     public bool TryGetAction(string? actionName, out KeybindingAction? action)
     {
         if (string.IsNullOrWhiteSpace(actionName))

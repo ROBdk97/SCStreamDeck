@@ -8,6 +8,9 @@ namespace SCStreamDeck.Common;
 /// </summary>
 public static class KeybindingProfilePathResolver
 {
+    private static readonly Lock s_cacheLock = new();
+    private static readonly Dictionary<string, string?> s_cachedActionMapsByChannel = new(StringComparer.OrdinalIgnoreCase);
+
     public static string? TryFindActionMapsXml(string? channelPath)
     {
         if (string.IsNullOrWhiteSpace(channelPath))
@@ -17,6 +20,11 @@ public static class KeybindingProfilePathResolver
 
         try
         {
+            if (TryGetCachedPath(channelPath, out string? cachedPath))
+            {
+                return cachedPath;
+            }
+
             string userDir = Path.Combine(channelPath, "user");
             string clientDir = Path.Combine(userDir, "client");
             if (!Directory.Exists(userDir) || !Directory.Exists(clientDir))
@@ -24,7 +32,12 @@ public static class KeybindingProfilePathResolver
                 return null;
             }
 
-            return FindFirstExistingProfile(clientDir);
+            string? resolvedPath = FindFirstExistingProfile(clientDir);
+            if (!string.IsNullOrWhiteSpace(resolvedPath))
+            {
+                CachePath(channelPath, resolvedPath);
+            }
+            return resolvedPath;
         }
         catch (Exception ex)
         {
@@ -50,5 +63,38 @@ public static class KeybindingProfilePathResolver
         }
 
         return null;
+    }
+
+    private static bool TryGetCachedPath(string channelPath, out string? cachedPath)
+    {
+        lock (s_cacheLock)
+        {
+            if (!s_cachedActionMapsByChannel.TryGetValue(channelPath, out cachedPath) ||
+                string.IsNullOrWhiteSpace(cachedPath))
+            {
+                cachedPath = null;
+                return false;
+            }
+        }
+
+        if (File.Exists(cachedPath))
+        {
+            return true;
+        }
+
+        lock (s_cacheLock)
+        {
+            s_cachedActionMapsByChannel.Remove(channelPath);
+        }
+        cachedPath = null;
+        return false;
+    }
+
+    private static void CachePath(string channelPath, string? actionMapsPath)
+    {
+        lock (s_cacheLock)
+        {
+            s_cachedActionMapsByChannel[channelPath] = actionMapsPath;
+        }
     }
 }

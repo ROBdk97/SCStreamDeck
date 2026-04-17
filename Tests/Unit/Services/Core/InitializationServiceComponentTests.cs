@@ -401,7 +401,7 @@ public sealed class InitializationServiceComponentTests : IDisposable
 
     private sealed class TestKeybindingOutputService : IKeybindingOutputService
     {
-        public Task WriteKeybindingsJsonAsync(
+        public Task<KeybindingDataFile> WriteKeybindingsJsonAsync(
             SCInstallCandidate installation,
             string? actionMapsPath,
             string language,
@@ -430,7 +430,7 @@ public sealed class InitializationServiceComponentTests : IDisposable
             };
 
             File.WriteAllText(outputJsonPath, JsonConvert.SerializeObject(dataFile, Formatting.Indented), Encoding.UTF8);
-            return Task.CompletedTask;
+            return Task.FromResult(dataFile);
         }
     }
 }

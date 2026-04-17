@@ -46,16 +46,35 @@ public sealed class KeybindingProcessorService(
 
         try
         {
-            byte[]? xmlBytes = await ExtractDefaultProfileAsync(installation.DataP4KPath, cancellationToken)
+            string detectedLanguage = _metadataService.DetectLanguage(installation.ChannelPath);
+
+            bool archiveOpened = await _p4KService.OpenArchiveAsync(installation.DataP4KPath, cancellationToken)
                 .ConfigureAwait(false);
+            if (!archiveOpened)
+            {
+                return KeybindingProcessResult.Failure("Failed to open Data.p4k");
+            }
+
+            byte[]? xmlBytes;
+            try
+            {
+                xmlBytes = await ExtractDefaultProfileAsync(cancellationToken).ConfigureAwait(false);
+            }
+            finally
+            {
+                // Keep the archive open through localization loading so the localization service can reuse it.
+            }
+
             if (xmlBytes == null)
             {
+                _p4KService.CloseArchive();
                 return KeybindingProcessResult.Failure("Failed to extract defaultProfile.xml from P4K");
             }
 
             CryXmlConversionResult xmlResult = await ParseCryXmlAsync(xmlBytes, cancellationToken).ConfigureAwait(false);
             if (!xmlResult.IsSuccess || string.IsNullOrWhiteSpace(xmlResult.Xml))
             {
+                _p4KService.CloseArchive();
                 string reason = string.IsNullOrWhiteSpace(xmlResult.ErrorMessage)
                     ? "Failed to parse CryXml binary data"
                     : $"Failed to parse CryXml binary data: {xmlResult.ErrorMessage}";
@@ -67,18 +86,19 @@ public sealed class KeybindingProcessorService(
             List<KeybindingActionData> actions = _xmlParser.ParseXmlToActions(xmlResult.Xml);
             if (actions.Count == 0)
             {
+                _p4KService.CloseArchive();
                 return KeybindingProcessResult.Failure("No actions found in defaultProfile.xml");
             }
 
-            string detectedLanguage = _metadataService.DetectLanguage(installation.ChannelPath);
             await ApplyLocalizationAsync(actions, installation, detectedLanguage, cancellationToken)
                 .ConfigureAwait(false);
+            _p4KService.CloseArchive();
 
             ApplyOverridesIfPresent(actions, actionMapsPath);
 
             List<KeybindingActionData> filteredActions = FilterActionsWithBindings(actions);
 
-            await _outputService.WriteKeybindingsJsonAsync(
+            KeybindingDataFile dataFile = await _outputService.WriteKeybindingsJsonAsync(
                 installation,
                 actionMapsPath,
                 detectedLanguage,
@@ -87,11 +107,12 @@ public sealed class KeybindingProcessorService(
                 activationModes,
                 cancellationToken).ConfigureAwait(false);
 
-            return KeybindingProcessResult.Success(detectedLanguage);
+            return KeybindingProcessResult.Success(detectedLanguage, dataFile);
         }
 
         catch (Exception ex) when (ex is not OperationCanceledException)
         {
+            _p4KService.CloseArchive();
             Log.Err($"[{nameof(KeybindingProcessorService)}] Failed to process keybindings", ex);
             return KeybindingProcessResult.Failure("Failed to process keybindings. See logs for details.");
         }
@@ -106,24 +127,10 @@ public sealed class KeybindingProcessorService(
 
     #region Pipeline Steps
 
-    private async Task<byte[]?> ExtractDefaultProfileAsync(string dataP4KPath, CancellationToken cancellationToken)
+    private async Task<byte[]?> ExtractDefaultProfileAsync(CancellationToken cancellationToken)
     {
-        bool opened = false;
-
         try
         {
-            if (!SecurePathValidator.TryNormalizePath(dataP4KPath, out string normalizedPath))
-            {
-                Log.Err($"[{nameof(KeybindingProcessorService)}] Invalid path '{dataP4KPath}'");
-                return null;
-            }
-
-            opened = await _p4KService.OpenArchiveAsync(normalizedPath, cancellationToken).ConfigureAwait(false);
-            if (!opened)
-            {
-                return null;
-            }
-
             IReadOnlyList<P4KFileEntry> entries = await _p4KService.ScanDirectoryAsync(
                 SCConstants.Paths.KeybindingConfigDirectory,
                 SCConstants.Files.DefaultProfileFileName,
@@ -147,14 +154,6 @@ public sealed class KeybindingProcessorService(
         {
             Log.Err($"[{nameof(KeybindingProcessorService)}] Failed to extract default profile", ex);
             return null;
-        }
-
-        finally
-        {
-            if (opened)
-            {
-                _p4KService.CloseArchive();
-            }
         }
     }
 
@@ -296,11 +295,12 @@ public sealed class KeybindingProcessorService(
 public sealed class KeybindingProcessResult
 {
     public bool IsSuccess { get; private init; }
+    public KeybindingDataFile? DataFile { get; private init; }
     public string? DetectedLanguage { get; private init; }
     public string? ErrorMessage { get; private init; }
 
-    public static KeybindingProcessResult Success(string detectedLanguage) =>
-        new() { IsSuccess = true, DetectedLanguage = detectedLanguage };
+    public static KeybindingProcessResult Success(string detectedLanguage, KeybindingDataFile dataFile) =>
+        new() { IsSuccess = true, DetectedLanguage = detectedLanguage, DataFile = dataFile };
 
     public static KeybindingProcessResult Failure(string errorMessage) =>
         new() { IsSuccess = false, ErrorMessage = errorMessage };

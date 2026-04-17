@@ -8,14 +8,15 @@
 
 ## Download the Plugin
 
-[Open Latest Release](https://github.com/ROBdk97/SCStreamDeck/releases/latest){ .md-button  }
+[Download Simple](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin){ .md-button }
+[Download Advanced](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin){ .md-button }
 
 Choose one of these packages from the latest release:
 
-- **Simple:** `com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin`
-- **Advanced:** `com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin`
+- **Simple:** [`com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin`](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin)
+- **Advanced:** [`com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin`](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin)
 
-**Click the button above, or if you prefer to download manually from GitHub:**
+**Use the direct buttons above, or if you prefer to browse GitHub manually:**
 
 ### Manual Download from GitHub Releases
 

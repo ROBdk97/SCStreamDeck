@@ -63,7 +63,7 @@ public sealed class ActionMapsWatcherService : IDisposable
 
     /// <summary>
     ///     Starts or updates a watcher for the specified channel.
-    ///     Watches the entire channel folder (IncludeSubdirectories) but filters events to actionmaps.xml only.
+    ///     Watches the specific resolved actionmaps.xml directory when available.
     /// </summary>
     public void StartOrUpdate(SCChannel channel, string channelPath)
     {
@@ -79,9 +79,19 @@ public sealed class ActionMapsWatcherService : IDisposable
             return;
         }
 
-        if (!SecurePathValidator.TryNormalizePath(channelPath, out string normalizedChannelPath))
+        string? actionMapsPath = KeybindingProfilePathResolver.TryFindActionMapsXml(channelPath);
+        if (string.IsNullOrWhiteSpace(actionMapsPath))
         {
-            Log.Warn($"[{nameof(ActionMapsWatcherService)}] Skip watch for {channel}: invalid channelPath '{channelPath}'");
+            Log.Debug($"[{nameof(ActionMapsWatcherService)}] Skip watch for {channel}: actionmaps.xml missing");
+            Stop(channel);
+            return;
+        }
+
+        string? actionMapsDirectory = Path.GetDirectoryName(actionMapsPath);
+        if (string.IsNullOrWhiteSpace(actionMapsDirectory) ||
+            !SecurePathValidator.TryNormalizePath(actionMapsDirectory, out string normalizedWatchPath))
+        {
+            Log.Warn($"[{nameof(ActionMapsWatcherService)}] Skip watch for {channel}: invalid actionmaps path '{actionMapsPath}'");
             Stop(channel);
             return;
         }
@@ -89,7 +99,7 @@ public sealed class ActionMapsWatcherService : IDisposable
         if (_watchersByChannel.TryGetValue(channel, out FileSystemWatcher? existing))
         {
             // If the watch root hasn't changed, keep the existing watcher.
-            if (string.Equals(existing.Path, normalizedChannelPath, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(existing.Path, normalizedWatchPath, StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -97,10 +107,10 @@ public sealed class ActionMapsWatcherService : IDisposable
             Stop(channel);
         }
 
-        FileSystemWatcher watcher = new(normalizedChannelPath)
+        FileSystemWatcher watcher = new(normalizedWatchPath)
         {
             Filter = SCConstants.Files.ActionMapsFileName,
-            IncludeSubdirectories = true,
+            IncludeSubdirectories = false,
             NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Size
         };
 
@@ -113,7 +123,7 @@ public sealed class ActionMapsWatcherService : IDisposable
         _watchersByChannel[channel] = watcher;
 
         Log.Info(
-            $"[{nameof(ActionMapsWatcherService)}] Watching {channel} for '{SCConstants.Files.ActionMapsFileName}' changes under: {normalizedChannelPath}");
+            $"[{nameof(ActionMapsWatcherService)}] Watching {channel} for '{SCConstants.Files.ActionMapsFileName}' under: {normalizedWatchPath}");
     }
 
     public void StartOrUpdate(IReadOnlyList<SCInstallCandidate> candidates)

@@ -254,7 +254,9 @@ public sealed class InitializationService : IDisposable
 
             if (isActive)
             {
-                bool switched = await SwitchChannelAsync(channel, cancellationToken).ConfigureAwait(false);
+                bool switched = processResult.DataFile != null
+                    ? LoadChannelKeybindingsFromData(channel, processResult.DataFile)
+                    : await SwitchChannelAsync(channel, cancellationToken).ConfigureAwait(false);
                 if (!switched)
                 {
                     Log.Warn($"[{nameof(InitializationService)}] Auto-sync regenerated JSON but reload failed for {channel}");
@@ -396,8 +398,9 @@ public sealed class InitializationService : IDisposable
 
         DeleteKeybindingsJsonAndNotify(channel);
 
-        bool generated = await GenerateKeybindingsForChannelAsync(installation, cancellationToken).ConfigureAwait(false);
-        if (!generated)
+        KeybindingProcessResult generationResult =
+            await GenerateKeybindingsForChannelAsync(installation, cancellationToken).ConfigureAwait(false);
+        if (!generationResult.IsSuccess)
         {
             return false;
         }
@@ -410,7 +413,8 @@ public sealed class InitializationService : IDisposable
 
         if (IsActiveOrUninitialized(channel))
         {
-            await ReloadChannelKeybindingsIfPossibleAsync(channel, cancellationToken).ConfigureAwait(false);
+            await ReloadChannelKeybindingsIfPossibleAsync(channel, generationResult.DataFile, cancellationToken)
+                .ConfigureAwait(false);
         }
 
         _installLocator.SetSelectedInstallation(installation.ToCandidate());
@@ -442,9 +446,14 @@ public sealed class InitializationService : IDisposable
         }
     }
 
-    private async Task ReloadChannelKeybindingsIfPossibleAsync(SCChannel channel, CancellationToken cancellationToken)
+    private async Task ReloadChannelKeybindingsIfPossibleAsync(
+        SCChannel channel,
+        KeybindingDataFile? dataFile,
+        CancellationToken cancellationToken)
     {
-        bool switched = await SwitchChannelAsync(channel, cancellationToken).ConfigureAwait(false);
+        bool switched = dataFile != null
+            ? LoadChannelKeybindingsFromData(channel, dataFile)
+            : await SwitchChannelAsync(channel, cancellationToken).ConfigureAwait(false);
         if (!switched)
         {
             return;
@@ -454,6 +463,24 @@ public sealed class InitializationService : IDisposable
         {
             _initialized = true;
         }
+    }
+
+    private bool LoadChannelKeybindingsFromData(SCChannel channel, KeybindingDataFile dataFile)
+    {
+        bool success = _keybindingService.LoadKeybindings(dataFile);
+        if (!success)
+        {
+            return false;
+        }
+
+        lock (_lock)
+        {
+            _currentChannel = channel;
+        }
+
+        Log.Debug($"[{nameof(InitializationService)}] Reloaded {channel} keybindings from in-memory data");
+        KeybindingsStateChanged?.Invoke();
+        return true;
     }
 
     private async Task RedetectChannelInstallationAsync(SCChannel channel, CancellationToken cancellationToken)
@@ -475,8 +502,9 @@ public sealed class InitializationService : IDisposable
             await _stateService.UpdateInstallationAsync(channel, installation, cancellationToken).ConfigureAwait(false);
 
             // Best-effort regeneration for this channel only.
-            bool generated = await GenerateKeybindingsForChannelAsync(installation, cancellationToken).ConfigureAwait(false);
-            if (!generated)
+            KeybindingProcessResult generationResult =
+                await GenerateKeybindingsForChannelAsync(installation, cancellationToken).ConfigureAwait(false);
+            if (!generationResult.IsSuccess)
             {
                 return;
             }
@@ -489,7 +517,9 @@ public sealed class InitializationService : IDisposable
 
             if (shouldReload)
             {
-                bool switched = await SwitchChannelAsync(channel, cancellationToken).ConfigureAwait(false);
+                bool switched = generationResult.DataFile != null
+                    ? LoadChannelKeybindingsFromData(channel, generationResult.DataFile)
+                    : await SwitchChannelAsync(channel, cancellationToken).ConfigureAwait(false);
                 if (switched)
                 {
                     lock (_lock)
@@ -666,7 +696,7 @@ public sealed class InitializationService : IDisposable
         return selectedCandidate;
     }
 
-    private async Task<bool> GenerateKeybindingsForChannelAsync(InstallationState installation,
+    private async Task<KeybindingProcessResult> GenerateKeybindingsForChannelAsync(InstallationState installation,
         CancellationToken cancellationToken)
     {
         SCInstallCandidate candidate = installation.ToCandidate();
@@ -683,21 +713,22 @@ public sealed class InitializationService : IDisposable
         {
             Log.Warn(
                 $"[{nameof(InitializationService)}] Failed to generate keybindings for {candidate.Channel}: {processResult.ErrorMessage}");
-            return false;
         }
 
-        return true;
+        return processResult;
     }
 
 
     /// <summary>
     ///     Generates keybindings for all detected channels. Returns true if selected channel succeeded.
     /// </summary>
-    private async Task<bool> GenerateKeybindingsForChannelsAsync(
+    private async Task<(bool success, KeybindingDataFile? selectedDataFile)> GenerateKeybindingsForChannelsAsync(
         List<SCInstallCandidate> candidates,
         SCInstallCandidate selectedCandidate,
         CancellationToken cancellationToken)
     {
+        KeybindingDataFile? selectedDataFile = null;
+
         foreach (SCInstallCandidate candidate in candidates)
         {
             string channelJsonPath = _pathProvider.GetKeybindingJsonPath(candidate.Channel.ToString());
@@ -724,12 +755,19 @@ public sealed class InitializationService : IDisposable
                 {
                     Log.Err(
                         $"[{nameof(InitializationService)}] Failed to process keybindings for selected channel {selectedCandidate.Channel}: {processResult.ErrorMessage}");
-                    return false;
+                    return (false, null);
                 }
+
+                continue;
+            }
+
+            if (candidate.Channel == selectedCandidate.Channel)
+            {
+                selectedDataFile = processResult.DataFile;
             }
         }
 
-        return true;
+        return (true, selectedDataFile);
     }
 
 
@@ -810,15 +848,22 @@ public sealed class InitializationService : IDisposable
                 }
             }
 
-            bool keybindingSuccess = await GenerateKeybindingsForChannelsAsync(candidates, selectedCandidate, cancellationToken)
+            (bool keybindingSuccess, KeybindingDataFile? selectedDataFile) =
+                await GenerateKeybindingsForChannelsAsync(candidates, selectedCandidate, cancellationToken)
                 .ConfigureAwait(false);
             if (!keybindingSuccess)
             {
                 return InitializationResult.Failure("Failed to generate keybindings. See logs.");
             }
 
-            await _keybindingService.LoadKeybindingsAsync(GetKeybindingsJsonPath(), cancellationToken)
-                .ConfigureAwait(false);
+            bool loaded = selectedDataFile != null
+                ? LoadChannelKeybindingsFromData(selectedCandidate.Channel, selectedDataFile)
+                : await _keybindingService.LoadKeybindingsAsync(GetKeybindingsJsonPath(), cancellationToken)
+                    .ConfigureAwait(false);
+            if (!loaded)
+            {
+                return InitializationResult.Failure("Failed to load generated keybindings. See logs.");
+            }
 
             lock (_lock)
             {
@@ -827,7 +872,10 @@ public sealed class InitializationService : IDisposable
 
             // Notify actions now that keybindings are loaded so they can refresh PI state
             // and perform best-effort migrations (e.g., legacy function ids -> v2 ids).
-            KeybindingsStateChanged?.Invoke();
+            if (selectedDataFile == null)
+            {
+                KeybindingsStateChanged?.Invoke();
+            }
 
             // Start actionmaps.xml watchers (auto-sync user override changes).
             _actionMapsWatcher.StartOrUpdate(candidates);

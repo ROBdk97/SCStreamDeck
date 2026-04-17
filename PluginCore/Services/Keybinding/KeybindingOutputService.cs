@@ -24,7 +24,7 @@ public sealed class KeybindingOutputService(IFileSystem fileSystem) : IKeybindin
     /// <param name="activationModes">Dictionary of activation mode metadata</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Task representing the asynchronous operation</returns>
-    public async Task WriteKeybindingsJsonAsync(
+    public async Task<KeybindingDataFile> WriteKeybindingsJsonAsync(
         SCInstallCandidate installation,
         string? actionMapsPath,
         string language,
@@ -49,6 +49,7 @@ public sealed class KeybindingOutputService(IFileSystem fileSystem) : IKeybindin
 
         string json = JsonConvert.SerializeObject(dataFile, Formatting.Indented);
         await _fileSystem.WriteAllTextAsync(outputJsonPath, json, cancellationToken).ConfigureAwait(false);
+        return dataFile;
     }
 
     /// <summary>

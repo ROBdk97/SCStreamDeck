@@ -432,17 +432,15 @@ public sealed class KeybindingProcessorServiceTests
             new SystemFileSystem()
         );
 
-        string tempPath = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid():N}", "Data.p4k");
-
         MethodInfo methodInfo = typeof(KeybindingProcessorService)
             .GetMethod("ExtractDefaultProfileAsync", BindingFlags.NonPublic | BindingFlags.Instance)!;
 
-        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [tempPath, CancellationToken.None])!;
+        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [CancellationToken.None])!;
 
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(testBytes);
 
-        mockP4KService.Verify(x => x.CloseArchive(), Times.Once);
+        mockP4KService.Verify(x => x.CloseArchive(), Times.Never);
     }
 
     [Fact]
@@ -466,16 +464,14 @@ public sealed class KeybindingProcessorServiceTests
             new SystemFileSystem()
         );
 
-        string tempPath = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid():N}", "Data.p4k");
-
         MethodInfo methodInfo = typeof(KeybindingProcessorService)
             .GetMethod("ExtractDefaultProfileAsync", BindingFlags.NonPublic | BindingFlags.Instance)!;
 
-        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [tempPath, CancellationToken.None])!;
+        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [CancellationToken.None])!;
 
         result.Should().BeNull();
 
-        mockP4KService.Verify(x => x.CloseArchive(), Times.Once);
+        mockP4KService.Verify(x => x.CloseArchive(), Times.Never);
     }
 
     [Fact]
@@ -511,16 +507,14 @@ public sealed class KeybindingProcessorServiceTests
             new SystemFileSystem()
         );
 
-        string tempPath = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid():N}", "Data.p4k");
-
         MethodInfo methodInfo = typeof(KeybindingProcessorService)
             .GetMethod("ExtractDefaultProfileAsync", BindingFlags.NonPublic | BindingFlags.Instance)!;
 
-        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [tempPath, CancellationToken.None])!;
+        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [CancellationToken.None])!;
 
         result.Should().BeNull();
 
-        mockP4KService.Verify(x => x.CloseArchive(), Times.Once);
+        mockP4KService.Verify(x => x.CloseArchive(), Times.Never);
     }
 
     [Fact]
@@ -556,16 +550,14 @@ public sealed class KeybindingProcessorServiceTests
             new SystemFileSystem()
         );
 
-        string tempPath = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid():N}", "Data.p4k");
-
         MethodInfo methodInfo = typeof(KeybindingProcessorService)
             .GetMethod("ExtractDefaultProfileAsync", BindingFlags.NonPublic | BindingFlags.Instance)!;
 
-        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [tempPath, CancellationToken.None])!;
+        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [CancellationToken.None])!;
 
         result.Should().BeNull();
 
-        mockP4KService.Verify(x => x.CloseArchive(), Times.Once);
+        mockP4KService.Verify(x => x.CloseArchive(), Times.Never);
     }
 
     [Fact]
@@ -585,12 +577,10 @@ public sealed class KeybindingProcessorServiceTests
             new SystemFileSystem()
         );
 
-        string tempPath = Path.Combine(Path.GetTempPath(), $"test_{Guid.NewGuid():N}", "Data.p4k");
-
         MethodInfo methodInfo = typeof(KeybindingProcessorService)
             .GetMethod("ExtractDefaultProfileAsync", BindingFlags.NonPublic | BindingFlags.Instance)!;
 
-        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [tempPath, CancellationToken.None])!;
+        byte[]? result = await (Task<byte[]?>)methodInfo.Invoke(service, [CancellationToken.None])!;
 
         result.Should().BeNull();
         mockP4KService.Verify(x => x.CloseArchive(), Times.Never);
@@ -825,7 +815,11 @@ public sealed class KeybindingProcessorServiceTests
                 It.IsAny<List<KeybindingActionData>>(),
                 It.IsAny<Dictionary<string, ActivationModeMetadata>>(),
                 It.IsAny<CancellationToken>()))
-            .Returns(Task.CompletedTask);
+            .ReturnsAsync(new KeybindingDataFile
+            {
+                Metadata = new KeybindingMetadata(),
+                Actions = []
+            });
 
         KeybindingProcessorService service = new(
             mockP4KService.Object,

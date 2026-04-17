@@ -13,6 +13,11 @@ public interface IP4KArchiveService
     bool IsArchiveOpen { get; }
 
     /// <summary>
+    ///     Gets the normalized path of the currently opened archive, or null if none is open.
+    /// </summary>
+    string? OpenArchivePath { get; }
+
+    /// <summary>
     ///     Opens a P4K archive file for reading.
     /// </summary>
     /// <param name="p4KPath">Path to the Data.p4k file</param>

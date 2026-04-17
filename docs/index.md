@@ -3,7 +3,8 @@
 Welcome to the Star Citizen Stream Deck Plugin!
 This plugin lets you control various aspects of Star Citizen from your Elgato Stream Deck.
 
-[Open Latest Release](https://github.com/ROBdk97/SCStreamDeck/releases/latest){ .md-button }
+[Download Simple](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin){ .md-button }
+[Download Advanced](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin){ .md-button }
 [Install Guide](install.md){ .md-button }
 [Troubleshooting](troubleshooting.md){ .md-button }
 
@@ -12,8 +13,8 @@ This plugin lets you control various aspects of Star Citizen from your Elgato St
 ## Quick Start
 
 1. Choose an install method on the [installation page](install.md): **Simple** (runtime included) or **Advanced** (smaller package, runtime required).
-2. Click the `Open Latest Release` button above.
-3. Download the matching `.streamDeckPlugin` asset.
+2. Click either the `Download Simple` or `Download Advanced` button above.
+3. Save the matching `.streamDeckPlugin` file.
 4. Double-click the downloaded `.streamDeckPlugin` file.
 5. Open Stream Deck and drag the desired key from the right panel onto a key slot on the left.
 

@@ -24,7 +24,7 @@ public interface IKeybindingOutputService
     /// <exception cref="UnauthorizedAccessException">Thrown when access to the file is denied.</exception>
     /// <exception cref="Newtonsoft.Json.JsonSerializationException">Thrown when JSON serialization fails.</exception>
     /// <exception cref="OperationCanceledException">Thrown when the operation is canceled.</exception>
-    Task WriteKeybindingsJsonAsync(
+    Task<KeybindingDataFile> WriteKeybindingsJsonAsync(
         SCInstallCandidate installation,
         string? actionMapsPath,
         string language,
