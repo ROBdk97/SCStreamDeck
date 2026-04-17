@@ -98,7 +98,7 @@
         "ChannelLabel": "Canal:",
         "ChannelPlaceholder": "Canal preferido",
         "CustomPathsTitle": "Rutas de instalación personalizadas",
-        "CustomPathsHelp": "Configura anulaciones por canal seleccionando el archivo <b>Data.p4k</b> correspondiente.",
+        "CustomPathsHelp": "Configura anulaciones por canal seleccionando el archivo Data.p4k correspondiente.",
         "ChannelSuffixAuto": "Auto",
         "ChannelSuffixCustom": "Personalizado",
         "OverridePlaceholder": "Sin anulación",
