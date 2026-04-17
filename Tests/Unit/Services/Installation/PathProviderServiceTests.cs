@@ -1,6 +1,6 @@
-using System.Security;
 using FluentAssertions;
 using SCStreamDeck.Services.Installation;
+using System.Security;
 
 namespace Tests.Unit.Services.Installation;
 

@@ -16,7 +16,7 @@ public static class Log
         Error
     }
 
-    private static readonly object s_lock = new();
+    private static readonly Lock s_lock = new();
 
     private static volatile Action<Level, string> s_sink = static (_, _) => { };
 

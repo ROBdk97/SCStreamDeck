@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using BarRaider.SdTools;
 using BarRaider.SdTools.Events;
 using BarRaider.SdTools.Payloads;
@@ -13,6 +12,7 @@ using SCStreamDeck.Services.Audio;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.Keybinding;
 using SCStreamDeck.Services.UI;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.ActionKeys;
 
@@ -129,7 +129,7 @@ public abstract class SCDialActionBase : EncoderBase
             if (!InitializationService.KeybindingsJsonExists() || !KeybindingService.IsLoaded)
             {
                 await Connection.SendToPropertyInspectorAsync(
-                        PropertyInspectorPayloadBuilder.BuildFunctionsPayload(false, new JArray(), pluginLocale))
+                        PropertyInspectorPayloadBuilder.BuildFunctionsPayload(false, [], pluginLocale))
                     .ConfigureAwait(false);
 
                 return;
@@ -149,7 +149,7 @@ public abstract class SCDialActionBase : EncoderBase
             await Connection.SendToPropertyInspectorAsync(
                     PropertyInspectorPayloadBuilder.BuildFunctionsPayload(
                         false,
-                        new JArray(),
+                        [],
                         PluginLocaleResolution.Default))
                 .ConfigureAwait(false);
         }

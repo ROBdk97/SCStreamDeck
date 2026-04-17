@@ -1,8 +1,8 @@
-using System.Collections.Concurrent;
 using FluentAssertions;
 using Moq;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Keybinding.ActivationHandlers;
+using System.Collections.Concurrent;
 using WindowsInput;
 using WindowsInput.Native;
 
@@ -17,7 +17,8 @@ public sealed class KeybindingInputExecutorTests
 
         ParsedInput input = new()
         {
-            Type = InputType.Keyboard, Value = (Array.Empty<DirectInputKeyCode>(), new[] { DirectInputKeyCode.DikF1 })
+            Type = InputType.Keyboard,
+            Value = (Array.Empty<DirectInputKeyCode>(), new[] { DirectInputKeyCode.DikF1 })
         };
 
         keyboard.Setup(k => k.DelayedKeyPress(DirectInputKeyCode.DikF1, 50)).Returns(keyboard.Object);
@@ -150,7 +151,8 @@ public sealed class KeybindingInputExecutorTests
 
         ParsedInput input = new()
         {
-            Type = InputType.Keyboard, Value = (Array.Empty<DirectInputKeyCode>(), new[] { DirectInputKeyCode.DikF1 })
+            Type = InputType.Keyboard,
+            Value = (Array.Empty<DirectInputKeyCode>(), new[] { DirectInputKeyCode.DikF1 })
         };
 
         keyboard.Setup(k => k.KeyDown(DirectInputKeyCode.DikF1)).Returns(keyboard.Object);

@@ -309,19 +309,19 @@ public sealed class AdaptiveDialTests
     {
         DialSettings settings = new()
         {
-            RotateLeftFunction = "",
-            RotateRightFunction = "",
-            PressFunction = "",
-            ClickSoundPath = ""
+            RotateLeftFunction = string.Empty,
+            RotateRightFunction = string.Empty,
+            PressFunction = string.Empty,
+            ClickSoundPath = string.Empty
         };
 
         JObject json = JObject.FromObject(settings);
         DialSettings? roundTripped = json.ToObject<DialSettings>();
 
-        roundTripped!.RotateLeftFunction.Should().Be("");
-        roundTripped.RotateRightFunction.Should().Be("");
-        roundTripped.PressFunction.Should().Be("");
-        roundTripped.ClickSoundPath.Should().Be("");
+        roundTripped!.RotateLeftFunction.Should().Be(string.Empty);
+        roundTripped.RotateRightFunction.Should().Be(string.Empty);
+        roundTripped.PressFunction.Should().Be(string.Empty);
+        roundTripped.ClickSoundPath.Should().Be(string.Empty);
     }
 
     #endregion

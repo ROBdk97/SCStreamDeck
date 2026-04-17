@@ -228,7 +228,7 @@ public sealed class ImmediatePressHandlerTests
         public int PressNoRepeatCount { get; private set; }
         public int DownCount { get; private set; }
         public int UpCount { get; private set; }
-        public List<ScheduledPress> ScheduledPresses { get; } = new();
+        public List<ScheduledPress> ScheduledPresses { get; } = [];
 
         public bool ExecutePress(ParsedInput input)
         {

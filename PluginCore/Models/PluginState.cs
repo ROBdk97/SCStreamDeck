@@ -33,7 +33,8 @@ public sealed record PluginState(
 
     private static readonly JsonSerializerSettings s_saveSettings = new()
     {
-        Formatting = Formatting.Indented, Converters = { new StringEnumConverter() }
+        Formatting = Formatting.Indented,
+        Converters = { new StringEnumConverter() }
     };
 
     /// <summary>

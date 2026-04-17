@@ -50,7 +50,7 @@ public sealed class ThemeServiceTests
         File.WriteAllText(Path.Combine(service.ThemesDirectory, "alpha.css"), "/* ok */");
 
         service.IsValidThemeFile(null).Should().BeFalse();
-        service.IsValidThemeFile("").Should().BeFalse();
+        service.IsValidThemeFile(string.Empty).Should().BeFalse();
         service.IsValidThemeFile("sub\\alpha.css").Should().BeFalse();
         service.IsValidThemeFile("..\\alpha.css").Should().BeFalse();
         service.IsValidThemeFile("alpha.txt").Should().BeFalse();

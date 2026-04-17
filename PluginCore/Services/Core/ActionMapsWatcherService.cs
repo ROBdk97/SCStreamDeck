@@ -1,7 +1,7 @@
-using System.Collections.Concurrent;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Collections.Concurrent;
 
 namespace SCStreamDeck.Services.Core;
 

@@ -1,9 +1,9 @@
-using System.Collections.Immutable;
-using System.Security;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Data;
+using System.Collections.Immutable;
+using System.Security;
 
 namespace SCStreamDeck.Services.Core;
 
@@ -19,7 +19,7 @@ public sealed class LocalizationService(IP4KArchiveService p4KService, IFileSyst
         "polish_(poland)", "portuguese_(brazil)", "spanish_(latin_america)", "spanish_(spain)");
 
     private readonly Dictionary<(string channelPath, string language), Dictionary<string, string>> _cache = [];
-    private readonly object _cacheLock = new();
+    private readonly Lock _cacheLock = new();
     private readonly IFileSystem _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
 
     private readonly IP4KArchiveService _p4KService = p4KService ?? throw new ArgumentNullException(nameof(p4KService));

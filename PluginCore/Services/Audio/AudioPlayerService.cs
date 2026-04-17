@@ -1,8 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
 using NAudio.Wave.SampleProviders;
 using SCStreamDeck.Logging;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.Services.Audio;
 
@@ -13,7 +13,7 @@ namespace SCStreamDeck.Services.Audio;
 public sealed class AudioPlayerService : IDisposable
 {
     private readonly MMDeviceEnumerator _deviceEnumerator;
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
     private readonly MixingSampleProvider _mixer;
     private readonly WasapiOut _outputDevice;
     private bool _disposed;

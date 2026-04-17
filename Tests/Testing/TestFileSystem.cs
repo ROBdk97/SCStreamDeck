@@ -1,5 +1,5 @@
-using System.Text;
 using SCStreamDeck.Common;
+using System.Text;
 
 namespace Tests.Testing;
 

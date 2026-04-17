@@ -1,7 +1,7 @@
-using System.Buffers.Binary;
-using System.Text;
 using FluentAssertions;
 using SCStreamDeck.Services.Data;
+using System.Buffers.Binary;
+using System.Text;
 
 namespace Tests.Unit.Services.Data;
 
@@ -238,8 +238,8 @@ public sealed class CryXmlParserServiceTests
 
     private static (byte[] Data, Dictionary<string, uint> Offsets) BuildStringTableCore(params string[] strings)
     {
-        Dictionary<string, uint> offsets = new();
-        List<byte> bytes = new();
+        Dictionary<string, uint> offsets = [];
+        List<byte> bytes = [];
 
         foreach (string s in strings)
         {

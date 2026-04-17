@@ -108,7 +108,10 @@ public sealed class KeybindingExecutorServiceTests
 
         KeybindingExecutionContext context = new()
         {
-            ActionName = string.Empty, Binding = string.Empty, ActivationMode = ActivationMode.press, IsKeyDown = true
+            ActionName = string.Empty,
+            Binding = string.Empty,
+            ActivationMode = ActivationMode.press,
+            IsKeyDown = true
         };
 
         bool result = await service.ExecuteAsync(context);
@@ -124,7 +127,10 @@ public sealed class KeybindingExecutorServiceTests
 
         KeybindingExecutionContext context = new()
         {
-            ActionName = "TestAction", Binding = "$$invalid$$", ActivationMode = ActivationMode.press, IsKeyDown = true
+            ActionName = "TestAction",
+            Binding = "$$invalid$$",
+            ActivationMode = ActivationMode.press,
+            IsKeyDown = true
         };
 
         bool result = await service.ExecuteAsync(context);
@@ -145,7 +151,10 @@ public sealed class KeybindingExecutorServiceTests
 
         KeybindingExecutionContext context = new()
         {
-            ActionName = "TestAction", Binding = "F1", ActivationMode = ActivationMode.press, IsKeyDown = true
+            ActionName = "TestAction",
+            Binding = "F1",
+            ActivationMode = ActivationMode.press,
+            IsKeyDown = true
         };
 
         bool result = await service.ExecuteAsync(context);

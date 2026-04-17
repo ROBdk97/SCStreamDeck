@@ -9,7 +9,7 @@ namespace SCStreamDeck.Infrastructure;
 public static class ServiceLocator
 {
     private static volatile IServiceProvider? s_serviceProvider;
-    private static readonly object s_lock = new();
+    private static readonly Lock s_lock = new();
 
     /// <summary>
     ///     Initializes the service provider with registered services.

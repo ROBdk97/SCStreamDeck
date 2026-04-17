@@ -1,8 +1,8 @@
-using System.Globalization;
-using System.Xml;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Globalization;
+using System.Xml;
 
 namespace SCStreamDeck.Services.Keybinding;
 
@@ -92,7 +92,10 @@ public sealed class KeybindingXmlParserService : IKeybindingXmlParserService
         return XmlReader.Create(sr,
             new XmlReaderSettings
             {
-                IgnoreComments = true, IgnoreWhitespace = true, DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null
+                IgnoreComments = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                XmlResolver = null
             });
     }
 

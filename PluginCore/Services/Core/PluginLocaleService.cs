@@ -1,5 +1,5 @@
-using System.Globalization;
 using SCStreamDeck.Models;
+using System.Globalization;
 
 namespace SCStreamDeck.Services.Core;
 

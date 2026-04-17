@@ -1,6 +1,6 @@
-using System.Text.RegularExpressions;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Text.RegularExpressions;
 
 namespace SCStreamDeck.Common;
 

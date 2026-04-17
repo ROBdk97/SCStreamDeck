@@ -1,7 +1,7 @@
-using System.Reflection;
 using FluentAssertions;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Keybinding;
+using System.Reflection;
 
 namespace Tests.Unit.Services.Keybinding;
 

@@ -1,10 +1,10 @@
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using BarRaider.SdTools;
 using BarRaider.SdTools.Payloads;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.ActionKeys;
 

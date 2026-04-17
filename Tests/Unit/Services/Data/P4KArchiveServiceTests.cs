@@ -1,5 +1,3 @@
-using System.IO.Compression;
-using System.Text;
 using FluentAssertions;
 using ICSharpCode.SharpZipLib.Checksum;
 using ICSharpCode.SharpZipLib.Zip;
@@ -7,6 +5,8 @@ using Moq;
 using SCStreamDeck.Common;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Data;
+using System.IO.Compression;
+using System.Text;
 
 namespace Tests.Unit.Services.Data;
 

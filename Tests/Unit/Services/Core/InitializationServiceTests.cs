@@ -1,7 +1,7 @@
-using System.Reflection;
 using FluentAssertions;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Core;
+using System.Reflection;
 
 namespace Tests.Unit.Services.Core;
 
@@ -11,7 +11,7 @@ public sealed class InitializationServiceTests
     public void LogDetectionSummary_DoesNotThrow_WhenCandidatesIsEmpty()
     {
         List<SCInstallCandidate> candidates = [];
-        Dictionary<string, string> sources = new();
+        Dictionary<string, string> sources = [];
         List<string> rsiRootPaths = [];
 
         Action act = () => typeof(InitializationService)
@@ -52,7 +52,9 @@ public sealed class InitializationServiceTests
 
         Dictionary<string, string> sources = new()
         {
-            ["Live"] = "RSI Logs", ["Ptu"] = "RSI Logs", ["Eptu"] = "Cache (New Channel)"
+            ["Live"] = "RSI Logs",
+            ["Ptu"] = "RSI Logs",
+            ["Eptu"] = "Cache (New Channel)"
         };
 
         List<string> rsiRootPaths = [@"C:\SC", @"D:\Games\SC"];
@@ -91,7 +93,7 @@ public sealed class InitializationServiceTests
             new("C:\\SC", SCChannel.Live, @"C:\SC\LIVE", @"C:\SC\LIVE\Data.p4k")
         ];
 
-        Dictionary<string, string> sources = new();
+        Dictionary<string, string> sources = [];
 
         List<string> rsiRootPaths = [@"C:\SC"];
 

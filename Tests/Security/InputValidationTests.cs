@@ -1,8 +1,8 @@
-using System.Security;
 using FluentAssertions;
 using Newtonsoft.Json;
 using SCStreamDeck.Common;
 using SCStreamDeck.Services.Keybinding;
+using System.Security;
 
 namespace Tests.Security;
 

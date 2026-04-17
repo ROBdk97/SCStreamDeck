@@ -1,9 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Collections.Concurrent;
 using BarRaider.SdTools;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.ActionKeys;
 
@@ -371,7 +371,7 @@ internal readonly record struct ToggleKeyDecision(int? ExecuteId, IReadOnlyList<
 /// </summary>
 internal sealed class ToggleKeyCore(TimeSpan holdThreshold)
 {
-    private readonly object _gate = new();
+    private readonly Lock _gate = new();
 
     private TimeSpan _holdThreshold = holdThreshold;
 

@@ -24,7 +24,7 @@ public sealed class KeybindingLoaderService(IFileSystem fileSystem)
     // Helps resolve legacy ids when the category suffix changed (e.g. localization/fallback changes).
     private readonly Dictionary<string, List<string>> _actionNameToIds = new(StringComparer.OrdinalIgnoreCase);
     private readonly IFileSystem _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
     private Dictionary<ActivationMode, ActivationModeMetadata> _activationModesByMode = [];
     private Dictionary<string, ActivationModeMetadata> _activationModesByName = new(StringComparer.OrdinalIgnoreCase);
     private volatile bool _isLoaded;

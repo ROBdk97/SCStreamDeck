@@ -1,7 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 using BarRaider.SdTools;
 using BarRaider.SdTools.Events;
-using BarRaider.SdTools.Payloads;
 using BarRaider.SdTools.Wrappers;
 using Newtonsoft.Json.Linq;
 using SCStreamDeck.Infrastructure;
@@ -9,6 +7,7 @@ using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.UI;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.ActionKeys;
 

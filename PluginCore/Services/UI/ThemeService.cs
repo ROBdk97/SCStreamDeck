@@ -1,6 +1,6 @@
-using System.Globalization;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Services.Installation;
+using System.Globalization;
 
 namespace SCStreamDeck.Services.UI;
 
@@ -27,10 +27,10 @@ public sealed class ThemeService(PathProviderService pathProvider)
 
             List<ThemeInfo> themes = [];
             themes.AddRange(from fullPath in files
-                select Path.GetFileName(fullPath)
+                            select Path.GetFileName(fullPath)
                 into fileName
-                where !fileName.StartsWith('_')
-                select new ThemeInfo(fileName, ToDisplayName(fileName)));
+                            where !fileName.StartsWith('_')
+                            select new ThemeInfo(fileName, ToDisplayName(fileName)));
 
             return themes
                 .OrderBy(t => t.Name, StringComparer.OrdinalIgnoreCase)

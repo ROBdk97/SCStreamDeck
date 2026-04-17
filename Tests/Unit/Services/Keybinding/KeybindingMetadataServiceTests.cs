@@ -1,8 +1,8 @@
 using FluentAssertions;
+using Newtonsoft.Json;
 using SCStreamDeck.Common;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Keybinding;
-using Newtonsoft.Json;
 
 namespace Tests.Unit.Services.Keybinding;
 

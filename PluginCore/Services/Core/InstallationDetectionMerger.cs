@@ -62,9 +62,7 @@ internal static class InstallationDetectionMerger
             .Where(p => !string.IsNullOrWhiteSpace(p))
             .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        HashSet<SCChannel> cachedChannels = validCachedCandidates
-            .Select(c => c.Channel)
-            .ToHashSet();
+        HashSet<SCChannel> cachedChannels = [.. validCachedCandidates.Select(c => c.Channel)];
 
         List<SCInstallCandidate> cachedPathCandidates = [];
         foreach (string rootPath in cachedRootPaths)

@@ -1,9 +1,9 @@
-using System.Globalization;
 using FluentAssertions;
 using SCStreamDeck.Common;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.Installation;
+using System.Globalization;
 
 namespace Tests.Unit.Services.Core;
 

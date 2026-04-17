@@ -12,7 +12,7 @@ public sealed class InstallLocatorService : IInstallLocatorService
 {
     private readonly TimeSpan _cacheExpiration = TimeSpan.FromMinutes(5);
     private readonly RsiLauncherConfigReader _configReader = new();
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
 
     private List<SCInstallCandidate>? _cachedInstallations;
     private DateTime? _cacheTimestamp;
@@ -133,7 +133,7 @@ public sealed class InstallLocatorService : IInstallLocatorService
             return allRootPaths;
         }
 
-        List<string> sortedPaths = allRootPaths.OrderBy(p => p).ToList();
+        List<string> sortedPaths = [.. allRootPaths.OrderBy(p => p)];
 
         if (sortedPaths.Count == 1)
         {
@@ -157,10 +157,9 @@ public sealed class InstallLocatorService : IInstallLocatorService
     {
         int beforeDedup = candidates.Count;
 
-        List<SCInstallCandidate> distinct = candidates
+        List<SCInstallCandidate> distinct = [.. candidates
             .DistinctBy(c => NormalizeOrTrim(c.DataP4KPath))
-            .OrderBy(c => c.Channel)
-            .ToList();
+            .OrderBy(c => c.Channel)];
 
         if (beforeDedup > distinct.Count)
         {

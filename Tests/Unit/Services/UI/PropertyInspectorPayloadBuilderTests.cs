@@ -42,7 +42,7 @@ public sealed class PropertyInspectorPayloadBuilderTests
     [Fact]
     public void BuildFunctionsPayload_FallsBackToDefaultLocale_WhenLocaleMissing()
     {
-        JObject payload = PropertyInspectorPayloadBuilder.BuildFunctionsPayload(false, new JArray(), null);
+        JObject payload = PropertyInspectorPayloadBuilder.BuildFunctionsPayload(false, [], null);
 
         payload["functionsLoaded"]!.Value<bool>().Should().BeFalse();
         payload["pluginLocale"]!["mode"]!.Value<string>().Should().Be("auto");
