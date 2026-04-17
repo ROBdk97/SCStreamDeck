@@ -2,7 +2,7 @@
 
 ## Where is the download?
 
-Use the `Download Latest` button on [Home](index.md) or go to [Download & Installation](install.md) if you need more details.
+Use the `Download Simple` or `Download Advanced` button on [Home](index.md), or go to [Download & Installation](install.md) for direct links and package details.
 
 ## Do I need a GitHub account?
 

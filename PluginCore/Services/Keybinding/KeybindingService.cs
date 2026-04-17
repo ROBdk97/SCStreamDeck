@@ -36,6 +36,8 @@ public sealed class KeybindingService(
     public async Task<bool> LoadKeybindingsAsync(string jsonPath, CancellationToken cancellationToken = default) =>
         await _loaderService.LoadKeybindingsAsync(jsonPath, cancellationToken).ConfigureAwait(false);
 
+    public bool LoadKeybindings(KeybindingDataFile dataFile) => _loaderService.LoadKeybindings(dataFile);
+
     public async Task<bool> ExecuteAsync(KeybindingExecutionContext context, CancellationToken cancellationToken = default) =>
         await _executorService.ExecuteAsync(context, cancellationToken).ConfigureAwait(false);
 

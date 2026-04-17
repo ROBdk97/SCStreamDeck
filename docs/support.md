@@ -3,8 +3,6 @@
 If this plugin saves you time or improves your Star Citizen experience, consider supporting development.
 This can be in the form of a one-time donation, recurring support, spreading the word, or even giving the project a star on GitHub!
 
-[Buy Me a Coffee](https://www.buymeacoffee.com/robdk971){ .md-button }
-[Ko-fi](https://ko-fi.com/robdk97){ .md-button }
 [PayPal](https://www.paypal.me/robdk97){ .md-button }
 
 !!! tip "Support is **optional**, but always appreciated."

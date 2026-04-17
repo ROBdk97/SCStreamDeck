@@ -13,17 +13,36 @@ namespace SCStreamDeck.Services.Core;
 public sealed class StateService(PathProviderService pathProvider, IFileSystem fileSystem)
 {
     private readonly IFileSystem _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+    private readonly Lock _lock = new();
 
     private readonly PathProviderService
         _pathProvider = pathProvider ?? throw new ArgumentNullException(nameof(pathProvider));
 
+    private PluginState? _cachedState;
+    private bool _cacheInitialized;
+
     public async Task<PluginState?> LoadStateAsync(CancellationToken cancellationToken = default)
     {
+        lock (_lock)
+        {
+            if (_cacheInitialized)
+            {
+                return _cachedState;
+            }
+        }
+
         try
         {
             _ = _pathProvider.GetSecureCachePath(".plugin-state.json");
-            return await PluginState.LoadAsync(_fileSystem, _pathProvider.CacheDirectory, cancellationToken)
+            PluginState? loadedState = await PluginState.LoadAsync(_fileSystem, _pathProvider.CacheDirectory, cancellationToken)
                 .ConfigureAwait(false);
+            lock (_lock)
+            {
+                _cachedState = loadedState;
+                _cacheInitialized = true;
+            }
+
+            return loadedState;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or SecurityException)
         {
@@ -39,7 +58,13 @@ public sealed class StateService(PathProviderService pathProvider, IFileSystem f
         {
             _pathProvider.EnsureDirectoriesExist();
             _ = _pathProvider.GetSecureCachePath(".plugin-state.json");
-            await state.SaveAsync(_fileSystem, _pathProvider.CacheDirectory, cancellationToken).ConfigureAwait(false);
+            PluginState normalizedState = state.NormalizeForPersistence();
+            await normalizedState.SaveAsync(_fileSystem, _pathProvider.CacheDirectory, cancellationToken).ConfigureAwait(false);
+            lock (_lock)
+            {
+                _cachedState = normalizedState;
+                _cacheInitialized = true;
+            }
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException or SecurityException)
         {
@@ -108,6 +133,12 @@ public sealed class StateService(PathProviderService pathProvider, IFileSystem f
             if (_fileSystem.FileExists(stateFile))
             {
                 _fileSystem.DeleteFile(stateFile);
+            }
+
+            lock (_lock)
+            {
+                _cachedState = null;
+                _cacheInitialized = true;
             }
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or SecurityException)

@@ -59,7 +59,8 @@ Basic flow:
 Use `Control Panel` for global plugin settings:
 
 - Theme
-- Channel (`LIVE`, `HOTFIX`, `PTU`, `EPTU`)
+- Preferred channel (`LIVE`, `HOTFIX`, `PTU`, `EPTU`, `TECH-PREVIEW`)
+- Plugin Language (auto-detect or manual override)
 - Custom installation paths (if auto-detection fails)
 - Force Redetection
 - Factory reset
@@ -70,3 +71,6 @@ Use `Control Panel` for global plugin settings:
 !!! note "What Force Redetection & Factory Reset do"
     - **Force Redetection**: Re-runs the auto-detection of your Star Citizen installation path and keybindings. Use this if you moved your installation or changed keybindings in-game.
     - **Factory Reset**: Clears cached installs, your current theme, and custom overrides, then rebuilds keybindings.
+
+!!! tip "Plugin language"
+    The plugin UI supports English, German, French, and Spanish. By default it follows the detected language, but you can change it from the `Control Panel` if you want to use a different language.

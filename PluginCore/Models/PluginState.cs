@@ -192,4 +192,6 @@ public sealed record PluginState(
 
     private PluginState Normalize() =>
         this with { PluginLocale = (PluginLocale ?? PluginLocaleSettings.Default).Normalize() };
+
+    public PluginState NormalizeForPersistence() => Normalize();
 }

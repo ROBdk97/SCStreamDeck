@@ -23,8 +23,8 @@ Report bugs / feature requests: https://github.com/ROBdk97/SCStreamDeck/issues
 
 | Method | Package | Runtime requirement |
 | --- | --- | --- |
-| Simple | `com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin` | None |
-| Advanced | `com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin` | Install [.NET 10 Desktop Runtime x64](https://dotnet.microsoft.com/download/dotnet/10.0) |
+| Simple | [`com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin`](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin) | None |
+| Advanced | [`com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin`](https://github.com/ROBdk97/SCStreamDeck/releases/latest/download/com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin) | Install [.NET 10 Desktop Runtime x64](https://dotnet.microsoft.com/download/dotnet/10.0) |
 
 ## Project Info
 

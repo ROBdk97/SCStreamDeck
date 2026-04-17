@@ -19,8 +19,10 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
     private readonly IFileSystem _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
 
     private readonly Lock _lock = new();
+    private readonly Dictionary<(string directory, string filePattern), IReadOnlyList<P4KFileEntry>> _scanCache = [];
 
     private bool _disposed;
+    private string? _openArchivePath;
     private Stream? _fileStream;
     private ZipFile? _zipFile;
 
@@ -45,6 +47,17 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
             lock (_lock)
             {
                 return _zipFile != null && !_disposed;
+            }
+        }
+    }
+
+    public string? OpenArchivePath
+    {
+        get
+        {
+            lock (_lock)
+            {
+                return _openArchivePath;
             }
         }
     }
@@ -131,6 +144,13 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
 
         lock (_lock)
         {
+            if (_zipFile != null &&
+                !_disposed &&
+                string.Equals(_openArchivePath, validatedPath, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
             CloseArchiveInternal();
 
             bool success = false;
@@ -149,6 +169,8 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
                     return false;
                 }
 
+                _openArchivePath = validatedPath;
+                _scanCache.Clear();
                 success = true;
                 return true;
             }
@@ -164,6 +186,9 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
 
     private void CloseArchiveInternal()
     {
+        _scanCache.Clear();
+        _openArchivePath = null;
+
         if (_zipFile != null)
         {
             _zipFile.Close();
@@ -192,10 +217,15 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
                     return [];
                 }
 
-                ZipFile zipFile = _zipFile;
-                List<P4KFileEntry> results = [];
                 string normalizedPattern = NormalizePath(filePattern);
                 string normalizedDirectory = NormalizePath(directory);
+                if (_scanCache.TryGetValue((normalizedDirectory, normalizedPattern), out IReadOnlyList<P4KFileEntry>? cached))
+                {
+                    return [.. cached];
+                }
+
+                ZipFile zipFile = _zipFile;
+                List<P4KFileEntry> results = [];
 
                 foreach (ZipEntry? entry in zipFile)
                 {
@@ -222,6 +252,7 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
                     }
                 }
 
+                _scanCache[(normalizedDirectory, normalizedPattern)] = [.. results];
                 return results;
             }
         }

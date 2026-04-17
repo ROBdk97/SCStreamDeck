@@ -15,6 +15,30 @@ Notes:
 
 ---
 
+## v1.2.1.0 - Patch Release
+
+### Features / Improvements
+
+- Improved startup and refresh performance by reusing generated keybinding data in memory instead of immediately reloading it from disk after regeneration.
+- Improved keybinding/profile detection performance by caching resolved `actionmaps.xml` paths and watching only the resolved profile directory instead of the full channel tree.
+- Improved `Data.p4k` processing performance by reusing the active archive session and caching directory scan results during regeneration/localization work.
+
+### Bug Fixes
+
+- Fixed unnecessary repeated plugin state file reads/writes during normal operation by caching the active `PluginState` in memory.
+
+### Internal / Refactor
+
+- Updated the keybinding output pipeline to return the generated `KeybindingDataFile`, allowing downstream services to reuse the in-memory data directly.
+- Expanded affected unit tests to cover the optimized initialization and keybinding processing flow.
+
+### Documentation
+
+- Updated the docs and README to use direct latest-release download links for both plugin packages:
+  - `com.robdk97.scstreamdeck.runtime-included.streamDeckPlugin`
+  - `com.robdk97.scstreamdeck.runtime-required.streamDeckPlugin`
+- Updated the usage/install documentation to reflect the current `Control Panel` options, including `TECH-PREVIEW` channel support and the `Plugin Language` auto-detect/manual override setting.
+
 ## v1.2.0.0 - Minor Release
 
 ### Features / Improvements
