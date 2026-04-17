@@ -98,7 +98,7 @@
         "ChannelLabel": "Kanal:",
         "ChannelPlaceholder": "Bevorzugter Kanal",
         "CustomPathsTitle": "Benutzerdefinierte Installationspfade",
-        "CustomPathsHelp": "Lege kanalbezogene Überschreibungen fest, indem du die entsprechende <b>Data.p4k</b> auswählst.",
+        "CustomPathsHelp": "Lege kanalbezogene Überschreibungen fest, indem du die entsprechende Data.p4k auswählst.",
         "ChannelSuffixAuto": "Auto",
         "ChannelSuffixCustom": "Benutzerdef.",
         "OverridePlaceholder": "Keine Überschreibung",

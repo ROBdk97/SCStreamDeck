@@ -63,7 +63,6 @@
   const localeBundles = new Map();
   const selector = [
     '[data-i18n-text]',
-    '[data-i18n-html]',
     '[data-i18n-title]',
     '[data-i18n-placeholder]',
     '[data-i18n-aria-label]',
@@ -199,8 +198,6 @@
     switch (attributeName) {
       case 'text':
         return element.textContent || '';
-      case 'html':
-        return element.innerHTML || '';
       case 'title':
         return element.getAttribute('title') || '';
       case 'placeholder':
@@ -222,11 +219,6 @@
     const textKey = element.getAttribute('data-i18n-text');
     if (textKey) {
       element.textContent = t(textKey, getFallbackForAttribute(element, 'text'));
-    }
-
-    const htmlKey = element.getAttribute('data-i18n-html');
-    if (htmlKey) {
-      element.innerHTML = t(htmlKey, getFallbackForAttribute(element, 'html'));
     }
 
     const titleKey = element.getAttribute('data-i18n-title');
