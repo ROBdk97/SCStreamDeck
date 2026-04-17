@@ -4,16 +4,22 @@
 
 (function () {
   const SCPI = globalThis.SCPI;
+  SCPI?.i18n?.init?.();
+  SCPI?.i18n?.apply?.();
   SCPI?.bus?.start?.();
 
   // #region Global State
 
   const functionDropdown = SCPI?.ui?.dropdown?.initDropdown?.({
     rootId: 'functionDropdown',
+    placeholder: {key: 'PropertyInspector.FunctionAction.SearchPlaceholder', fallback: 'Search functions...'},
     searchEnabled: true,
     minLoadingMs: 0,
     successFlashMs: 100,
-    emptyText: 'No matching functions found',
+    emptyText: {
+      key: 'PropertyInspector.Common.Dropdown.NoMatchingFunctionsFound',
+      fallback: 'No matching functions found'
+    },
     maxResults: 50,
     getText: (opt) => String(opt?.text ?? ''),
     getValue: (opt) => String(opt?.value ?? ''),
@@ -22,7 +28,10 @@
     onSelect: (opt) => selectOption(opt, {persist: true})
   });
 
-  functionDropdown?.setLoading?.(true, 'Loading functions');
+  functionDropdown?.setLoading?.(true, {
+    key: 'PropertyInspector.Common.Status.LoadingFunctions',
+    fallback: 'Loading functions'
+  });
 
   /**
    * Flattened list of all options for searching
@@ -61,7 +70,10 @@
 
   SCPI?.ui?.filePicker?.createFilePicker?.({
     rootId: 'audioFilePicker',
-    placeholderText: 'No file selected',
+    placeholderText: {key: 'PropertyInspector.Common.FilePicker.NoFileSelected', fallback: 'No file selected'},
+    buttonText: {key: 'PropertyInspector.Common.FilePicker.Button', fallback: 'FILE'},
+    selectTitle: {key: 'PropertyInspector.Common.Audio.SelectTitle', fallback: 'Select audio file'},
+    clearTitle: {key: 'PropertyInspector.Common.Audio.ClearTitle', fallback: 'Clear audio file'},
     settingsKey: 'clickSoundPath'
   });
 
@@ -205,6 +217,10 @@
     selectOption(opt, {persist: isLegacyMatch});
   }
 
+  function getSelectedOption() {
+    return allOptions.find((entry) => entry.value === currentFunctionValue || entry.legacyValue === currentFunctionValue) || null;
+  }
+
   // #endregion
 
   // #region Details Rendering
@@ -255,10 +271,17 @@
 
     if (loaded === false) {
       document.getElementById('functionDropdown')?.classList.add('pi-dropdown--error');
-      functionDropdown?.setLoading?.(true, 'No installation detected. Set custom path.');
+      functionDropdown?.setLoading?.(true, {
+        key: 'PropertyInspector.Common.Status.NoInstallationDetected',
+        fallback: 'No installation detected. Set custom path.'
+      });
       functionDropdown?.setItems?.([]);
       updateFunctionDetails(null);
     }
+  });
+
+  SCPI?.i18n?.onChange?.(() => {
+    updateFunctionDetails(getSelectedOption());
   });
 
   // #endregion

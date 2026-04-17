@@ -32,6 +32,7 @@ public static class ServiceConfiguration
         services.AddSingleton<IP4KArchiveService, P4KArchiveService>();
         services.AddSingleton<ICryXmlParserService, CryXmlParserService>();
         services.AddSingleton<ILocalizationService, LocalizationService>();
+        services.AddSingleton<PluginLocaleService>();
         services.AddSingleton<IInstallLocatorService, InstallLocatorService>();
 
         services.AddSingleton<IKeybindingsJsonCache, KeybindingsJsonCache>();

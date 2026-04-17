@@ -1,12 +1,38 @@
 (function () {
   const SCPI = globalThis.SCPI;
+  SCPI?.i18n?.init?.();
+  SCPI?.i18n?.apply?.();
   SCPI?.bus?.start?.();
   SCPI?.theme?.initThemeDropdown?.();
 
   const slotConfigs = [
-    {rootId: 'rotateLeftDropdown', settingsKey: 'rotateLeftFunction', slotLabel: 'Rotate Left', idPrefix: 'rotateLeft'},
-    {rootId: 'rotateRightDropdown', settingsKey: 'rotateRightFunction', slotLabel: 'Rotate Right', idPrefix: 'rotateRight'},
-    {rootId: 'pressDropdown', settingsKey: 'pressFunction', slotLabel: 'Push', idPrefix: 'press'}
+    {
+      rootId: 'rotateLeftDropdown',
+      settingsKey: 'rotateLeftFunction',
+      slotLabelKey: 'PropertyInspector.DialAction.RotateLeftLabel',
+      slotLabelFallback: 'Rotate Left',
+      placeholderKey: 'PropertyInspector.DialAction.RotateLeftPlaceholder',
+      placeholderFallback: 'Select rotate-left function...',
+      idPrefix: 'rotateLeft'
+    },
+    {
+      rootId: 'rotateRightDropdown',
+      settingsKey: 'rotateRightFunction',
+      slotLabelKey: 'PropertyInspector.DialAction.RotateRightLabel',
+      slotLabelFallback: 'Rotate Right',
+      placeholderKey: 'PropertyInspector.DialAction.RotateRightPlaceholder',
+      placeholderFallback: 'Select rotate-right function...',
+      idPrefix: 'rotateRight'
+    },
+    {
+      rootId: 'pressDropdown',
+      settingsKey: 'pressFunction',
+      slotLabelKey: 'PropertyInspector.DialAction.PushLabel',
+      slotLabelFallback: 'Push',
+      placeholderKey: 'PropertyInspector.DialAction.PushPlaceholder',
+      placeholderFallback: 'Select push function...',
+      idPrefix: 'press'
+    }
   ];
 
   let allOptions = [];
@@ -15,10 +41,14 @@
   const slotStates = slotConfigs.map((config) => {
     const dropdown = SCPI?.ui?.dropdown?.initDropdown?.({
       rootId: config.rootId,
+      placeholder: {key: config.placeholderKey, fallback: config.placeholderFallback},
       searchEnabled: true,
       minLoadingMs: 0,
       successFlashMs: 100,
-      emptyText: 'No matching functions found',
+      emptyText: {
+        key: 'PropertyInspector.Common.Dropdown.NoMatchingFunctionsFound',
+        fallback: 'No matching functions found'
+      },
       maxResults: 50,
       getText: (opt) => String(opt?.text ?? ''),
       getValue: (opt) => String(opt?.value ?? ''),
@@ -27,7 +57,10 @@
       onSelect: (opt) => selectOption(config.settingsKey, opt, {persist: true})
     });
 
-    dropdown?.setLoading?.(true, 'Loading functions');
+    dropdown?.setLoading?.(true, {
+      key: 'PropertyInspector.Common.Status.LoadingFunctions',
+      fallback: 'Loading functions'
+    });
 
     const [getValue, setValue] = globalThis.SDPIComponents.useSettings(
       config.settingsKey,
@@ -49,7 +82,10 @@
 
   SCPI?.ui?.filePicker?.createFilePicker?.({
     rootId: 'audioFilePicker',
-    placeholderText: 'No file selected',
+    placeholderText: {key: 'PropertyInspector.Common.FilePicker.NoFileSelected', fallback: 'No file selected'},
+    buttonText: {key: 'PropertyInspector.Common.FilePicker.Button', fallback: 'FILE'},
+    selectTitle: {key: 'PropertyInspector.Common.Audio.SelectTitle', fallback: 'Select audio file'},
+    clearTitle: {key: 'PropertyInspector.Common.Audio.ClearTitle', fallback: 'Clear audio file'},
     settingsKey: 'clickSoundPath'
   });
 
@@ -131,6 +167,7 @@
     }
 
     const prefix = slot.idPrefix;
+    const slotLabel = SCPI?.i18n?.t(slot.slotLabelKey, slot.slotLabelFallback) || slot.slotLabelFallback;
     updateDetails({
       containerEl: document.getElementById(`${prefix}-details-container`),
       titleEl: document.getElementById(`${prefix}-details-title`),
@@ -143,7 +180,7 @@
       },
       hideContainerWhenEmpty: true,
       showContainerWhenFilled: true,
-      slotLabel: slot.slotLabel,
+      slotLabel,
       selectedOption: opt
     });
   }
@@ -163,11 +200,21 @@
     if (loaded === false) {
       slotStates.forEach((slot) => {
         document.getElementById(slot.rootId)?.classList.add('pi-dropdown--error');
-        slot.dropdown?.setLoading?.(true, 'No installation detected. Set custom path.');
+        slot.dropdown?.setLoading?.(true, {
+          key: 'PropertyInspector.Common.Status.NoInstallationDetected',
+          fallback: 'No installation detected. Set custom path.'
+        });
         slot.dropdown?.setItems?.([]);
         updateFunctionDetails(slot, null);
       });
     }
+  });
+
+  SCPI?.i18n?.onChange?.(() => {
+    slotStates.forEach((slot) => {
+      const opt = allOptions.find((entry) => entry.value === slot.currentValue || entry.legacyValue === slot.currentValue) || null;
+      updateFunctionDetails(slot, opt);
+    });
   });
 
   SCPI?.util?.onDocumentReady?.(() => {

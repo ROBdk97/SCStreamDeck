@@ -28,7 +28,14 @@
 ## Star Citizen path not detected
 
 1. Drag `Control Panel` from the right panel and drop it to a desired key on the left.
-2. Set a custom installation path for your desired channel (`LIVE`, `HOTFIX`, `PTU`, `EPTU`).
+2. Set a custom installation path for your desired channel (`LIVE`, `HOTFIX`, `PTU`, `EPTU`, or `TECH-PREVIEW`).
+
+## The plugin is in the wrong language
+
+1. Add the `Control Panel` action to a key.
+2. Open the Property Inspector for that key.
+3. Under `Plugin Language`, switch from `Auto` to your preferred language.
+4. If `Auto` already looks correct, use `FORCE REDETECTION` and reopen the Property Inspector.
 
 ## Actions do nothing in game
 

@@ -17,6 +17,7 @@ public sealed class PluginStateTests
             null,
             null,
             null,
+            null,
             null
         );
 
@@ -39,6 +40,7 @@ public sealed class PluginStateTests
             SCChannel.Live,
             null,
             liveInstallation,
+            null,
             null,
             null,
             null
@@ -78,6 +80,12 @@ public sealed class PluginStateTests
             @"C:\SC\EPTU"
         );
 
+        InstallationState techPreviewInstallation = new(
+            "C:\\SC",
+            SCChannel.TechPreview,
+            @"C:\SC\TECH-PREVIEW"
+        );
+
         PluginState state = new(
             DateTime.UtcNow,
             SCChannel.Live,
@@ -85,17 +93,19 @@ public sealed class PluginStateTests
             liveInstallation,
             hotfixInstallation,
             ptuInstallation,
-            eptuInstallation
+            eptuInstallation,
+            techPreviewInstallation
         );
 
         IReadOnlyList<SCInstallCandidate> candidates = state.GetCachedCandidates();
 
-        candidates.Should().HaveCount(4);
+        candidates.Should().HaveCount(5);
 
         candidates.Should().Contain(c => c.Channel == SCChannel.Live);
         candidates.Should().Contain(c => c.Channel == SCChannel.Hotfix);
         candidates.Should().Contain(c => c.Channel == SCChannel.Ptu);
         candidates.Should().Contain(c => c.Channel == SCChannel.Eptu);
+        candidates.Should().Contain(c => c.Channel == SCChannel.TechPreview);
     }
 
     [Fact]
@@ -126,7 +136,8 @@ public sealed class PluginStateTests
             liveInstallation,
             null,
             ptuInstallation,
-            eptuInstallation
+            eptuInstallation,
+            null
         );
 
         IReadOnlyList<SCInstallCandidate> candidates = state.GetCachedCandidates();
@@ -151,6 +162,7 @@ public sealed class PluginStateTests
             SCChannel.Live,
             null,
             liveInstallation,
+            null,
             null,
             null,
             null
@@ -180,6 +192,7 @@ public sealed class PluginStateTests
             SCChannel.Live,
             null,
             liveInstallation,
+            null,
             null,
             null,
             null

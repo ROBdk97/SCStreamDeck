@@ -21,7 +21,7 @@ internal static class ChannelSelector
             return preferredCandidate;
         }
 
-        SCChannel[] priority = [SCChannel.Live, SCChannel.Hotfix, SCChannel.Ptu, SCChannel.Eptu];
+        SCChannel[] priority = [SCChannel.Live, SCChannel.Hotfix, SCChannel.Ptu, SCChannel.Eptu, SCChannel.TechPreview];
         foreach (SCChannel channel in priority)
         {
             SCInstallCandidate? candidate = candidates.FirstOrDefault(c => c.Channel == channel);

@@ -46,4 +46,22 @@ Choose one of these packages from the latest release:
 !!! tip "The plugin needs a moment to initialize."
     - Wait until the loading spinner on the keys disappears.  
     - If it can’t detect your Star Citizen installation, it will show an error message.  
-    - In this case, open the `Control Panel` key and set a custom installation path for your desired channel (`LIVE`, `HOTFIX`, `PTU`, `EPTU`).
+    - In this case, open the `Control Panel` key and set a custom installation path for your desired channel (`LIVE`, `HOTFIX`, `PTU`, `EPTU`, or `TECH-PREVIEW`).
+
+## Control Panel features
+
+After adding the `Control Panel` action to a key, you can:
+
+1. Choose your preferred Star Citizen channel.
+2. Set a custom `Data.p4k` override for `LIVE`, `HOTFIX`, `PTU`, `EPTU`, or `TECH-PREVIEW`.
+3. Select a theme.
+4. Choose the plugin language automatically or override it manually.
+
+## Supported plugin languages
+
+The plugin UI and Property Inspector currently support:
+
+- English
+- Deutsch
+- Français
+- Español

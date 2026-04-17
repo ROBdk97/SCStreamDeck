@@ -22,7 +22,11 @@ public sealed record PluginState(
     [property: JsonProperty("ptuInstallation")]
     InstallationState? PtuInstallation,
     [property: JsonProperty("eptuInstallation")]
-    InstallationState? EptuInstallation
+    InstallationState? EptuInstallation,
+    [property: JsonProperty("techPreviewInstallation")]
+    InstallationState? TechPreviewInstallation = null,
+    [property: JsonProperty("pluginLocale")]
+    PluginLocaleSettings? PluginLocale = null
 )
 {
     private static readonly JsonSerializerSettings s_loadSettings = new() { Converters = { new StringEnumConverter() } };
@@ -42,6 +46,7 @@ public sealed record PluginState(
             SCChannel.Hotfix => HotfixInstallation,
             SCChannel.Ptu => PtuInstallation,
             SCChannel.Eptu => EptuInstallation,
+            SCChannel.TechPreview => TechPreviewInstallation,
             _ => null
         };
 
@@ -72,6 +77,11 @@ public sealed record PluginState(
             candidates.Add(EptuInstallation.ToCandidate());
         }
 
+        if (TechPreviewInstallation != null)
+        {
+            candidates.Add(TechPreviewInstallation.ToCandidate());
+        }
+
         return candidates;
     }
 
@@ -85,6 +95,7 @@ public sealed record PluginState(
             SCChannel.Hotfix => this with { HotfixInstallation = installation },
             SCChannel.Ptu => this with { PtuInstallation = installation },
             SCChannel.Eptu => this with { EptuInstallation = installation },
+            SCChannel.TechPreview => this with { TechPreviewInstallation = installation },
             _ => this
         };
 
@@ -98,6 +109,7 @@ public sealed record PluginState(
             SCChannel.Hotfix => this with { HotfixInstallation = null },
             SCChannel.Ptu => this with { PtuInstallation = null },
             SCChannel.Eptu => this with { EptuInstallation = null },
+            SCChannel.TechPreview => this with { TechPreviewInstallation = null },
             _ => this
         };
 
@@ -112,9 +124,18 @@ public sealed record PluginState(
     public PluginState WithSelectedTheme(string? themeFile) => this with { SelectedTheme = themeFile };
 
     /// <summary>
+    ///     Creates a new PluginState with updated plugin locale settings.
+    /// </summary>
+    public PluginState WithPluginLocale(PluginLocaleSettings pluginLocale) =>
+        this with { PluginLocale = pluginLocale.Normalize() };
+
+    /// <summary>
     ///     Creates a new PluginState with updated last initialized timestamp.
     /// </summary>
     public PluginState WithLastInitialized(DateTime timestamp) => this with { LastInitialized = timestamp };
+
+    public static PluginState CreateDefault() =>
+        new(DateTime.UtcNow, SCChannel.Live, null, null, null, null, null, null, PluginLocaleSettings.Default);
 
     /// <summary>
     ///     Loads plugin state from disk. Returns null if file doesn't exist or is invalid.
@@ -136,7 +157,7 @@ public sealed record PluginState(
         try
         {
             string json = await fileSystem.ReadAllTextAsync(filePath, cancellationToken).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<PluginState>(json, s_loadSettings);
+            return JsonConvert.DeserializeObject<PluginState>(json, s_loadSettings)?.Normalize();
         }
         catch (Exception ex) when (ex is JsonException or IOException)
         {
@@ -159,7 +180,7 @@ public sealed record PluginState(
 
         try
         {
-            string json = JsonConvert.SerializeObject(this, s_saveSettings);
+            string json = JsonConvert.SerializeObject(Normalize(), s_saveSettings);
             await fileSystem.WriteAllTextAsync(filePath, json, cancellationToken).ConfigureAwait(false);
         }
         catch (IOException ex)
@@ -167,4 +188,7 @@ public sealed record PluginState(
             throw new InvalidOperationException($"Failed to save plugin state: {ex.Message}", ex);
         }
     }
+
+    private PluginState Normalize() =>
+        this with { PluginLocale = (PluginLocale ?? PluginLocaleSettings.Default).Normalize() };
 }

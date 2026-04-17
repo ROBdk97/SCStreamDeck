@@ -124,6 +124,6 @@ public sealed class StateService(PathProviderService pathProvider, IFileSystem f
             return currentState;
         }
 
-        return new PluginState(DateTime.UtcNow, SCChannel.Live, null, null, null, null, null);
+        return PluginState.CreateDefault();
     }
 }

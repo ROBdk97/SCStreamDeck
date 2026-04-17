@@ -7,6 +7,7 @@ internal static class ControlPanelPayloadBuilder
 {
     public static JObject Build(
         PluginState? state,
+        PluginLocaleResolution pluginLocale,
         bool initialized,
         SCChannel currentChannel,
         Func<SCChannel, bool> keybindingsJsonExists,
@@ -14,6 +15,7 @@ internal static class ControlPanelPayloadBuilder
     {
         ArgumentNullException.ThrowIfNull(keybindingsJsonExists);
         ArgumentNullException.ThrowIfNull(isInstallationValid);
+        ArgumentNullException.ThrowIfNull(pluginLocale);
 
         SCChannel preferred = state?.SelectedChannel ?? SCChannel.Live;
 
@@ -52,6 +54,7 @@ internal static class ControlPanelPayloadBuilder
             ["preferredChannel"] = preferred.ToString(),
             ["preferredAvailable"] = preferredAvailable,
             ["lastInitialized"] = state?.LastInitialized.ToString("O") ?? string.Empty,
+            ["pluginLocale"] = BuildPluginLocalePayload(pluginLocale),
             ["channels"] = channels
         };
     }
@@ -64,6 +67,17 @@ internal static class ControlPanelPayloadBuilder
             ["preferredChannel"] = nameof(SCChannel.Live),
             ["preferredAvailable"] = false,
             ["lastInitialized"] = string.Empty,
+            ["pluginLocale"] = BuildPluginLocalePayload(PluginLocaleResolution.Default),
             ["channels"] = new JArray()
+        };
+
+    private static JObject BuildPluginLocalePayload(PluginLocaleResolution pluginLocale) =>
+        new()
+        {
+            ["mode"] = pluginLocale.Mode,
+            ["override"] = pluginLocale.Override == null ? JValue.CreateNull() : pluginLocale.Override,
+            ["detected"] = pluginLocale.Detected == null ? JValue.CreateNull() : pluginLocale.Detected,
+            ["effective"] = pluginLocale.Effective,
+            ["supported"] = new JArray(PluginLocaleSettings.SupportedLocales)
         };
 }

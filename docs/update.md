@@ -9,6 +9,9 @@
 !!! important "Uninstall required"
     You **need** to uninstall before installing a newer version. Keybindings are stored in your Stream Deck profile and will remain after uninstalling.
 
+!!! note
+    Your Stream Deck profile keeps the action placements. After reinstalling, open the `Control Panel` action and quickly verify settings such as preferred channel, language override, theme, and custom installation overrides if anything looks unexpected.
+
 ## Uninstall
 
 1. Open Stream Deck.

@@ -1,0 +1,138 @@
+{
+  "Name": "Star Citizen Stream Deck",
+  "Description": "Plugin, das bindbare Aktionen für Star Citizen über Stream Deck bereitstellt.\nDieses Plugin wird weder von der Cloud-Imperium- oder Roberts-Space-Industries-Unternehmensgruppe unterstützt noch mit ihr in Verbindung gebracht. Alle Spielinhalte und Materialien sind urheberrechtlich geschützt von Cloud Imperium Rights LLC und Cloud Imperium Rights Ltd. Star Citizen®, Squadron 42®, Roberts Space Industries® und Cloud Imperium® sind eingetragene Marken von Cloud Imperium Rights LLC. Alle Rechte vorbehalten.",
+  "Category": "Star Citizen für Stream Deck",
+  "com.robdk97.scstreamdeck.adaptivekey": {
+    "Name": "Adaptive Taste",
+    "Tooltip": "Adaptive Taste für Star Citizen"
+  },
+  "com.robdk97.scstreamdeck.adaptivedial": {
+    "Name": "Adaptiver Drehregler",
+    "Tooltip": "Adaptiver Drehregler für Star Citizen",
+    "Encoder": {
+      "TriggerDescription": {
+        "Rotate": "Führt die linke oder rechte Funktion aus",
+        "Push": "Führt die Druckfunktion aus"
+      }
+    }
+  },
+  "com.robdk97.scstreamdeck.togglekey": {
+    "Name": "Umschalttaste",
+    "Tooltip": "Umschalttaste für Star Citizen"
+  },
+  "com.robdk97.scstreamdeck.controlpanel": {
+    "Name": "Steuerpanel",
+    "Tooltip": "Steuerpanel für Star Citizen",
+    "States": [
+      {
+        "Name": "Steuerpanel"
+      }
+    ]
+  },
+  "Localization": {
+    "PropertyInspector": {
+      "Common": {
+        "Binding": {
+          "Keyboard": "TASTATUR",
+          "Mouse": "MAUS",
+          "Gamepad": "GAMEPAD",
+          "Joystick": "JOYSTICK"
+        },
+        "State": {
+          "Unbound": "Nicht belegt",
+          "NoDescription": "Keine Beschreibung verfügbar."
+        },
+        "Dropdown": {
+          "NoItemsFound": "Keine Einträge gefunden",
+          "NoMatchingFunctionsFound": "Keine passenden Funktionen gefunden",
+          "NoThemesFound": "Keine Designs gefunden",
+          "NoValidChannels": "Keine gültigen Kanäle"
+        },
+        "Status": {
+          "Loading": "Wird geladen",
+          "LoadingFunctions": "Funktionen werden geladen",
+          "LoadingThemes": "Designs werden geladen",
+          "LoadingStatus": "Status wird geladen",
+          "NoInstallationDetected": "Keine Installation erkannt. Benutzerdefinierten Pfad festlegen."
+        },
+        "FilePicker": {
+          "Button": "DATEI",
+          "SelectFile": "Datei auswählen",
+          "Clear": "Löschen",
+          "NoFileSelected": "Keine Datei ausgewählt"
+        },
+        "Audio": {
+          "Label": "Sound",
+          "SelectTitle": "Audiodatei auswählen",
+          "ClearTitle": "Audiodatei löschen"
+        }
+      },
+      "FunctionAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Adaptive Taste",
+        "SearchPlaceholder": "Funktionen suchen..."
+      },
+      "ToggleAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Umschalttaste",
+        "ResetLabel": "Reset (s)",
+        "ResetTooltip": "Haltezeit (Sekunden), um den Zustand umzuschalten, ohne die Belegung auszuführen.",
+        "ResetAriaLabel": "Reset-Haltezeit",
+        "ResetDefaultTitle": "Auf Standard zurücksetzen"
+      },
+      "DialAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Adaptiver Drehregler",
+        "RotateLeftLabel": "Nach links drehen",
+        "RotateLeftPlaceholder": "Funktion für Linksdrehung auswählen...",
+        "RotateLeftHint": "Wird bei jedem Rastschritt nach links einmal ausgeführt.",
+        "RotateRightLabel": "Nach rechts drehen",
+        "RotateRightPlaceholder": "Funktion für Rechtsdrehung auswählen...",
+        "RotateRightHint": "Wird bei jedem Rastschritt nach rechts einmal ausgeführt.",
+        "PushLabel": "Drücken",
+        "PushPlaceholder": "Druckfunktion auswählen...",
+        "PushHint": "Verwendet den Aktivierungsmodus der Aktion beim Drücken und Loslassen des Reglers."
+      },
+      "ControlPanel": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Steuerpanel",
+        "Title": "Steuerpanel",
+        "ThemeLabel": "Design:",
+        "ThemePlaceholder": "Ausgewähltes Design",
+        "ChannelLabel": "Kanal:",
+        "ChannelPlaceholder": "Bevorzugter Kanal",
+        "CustomPathsTitle": "Benutzerdefinierte Installationspfade",
+        "CustomPathsHelp": "Lege kanalbezogene Überschreibungen fest, indem du die entsprechende <b>Data.p4k</b> auswählst.",
+        "ChannelSuffixAuto": "Auto",
+        "ChannelSuffixCustom": "Benutzerdef.",
+        "OverridePlaceholder": "Keine Überschreibung",
+        "OverrideSelectTitle": "{channel} Data.p4k auswählen",
+        "OverrideClearTitle": "{channel}-Überschreibung löschen",
+        "ForceRedetection": "Erkennung erzwingen",
+        "FactoryReset": "Zurücksetzen",
+        "FactoryResetConfirm": "Beim Zurücksetzen werden zwischengespeicherte Installationen entfernt, alle benutzerdefinierten Data.p4k-Überschreibungen gelöscht, die Designauswahl zurückgesetzt und die Tastenbelegungen vollständig neu erstellt.\n\nFortfahren?",
+        "PluginLocale": {
+          "Title": "Plugin-Sprache",
+          "Help": "Auto verwendet die erkannte Systemsprache. Die manuelle Überschreibung fixiert die Pluginsprache für die Inhalte des Property Inspectors.",
+          "Label": "Sprache:",
+          "Placeholder": "Plugin-Sprache",
+          "StatusMode": "Modus",
+          "StatusOverride": "Überschreibung",
+          "StatusDetected": "Erkannt",
+          "StatusEffective": "Effektiv",
+          "Unavailable": "Nicht verfügbar",
+          "None": "Keine",
+          "ModeAuto": "Automatisch erkannt",
+          "ModeOverride": "Manuelle Überschreibung",
+          "Loading": "Sprache wird geladen",
+          "NoLanguagesFound": "Keine Sprachen gefunden",
+          "AutoDetectedTarget": "Erkannt: {locale}",
+          "AutoDefaultTarget": "Standard: {locale}",
+          "AutoOption": "Auto ({target})",
+          "Language": {
+            "en": "English",
+            "de": "Deutsch",
+            "fr": "Français",
+            "es": "Español"
+          }
+        }
+      }
+    }
+  }
+}

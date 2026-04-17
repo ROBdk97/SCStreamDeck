@@ -12,6 +12,7 @@ using SCStreamDeck.Models;
 using SCStreamDeck.Services.Audio;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.Keybinding;
+using SCStreamDeck.Services.UI;
 
 namespace SCStreamDeck.ActionKeys;
 
@@ -33,8 +34,10 @@ public abstract class SCDialActionBase : EncoderBase
         InitializationService = deps.InitializationService;
         KeybindingService = deps.KeybindingService;
         AudioPlayerService = deps.AudioPlayerService;
+        PluginLocaleService = deps.PluginLocaleService;
 
         InitializationService.KeybindingsStateChanged += OnKeybindingsStateChanged;
+        PluginLocaleService.LocaleChanged += OnPluginLocaleChanged;
         Connection.OnPropertyInspectorDidAppear += OnPropertyInspectorDidAppear;
         Connection.OnSendToPlugin += OnSendToPlugin;
 
@@ -48,6 +51,7 @@ public abstract class SCDialActionBase : EncoderBase
 
     private InitializationService InitializationService { get; }
     private AudioPlayerService AudioPlayerService { get; }
+    private PluginLocaleService PluginLocaleService { get; }
     protected KeybindingService KeybindingService { get; }
 
     protected bool CanExecuteBindings =>
@@ -97,6 +101,7 @@ public abstract class SCDialActionBase : EncoderBase
         Connection.OnPropertyInspectorDidAppear -= OnPropertyInspectorDidAppear;
         Connection.OnSendToPlugin -= OnSendToPlugin;
         InitializationService.KeybindingsStateChanged -= OnKeybindingsStateChanged;
+        PluginLocaleService.LocaleChanged -= OnPluginLocaleChanged;
         GC.SuppressFinalize(this);
     }
 
@@ -113,17 +118,20 @@ public abstract class SCDialActionBase : EncoderBase
         TryMigrateFunctionSettingsIfPossible();
     }
 
-    private void SendPropertyInspectorUpdate()
+    private void SendPropertyInspectorUpdate() => _ = SendPropertyInspectorUpdateAsync();
+
+    private async Task SendPropertyInspectorUpdateAsync()
     {
+        PluginLocaleResolution pluginLocale = await GetPluginLocaleResolutionAsync().ConfigureAwait(false);
+
         try
         {
             if (!InitializationService.KeybindingsJsonExists() || !KeybindingService.IsLoaded)
             {
-                Connection.SendToPropertyInspectorAsync(new JObject
-                {
-                    ["functionsLoaded"] = false,
-                    ["functions"] = new JArray()
-                });
+                await Connection.SendToPropertyInspectorAsync(
+                        PropertyInspectorPayloadBuilder.BuildFunctionsPayload(false, new JArray(), pluginLocale))
+                    .ConfigureAwait(false);
+
                 return;
             }
 
@@ -131,12 +139,32 @@ public abstract class SCDialActionBase : EncoderBase
             IntPtr hkl = KeyboardLayoutDetector.DetectCurrent().Hkl;
             JArray groups = FunctionsPayloadBuilder.BuildGroupedFunctionsPayload(allActions, hkl);
 
-            Connection.SendToPropertyInspectorAsync(new JObject { ["functionsLoaded"] = true, ["functions"] = groups });
+            await Connection.SendToPropertyInspectorAsync(
+                    PropertyInspectorPayloadBuilder.BuildFunctionsPayload(true, groups, pluginLocale))
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             Log.Err($"[{GetType().Name}]: {ex.Message}", ex);
-            Connection.SendToPropertyInspectorAsync(new JObject { ["functionsLoaded"] = false, ["functions"] = new JArray() });
+            await Connection.SendToPropertyInspectorAsync(
+                    PropertyInspectorPayloadBuilder.BuildFunctionsPayload(
+                        false,
+                        new JArray(),
+                        PluginLocaleResolution.Default))
+                .ConfigureAwait(false);
+        }
+    }
+
+    private async Task<PluginLocaleResolution> GetPluginLocaleResolutionAsync()
+    {
+        try
+        {
+            return await PluginLocaleService.GetCurrentAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Log.Err($"[{GetType().Name}] Failed to resolve plugin locale: {ex.Message}", ex);
+            return PluginLocaleResolution.Default;
         }
     }
 
@@ -148,6 +176,8 @@ public abstract class SCDialActionBase : EncoderBase
         TryMigrateFunctionSettingsIfPossible();
         SendPropertyInspectorUpdate();
     }
+
+    private void OnPluginLocaleChanged() => SendPropertyInspectorUpdate();
 
     private void TryMigrateFunctionSettingsIfPossible()
     {

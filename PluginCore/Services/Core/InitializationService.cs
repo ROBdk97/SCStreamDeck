@@ -517,7 +517,7 @@ public sealed class InitializationService : IDisposable
             return false;
         }
 
-        SCChannel[] priority = [SCChannel.Live, SCChannel.Hotfix, SCChannel.Ptu, SCChannel.Eptu];
+        SCChannel[] priority = [SCChannel.Live, SCChannel.Hotfix, SCChannel.Ptu, SCChannel.Eptu, SCChannel.TechPreview];
         foreach (SCChannel channel in priority)
         {
             if (channel == excludedChannel)

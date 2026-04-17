@@ -1,0 +1,138 @@
+{
+  "Name": "Star Citizen Stream Deck",
+  "Description": "Plugin that provides bindable actions for Star Citizen via Stream Deck.\nThis Plugin is not endorsed by or affiliated with the Cloud Imperium or Roberts Space Industries group of companies. All game content and materials are copyright Cloud Imperium Rights LLC and Cloud Imperium Rights Ltd.. Star Citizen®,Squadron 42®, Roberts Space Industries®, and Cloud Imperium® are registered trademarks of Cloud Imperium Rights LLC. All rights reserved.",
+  "Category": "Star Citizen Stream Deck",
+  "com.robdk97.scstreamdeck.adaptivekey": {
+    "Name": "Adaptive Key",
+    "Tooltip": "Star Citizen Adaptive Key"
+  },
+  "com.robdk97.scstreamdeck.adaptivedial": {
+    "Name": "Adaptive Dial",
+    "Tooltip": "Star Citizen Adaptive Dial",
+    "Encoder": {
+      "TriggerDescription": {
+        "Rotate": "Execute left or right function",
+        "Push": "Execute push function"
+      }
+    }
+  },
+  "com.robdk97.scstreamdeck.togglekey": {
+    "Name": "Toggle Key",
+    "Tooltip": "Star Citizen Toggle Key"
+  },
+  "com.robdk97.scstreamdeck.controlpanel": {
+    "Name": "Control Panel",
+    "Tooltip": "Star Citizen Control Panel",
+    "States": [
+      {
+        "Name": "Control Panel"
+      }
+    ]
+  },
+  "Localization": {
+    "PropertyInspector": {
+      "Common": {
+        "Binding": {
+          "Keyboard": "KEYBOARD",
+          "Mouse": "MOUSE",
+          "Gamepad": "GAMEPAD",
+          "Joystick": "JOYSTICK"
+        },
+        "State": {
+          "Unbound": "Unbound",
+          "NoDescription": "No description available."
+        },
+        "Dropdown": {
+          "NoItemsFound": "No items found",
+          "NoMatchingFunctionsFound": "No matching functions found",
+          "NoThemesFound": "No themes found",
+          "NoValidChannels": "No valid channels"
+        },
+        "Status": {
+          "Loading": "Loading",
+          "LoadingFunctions": "Loading functions",
+          "LoadingThemes": "Loading themes",
+          "LoadingStatus": "Loading status",
+          "NoInstallationDetected": "No installation detected. Set custom path."
+        },
+        "FilePicker": {
+          "Button": "FILE",
+          "SelectFile": "Select file",
+          "Clear": "Clear",
+          "NoFileSelected": "No file selected"
+        },
+        "Audio": {
+          "Label": "Sound",
+          "SelectTitle": "Select audio file",
+          "ClearTitle": "Clear audio file"
+        }
+      },
+      "FunctionAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Adaptive Key",
+        "SearchPlaceholder": "Search functions..."
+      },
+      "ToggleAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Toggle Key",
+        "ResetLabel": "Reset (s)",
+        "ResetTooltip": "Hold duration (seconds) to flip state without executing the binding.",
+        "ResetAriaLabel": "Reset hold seconds",
+        "ResetDefaultTitle": "Reset to default"
+      },
+      "DialAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Adaptive Dial",
+        "RotateLeftLabel": "Rotate Left",
+        "RotateLeftPlaceholder": "Select rotate-left function...",
+        "RotateLeftHint": "Executed once for each tick when the dial rotates left.",
+        "RotateRightLabel": "Rotate Right",
+        "RotateRightPlaceholder": "Select rotate-right function...",
+        "RotateRightHint": "Executed once for each tick when the dial rotates right.",
+        "PushLabel": "Push",
+        "PushPlaceholder": "Select push function...",
+        "PushHint": "Uses the action activation mode while the dial is pressed and released."
+      },
+      "ControlPanel": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Control Panel",
+        "Title": "Control Panel",
+        "ThemeLabel": "Theme:",
+        "ThemePlaceholder": "Selected theme",
+        "ChannelLabel": "Channel:",
+        "ChannelPlaceholder": "Preferred channel",
+        "CustomPathsTitle": "Custom Installation Paths",
+        "CustomPathsHelp": "Set per-channel overrides by selecting the corresponding <b>Data.p4k</b>.",
+        "ChannelSuffixAuto": "Auto",
+        "ChannelSuffixCustom": "Custom",
+        "OverridePlaceholder": "No override",
+        "OverrideSelectTitle": "Select {channel} Data.p4k",
+        "OverrideClearTitle": "Clear {channel} override",
+        "ForceRedetection": "Force Redetection",
+        "FactoryReset": "Factory Reset",
+        "FactoryResetConfirm": "Factory Reset will remove cached installations, clear all custom Data.p4k overrides, reset theme selection, and rebuild keybindings from scratch.\n\nContinue?",
+        "PluginLocale": {
+          "Title": "Plugin Language",
+          "Help": "Auto uses the detected system language. Manual override pins the plugin language for Property Inspector content.",
+          "Label": "Language:",
+          "Placeholder": "Plugin language",
+          "StatusMode": "Mode",
+          "StatusOverride": "Override",
+          "StatusDetected": "Detected",
+          "StatusEffective": "Effective",
+          "Unavailable": "Unavailable",
+          "None": "None",
+          "ModeAuto": "Auto-detected",
+          "ModeOverride": "Manual override",
+          "Loading": "Loading language",
+          "NoLanguagesFound": "No languages found",
+          "AutoDetectedTarget": "Detected: {locale}",
+          "AutoDefaultTarget": "Default: {locale}",
+          "AutoOption": "Auto ({target})",
+          "Language": {
+            "en": "English",
+            "de": "Deutsch",
+            "fr": "Français",
+            "es": "Español"
+          }
+        }
+      }
+    }
+  }
+}

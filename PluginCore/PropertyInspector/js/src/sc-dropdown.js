@@ -6,6 +6,15 @@
 (function () {
   const root = globalThis;
 
+  function resolveText(spec, fallback = '') {
+    const resolver = root.SCPI?.i18n?.resolveSpec;
+    if (typeof resolver === 'function') {
+      return resolver(spec, fallback);
+    }
+
+    return typeof spec === 'string' ? spec : String(fallback ?? '');
+  }
+
   function createSvgArrow() {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('class', 'pi-dropdown__arrow');
@@ -33,9 +42,10 @@
       return;
     }
 
-    const placeholder = typeof opts.placeholder === 'string'
+    const placeholderSource = opts.placeholder !== undefined
       ? opts.placeholder
       : (rootEl.getAttribute('data-placeholder') || '');
+    const placeholder = resolveText(placeholderSource, rootEl.getAttribute('data-placeholder') || '');
 
     const inputRow = document.createElement('div');
     inputRow.className = 'pi-dropdown__input-row';
@@ -91,14 +101,22 @@
     const getGroup = typeof options.getGroup === 'function' ? options.getGroup : null;
     const isDisabled = typeof options.isDisabled === 'function' ? options.isDisabled : (item) => !!item?.disabled;
     const onSelect = typeof options.onSelect === 'function' ? options.onSelect : null;
-    const emptyText = typeof options.emptyText === 'string' ? options.emptyText : 'No items found';
+    const placeholderSpec = options.placeholder !== undefined
+      ? options.placeholder
+      : (rootEl.getAttribute('data-placeholder') || '');
+    const emptyTextSpec = options.emptyText !== undefined
+      ? options.emptyText
+      : {key: 'PropertyInspector.Common.Dropdown.NoItemsFound', fallback: 'No items found'};
+    const successTextSpec = options.successText !== undefined ? options.successText : '';
+    const unboundTitleSpec = options.unboundTitle !== undefined
+      ? options.unboundTitle
+      : {key: 'PropertyInspector.Common.State.Unbound', fallback: 'Unbound'};
     const displaySelectedInInput = options.displaySelectedInInput !== undefined
       ? !!options.displaySelectedInInput
       : !searchEnabled;
 
     const minLoadingMs = typeof options.minLoadingMs === 'number' ? options.minLoadingMs : 500;
     const successFlashMs = typeof options.successFlashMs === 'number' ? options.successFlashMs : 220;
-    const successText = typeof options.successText === 'string' ? options.successText : '';
 
     let items = [];
     let selectedValue = '';
@@ -107,6 +125,7 @@
     let loadingStartedAt = 0;
     let loadingToken = 0;
     let pendingTimer = null;
+    let currentLoadingSpec = {key: 'PropertyInspector.Common.Status.Loading', fallback: 'Loading'};
 
     // Inline loading overlay (spinner + "Loading" text + animated dots)
     let loadingEl = null;
@@ -147,6 +166,10 @@
       inputEl.setAttribute('readonly', '');
     }
 
+    function updatePlaceholder() {
+      inputEl.placeholder = resolveText(placeholderSpec, rootEl.getAttribute('data-placeholder') || '');
+    }
+
     function isOpen() {
       return rootEl.classList.contains('pi-dropdown--open');
     }
@@ -168,7 +191,7 @@
       if (!Array.isArray(list) || list.length === 0) {
         const emptyEl = document.createElement('div');
         emptyEl.className = 'pi-dropdown__empty-state';
-        emptyEl.textContent = emptyText;
+        emptyEl.textContent = resolveText(emptyTextSpec, 'No items found');
         menuEl.appendChild(emptyEl);
         return;
       }
@@ -222,7 +245,7 @@
         const badgeEl = document.createElement('span');
         badgeEl.className = 'pi-dropdown__option-badge pi-dropdown__option-badge--warn';
         badgeEl.textContent = '!';
-        badgeEl.title = 'Unbound';
+        badgeEl.title = resolveText(unboundTitleSpec, 'Unbound');
         optionEl.appendChild(badgeEl);
       }
 
@@ -371,11 +394,36 @@
     const initialReadOnly = inputEl.readOnly;
     const initialReadonlyAttr = inputEl.hasAttribute('readonly');
 
-    function setLoading(loading, text = 'Loading') {
+    function refreshI18n() {
+      updatePlaceholder();
+
+      if (loadingLabelEl && isBusy) {
+        loadingLabelEl.textContent = resolveText(currentLoadingSpec, 'Loading');
+      }
+
+      if (loadingLabelEl && rootEl.classList.contains('pi-dropdown--success')) {
+        const resolvedSuccessText = resolveText(successTextSpec, '');
+        if (resolvedSuccessText.trim().length > 0) {
+          loadingLabelEl.textContent = resolvedSuccessText;
+        }
+      }
+
+      if (isOpen()) {
+        if (searchEnabled) {
+          const q = (inputEl.value || '').trim();
+          render(q ? filter(q) : items);
+        } else {
+          render(items);
+        }
+      }
+    }
+
+    function setLoading(loading, text = {key: 'PropertyInspector.Common.Status.Loading', fallback: 'Loading'}) {
       const next = !!loading;
       if (next === isBusy) {
+        currentLoadingSpec = text === undefined ? currentLoadingSpec : text;
         if (isBusy && loadingLabelEl) {
-          loadingLabelEl.textContent = String(text || 'Loading');
+          loadingLabelEl.textContent = resolveText(currentLoadingSpec, 'Loading');
         }
         return;
       }
@@ -388,6 +436,7 @@
       }
 
       if (next) {
+        currentLoadingSpec = text === undefined ? currentLoadingSpec : text;
         isBusy = true;
         loadingStartedAt = Date.now();
 
@@ -400,7 +449,7 @@
         toggleEl.setAttribute('aria-disabled', 'true');
 
         if (loadingLabelEl) {
-          loadingLabelEl.textContent = String(text || 'Loading');
+          loadingLabelEl.textContent = resolveText(currentLoadingSpec, 'Loading');
         }
         return;
       }
@@ -418,8 +467,9 @@
         rootEl.classList.remove('pi-dropdown--loading');
         rootEl.classList.add('pi-dropdown--success');
 
-        if (loadingLabelEl && typeof successText === 'string' && successText.trim().length > 0) {
-          loadingLabelEl.textContent = successText;
+        const resolvedSuccessText = resolveText(successTextSpec, '');
+        if (loadingLabelEl && resolvedSuccessText.trim().length > 0) {
+          loadingLabelEl.textContent = resolvedSuccessText;
         }
 
         pendingTimer = setTimeout(() => {
@@ -444,6 +494,11 @@
     }
 
     // Wire listeners
+    updatePlaceholder();
+    root.SCPI?.i18n?.onChange?.(() => {
+      refreshI18n();
+    });
+
     if (searchEnabled) {
       const debouncer = root.SCPI?.util?.debounce || root.debounce;
       const debounced = typeof debouncer === 'function' ? debouncer(handleInput, 150) : handleInput;
