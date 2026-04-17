@@ -1,4 +1,3 @@
-using System.Text;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
@@ -8,6 +7,7 @@ using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.Data;
 using SCStreamDeck.Services.Installation;
 using SCStreamDeck.Services.Keybinding;
+using System.Text;
 using WindowsInput;
 
 namespace Tests.Unit.Services.Core;
@@ -214,7 +214,7 @@ public sealed class InitializationServiceComponentTests : IDisposable
                 {
                     Name = "TestAction",
                     Label = "Test",
-                    Description = "",
+                    Description = string.Empty,
                     Category = "Test",
                     MapName = "Test",
                     MapLabel = "Test",
@@ -310,7 +310,7 @@ public sealed class InitializationServiceComponentTests : IDisposable
                 {
                     Name = "TestAction",
                     Label = "Test",
-                    Description = "",
+                    Description = string.Empty,
                     Category = "TestCategory",
                     MapName = "TestMap",
                     MapLabel = "TestMap",

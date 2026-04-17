@@ -1,9 +1,9 @@
-using System.Text;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.Data;
+using System.Text;
 
 namespace SCStreamDeck.Services.Keybinding;
 
@@ -258,10 +258,9 @@ public sealed class KeybindingProcessorService(
 
 
     private static List<KeybindingActionData> FilterActionsWithBindings(List<KeybindingActionData> actions) =>
-        actions
+        [.. actions
             .Where(a => !IsDebugAction(a))
-            .Where(HasBindingsOrValidLabel)
-            .ToList();
+            .Where(HasBindingsOrValidLabel)];
 
     private static bool IsDebugAction(KeybindingActionData action)
     {

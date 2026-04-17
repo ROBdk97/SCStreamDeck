@@ -6,6 +6,15 @@
 (function () {
   const root = globalThis;
 
+  function resolveText(spec, fallback = '') {
+    const resolver = root.SCPI?.i18n?.resolveSpec;
+    if (typeof resolver === 'function') {
+      return resolver(spec, fallback);
+    }
+
+    return typeof spec === 'string' ? spec : String(fallback ?? '');
+  }
+
   function safeDecodeURIComponent(value) {
     try {
       return decodeURIComponent(value);
@@ -35,18 +44,22 @@
     }
 
     const accept = typeof opts.accept === 'string' ? opts.accept : (rootEl.getAttribute('data-accept') || '');
-    const placeholderText = typeof opts.placeholderText === 'string'
-      ? opts.placeholderText
-      : (rootEl.getAttribute('data-placeholder') || 'No file selected');
-    const buttonText = typeof opts.buttonText === 'string'
-      ? opts.buttonText
-      : (rootEl.getAttribute('data-button-text') || 'FILE');
-    const selectTitle = typeof opts.selectTitle === 'string'
-      ? opts.selectTitle
-      : (rootEl.getAttribute('data-select-title') || 'Select file');
-    const clearTitle = typeof opts.clearTitle === 'string'
-      ? opts.clearTitle
-      : (rootEl.getAttribute('data-clear-title') || 'Clear');
+    const placeholderText = resolveText(
+      opts.placeholderText !== undefined ? opts.placeholderText : (rootEl.getAttribute('data-placeholder') || ''),
+      'No file selected'
+    );
+    const buttonText = resolveText(
+      opts.buttonText !== undefined ? opts.buttonText : (rootEl.getAttribute('data-button-text') || ''),
+      'FILE'
+    );
+    const selectTitle = resolveText(
+      opts.selectTitle !== undefined ? opts.selectTitle : (rootEl.getAttribute('data-select-title') || ''),
+      'Select file'
+    );
+    const clearTitle = resolveText(
+      opts.clearTitle !== undefined ? opts.clearTitle : (rootEl.getAttribute('data-clear-title') || ''),
+      'Clear'
+    );
 
     const container = document.createElement('div');
     container.className = 'file-picker-container';
@@ -101,7 +114,18 @@
     ensureFilePickerMarkup(rootEl, options);
 
     const filenameSelector = options.filenameSelector || '.filename-text';
-    const placeholderText = options.placeholderText || 'No file selected';
+    const placeholderSpec = options.placeholderText !== undefined
+      ? options.placeholderText
+      : {key: 'PropertyInspector.Common.FilePicker.NoFileSelected', fallback: 'No file selected'};
+    const buttonTextSpec = options.buttonText !== undefined
+      ? options.buttonText
+      : {key: 'PropertyInspector.Common.FilePicker.Button', fallback: 'FILE'};
+    const selectTitleSpec = options.selectTitle !== undefined
+      ? options.selectTitle
+      : {key: 'PropertyInspector.Common.FilePicker.SelectFile', fallback: 'Select file'};
+    const clearTitleSpec = options.clearTitle !== undefined
+      ? options.clearTitle
+      : {key: 'PropertyInspector.Common.FilePicker.Clear', fallback: 'Clear'};
     const settingsKey = options.settingsKey;
     const displayMode = options.displayMode || 'basename'; // 'basename' | 'full'
     const onValueChanged = typeof options.onValueChanged === 'function' ? options.onValueChanged : null;
@@ -117,6 +141,30 @@
       return null;
     }
 
+    function getPlaceholderText() {
+      return resolveText(placeholderSpec, 'No file selected');
+    }
+
+    function refreshTexts() {
+      const buttonText = resolveText(buttonTextSpec, 'FILE');
+      const selectTitle = resolveText(selectTitleSpec, 'Select file');
+      const clearTitle = resolveText(clearTitleSpec, 'Clear');
+
+      buttonEl.title = selectTitle;
+      buttonEl.setAttribute('aria-label', selectTitle);
+      clearEl.title = clearTitle;
+      clearEl.setAttribute('aria-label', clearTitle);
+
+      const buttonIcon = buttonEl.querySelector('.button-icon');
+      if (buttonIcon) {
+        buttonIcon.textContent = buttonText;
+      }
+
+      if (!currentValue) {
+        render('');
+      }
+    }
+
     let currentValue = '';
     let isWritingSetting = false;
     let setSetting = null;
@@ -126,7 +174,7 @@
       const hasValue = typeof value === 'string' && value.length > 0;
       const text = hasValue
         ? (displayMode === 'full' ? value : getFileName(value))
-        : placeholderText;
+        : getPlaceholderText();
 
       filenameEl.textContent = text;
       filenameEl.title = hasValue ? value : '';
@@ -214,6 +262,11 @@
 
     // Initial UI
     render('');
+    refreshTexts();
+    root.SCPI?.i18n?.onChange?.(() => {
+      refreshTexts();
+    });
+
     if (initialValue) {
       setValue(initialValue, {persist: false, silent: true});
     }
@@ -237,7 +290,9 @@
     const clearId = options.clearId;
     const displayId = options.displayId;
     const filenameSelector = options.filenameSelector || '.filename-text';
-    const placeholderText = options.placeholderText || 'No file selected';
+    const placeholderSpec = options.placeholderText !== undefined
+      ? options.placeholderText
+      : {key: 'PropertyInspector.Common.FilePicker.NoFileSelected', fallback: 'No file selected'};
     const settingsKey = options.settingsKey;
     const displayMode = options.displayMode || 'basename'; // 'basename' | 'full'
     const onValueChanged = typeof options.onValueChanged === 'function' ? options.onValueChanged : null;
@@ -270,7 +325,7 @@
       const hasValue = typeof value === 'string' && value.length > 0;
       const text = hasValue
         ? (displayMode === 'full' ? value : getFileName(value))
-        : placeholderText;
+        : resolveText(placeholderSpec, 'No file selected');
 
       filenameEl.textContent = text;
       filenameEl.title = hasValue ? value : '';

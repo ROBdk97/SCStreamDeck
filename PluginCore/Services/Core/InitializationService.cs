@@ -18,7 +18,7 @@ public sealed class InitializationService : IDisposable
     private readonly KeybindingProcessorService _keybindingProcessor;
     private readonly KeybindingService _keybindingService;
     private readonly IKeybindingsJsonCache _keybindingsJsonCache;
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
     private readonly PathProviderService _pathProvider;
     private readonly StateService _stateService;
 
@@ -517,7 +517,7 @@ public sealed class InitializationService : IDisposable
             return false;
         }
 
-        SCChannel[] priority = [SCChannel.Live, SCChannel.Hotfix, SCChannel.Ptu, SCChannel.Eptu];
+        SCChannel[] priority = [SCChannel.Live, SCChannel.Hotfix, SCChannel.Ptu, SCChannel.Eptu, SCChannel.TechPreview];
         foreach (SCChannel channel in priority)
         {
             if (channel == excludedChannel)
@@ -588,7 +588,7 @@ public sealed class InitializationService : IDisposable
         CancellationToken cancellationToken)
     {
         List<SCInstallCandidate> rsiLogCandidates =
-            (await _installLocator.FindInstallationsAsync(cancellationToken).ConfigureAwait(false)).ToList();
+            [.. (await _installLocator.FindInstallationsAsync(cancellationToken).ConfigureAwait(false))];
 
         (Dictionary<string, SCInstallCandidate> candidateMap, Dictionary<string, string> detectionSources) =
             InstallationDetectionMerger.Merge(
@@ -596,7 +596,7 @@ public sealed class InitializationService : IDisposable
                 cleanupResult.ValidCandidates,
                 cleanupResult.NeedsFullDetection);
 
-        List<SCInstallCandidate> finalCandidates = candidateMap.Values.ToList();
+        List<SCInstallCandidate> finalCandidates = [.. candidateMap.Values];
         if (finalCandidates.Count == 0)
         {
             Log.Warn($"[{nameof(InitializationService)}] No installations detected");
@@ -605,11 +605,10 @@ public sealed class InitializationService : IDisposable
 
         await PersistCandidatesAsync(finalCandidates, cancellationToken).ConfigureAwait(false);
 
-        List<string> rsiRootPaths = rsiLogCandidates
+        List<string> rsiRootPaths = [.. rsiLogCandidates
             .Select(c => c.RootPath)
             .Distinct(StringComparer.OrdinalIgnoreCase)
-            .OrderBy(p => p)
-            .ToList();
+            .OrderBy(p => p)];
 
         LogDetectionSummary(finalCandidates, detectionSources, rsiRootPaths);
 

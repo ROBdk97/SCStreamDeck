@@ -568,7 +568,7 @@ public sealed class LocalizationServiceTests
     [Fact]
     public void ParseLanguageFromLines_EmptyLines_ReturnsDefault()
     {
-        string result = LocalizationService.ParseLanguageFromLines(["", "  ", "\t"]);
+        string result = LocalizationService.ParseLanguageFromLines([string.Empty, "  ", "\t"]);
 
         result.Should().Be(SCConstants.Localization.DefaultLanguage);
     }

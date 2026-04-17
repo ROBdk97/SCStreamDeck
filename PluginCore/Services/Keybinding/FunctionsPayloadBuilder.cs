@@ -1,7 +1,7 @@
-using System.Globalization;
 using Newtonsoft.Json.Linq;
 using SCStreamDeck.Common;
 using SCStreamDeck.Models;
+using System.Globalization;
 using InputDeviceType = SCStreamDeck.Models.InputType;
 
 namespace SCStreamDeck.Services.Keybinding;
@@ -32,21 +32,19 @@ internal static class FunctionsPayloadBuilder
 
         // Group in the PI by map label (more user-facing than internal category strings).
         // Still preserve legacy ids based on UiCategory for backward compatibility.
-        List<ResolvedAction> resolved = actions
+        List<ResolvedAction> resolved = [.. actions
             .Select(a => new ResolvedAction(
                 a,
                 ResolveMapGroupLabel(a),
                 a.UiCategory,
                 a.UiLabel,
                 a.UiDescription))
-            .Where(x => !string.IsNullOrWhiteSpace(x.ActionLabel))
-            .ToList();
+            .Where(x => !string.IsNullOrWhiteSpace(x.ActionLabel))];
 
         // Build one option per (ActionName, MapName) so v2 ids remain stable and unambiguous.
-        List<GroupedActionEntry> groupedEntries = resolved
+        List<GroupedActionEntry> groupedEntries = [.. resolved
             .GroupBy(x => (x.Action.ActionName, x.Action.MapName))
-            .Select(g => ToGroupedEntry(g, hkl))
-            .ToList();
+            .Select(g => ToGroupedEntry(g, hkl))];
 
         // Disambiguate duplicate labels within same category
         DisambiguateDuplicateLabels(groupedEntries);
@@ -104,16 +102,15 @@ internal static class FunctionsPayloadBuilder
     private static void ApplyDuplicateLabelDisambiguators(List<GroupedActionEntry> entries)
     {
         // Group by (Category, Label) to find duplicates
-        List<IGrouping<(string GroupLabelResolved, string ActionLabelResolved), GroupedActionEntry>> labelGroups = entries
+        List<IGrouping<(string GroupLabelResolved, string ActionLabelResolved), GroupedActionEntry>> labelGroups = [.. entries
             .GroupBy(e => (e.GroupLabelResolved, e.ActionLabelResolved))
-            .Where(g => g.Count() > 1)
-            .ToList();
+            .Where(g => g.Count() > 1)];
 
         // First pass: Add disambiguators for duplicate base labels
         foreach (IGrouping<(string GroupLabelResolved, string ActionLabelResolved), GroupedActionEntry> labelGroup in labelGroups)
         {
-            List<GroupedActionEntry> actionsInGroup = labelGroup.ToList();
-            List<string> actionNames = actionsInGroup.Select(e => e.ActionName).ToList();
+            List<GroupedActionEntry> actionsInGroup = [.. labelGroup];
+            List<string> actionNames = [.. actionsInGroup.Select(e => e.ActionName)];
             string commonPrefix = FindCommonPrefix(actionNames);
 
             foreach (GroupedActionEntry entry in actionsInGroup)
@@ -258,7 +255,7 @@ internal static class FunctionsPayloadBuilder
         IEnumerable<ResolvedAction> group,
         nint hkl)
     {
-        List<ResolvedAction> list = group.ToList();
+        List<ResolvedAction> list = [.. group];
         string name = list.Select(x => x.Action.ActionName).OrderBy(x => x, StringComparer.OrdinalIgnoreCase).First();
 
         List<BindingDisplay> bindings = CollectBindings(list, hkl);
@@ -335,13 +332,12 @@ internal static class FunctionsPayloadBuilder
 
     private static List<BindingDisplay> NormalizeBindings(List<BindingDisplay> bindings) =>
         // Suppress duplicates by (Device, Raw)
-        bindings
+        [.. bindings
             .Where(b => !string.IsNullOrWhiteSpace(b.Raw))
             .GroupBy(b => (b.Device, b.Raw), new DeviceRawTupleComparer())
             .Select(g => g.OrderBy(x => x.Display).First())
             .OrderBy(b => b.Device)
-            .ThenBy(b => b.Display)
-            .ToList();
+            .ThenBy(b => b.Display)];
 
     private static (string text, string searchText, JObject details) BuildPayloadEntry(GroupedActionEntry entry)
     {

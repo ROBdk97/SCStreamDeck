@@ -170,7 +170,7 @@ public static class KeybindingParserService
             return false;
         }
 
-        modifiers = modifierList.ToArray();
+        modifiers = [.. modifierList];
         return true;
     }
 
@@ -281,8 +281,8 @@ public static class KeybindingParserService
             keyList.Add(lastModifierAsKey);
         }
 
-        modifiers = modifierList.ToArray();
-        keys = keyList.ToArray();
+        modifiers = [.. modifierList];
+        keys = [.. keyList];
         return true;
     }
 

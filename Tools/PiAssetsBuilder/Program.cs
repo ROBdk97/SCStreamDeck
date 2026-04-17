@@ -1,11 +1,11 @@
-using System.Text;
 using NUglify;
 using NUglify.Css;
 using NUglify.JavaScript;
+using System.Text;
 
 internal static class Program
 {
-    private const string Lf = "\n";
+    private const char Lf = '\n';
 
     public static int Main(string[] args)
     {

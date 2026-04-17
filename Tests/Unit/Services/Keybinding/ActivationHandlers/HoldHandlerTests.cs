@@ -31,7 +31,10 @@ public sealed class HoldHandlerTests
 
         ActivationModeMetadata metadata = new()
         {
-            PressTriggerThreshold = 0.5f, OnPress = true, OnRelease = true, Retriggerable = true
+            PressTriggerThreshold = 0.5f,
+            OnPress = true,
+            OnRelease = true,
+            Retriggerable = true
         };
 
         handler.Execute(Ctx(ActivationMode.delayed_hold, true, metadata), exec).Should().BeTrue();
@@ -48,7 +51,10 @@ public sealed class HoldHandlerTests
 
         ActivationModeMetadata metadata = new()
         {
-            PressTriggerThreshold = 0, OnPress = true, OnRelease = true, Retriggerable = true
+            PressTriggerThreshold = 0,
+            OnPress = true,
+            OnRelease = true,
+            Retriggerable = true
         };
 
         handler.Execute(Ctx(ActivationMode.delayed_hold_long, true, metadata), exec).Should().BeTrue();
@@ -76,7 +82,7 @@ public sealed class HoldHandlerTests
         public int DownCount { get; private set; }
         public int UpCount { get; private set; }
         public int CancelHoldCount { get; private set; }
-        public List<ScheduledHold> ScheduledHolds { get; } = new();
+        public List<ScheduledHold> ScheduledHolds { get; } = [];
 
         public bool ExecutePress(ParsedInput input) => true;
         public bool ExecutePressNoRepeat(ParsedInput input) => true;

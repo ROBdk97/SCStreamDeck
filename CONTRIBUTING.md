@@ -7,7 +7,7 @@ Thank you for your interest in contributing to the Star Citizen Stream Deck plug
 ## How to Contribute
 
 ### Reporting Issues
-- Use the [GitHub Issues](https://github.com/Jarex985/SCStreamDeck/issues) page to report bugs or suggest features.
+- Use the [GitHub Issues](https://github.com/ROBdk97/SCStreamDeck/issues) page to report bugs or suggest features.
 - Include as much detail as possible: steps to reproduce, expected behavior, and your environment (OS, Stream Deck software version, etc.).
 
 ### Submitting Changes

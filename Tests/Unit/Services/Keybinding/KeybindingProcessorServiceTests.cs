@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.Text;
 using FluentAssertions;
 using Moq;
 using SCStreamDeck.Common;
@@ -7,6 +5,8 @@ using SCStreamDeck.Models;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.Data;
 using SCStreamDeck.Services.Keybinding;
+using System.Reflection;
+using System.Text;
 
 namespace Tests.Unit.Services.Keybinding;
 
@@ -42,7 +42,10 @@ public sealed class KeybindingProcessorServiceTests
     {
         KeybindingActionData action = new()
         {
-            Name = "test_action", Label = "@label", Category = "@category", Bindings = new InputBindings { Mouse = "MOUSE1" }
+            Name = "test_action",
+            Label = "@label",
+            Category = "@category",
+            Bindings = new InputBindings { Mouse = "MOUSE1" }
         };
 
         bool result = typeof(KeybindingProcessorService)
@@ -93,7 +96,10 @@ public sealed class KeybindingProcessorServiceTests
     {
         KeybindingActionData action = new()
         {
-            Name = "test_action", Label = "@label", Category = "@category", Bindings = new InputBindings()
+            Name = "test_action",
+            Label = "@label",
+            Category = "@category",
+            Bindings = new InputBindings()
         };
 
         bool result = typeof(KeybindingProcessorService)
@@ -106,7 +112,7 @@ public sealed class KeybindingProcessorServiceTests
     [Fact]
     public void HasBindingsOrValidLabel_ReturnsFalse_WhenNoBindingsAndNoValidLabel()
     {
-        KeybindingActionData action = new() { Name = "test_action", Label = "", Category = "", Bindings = new InputBindings() };
+        KeybindingActionData action = new() { Name = "test_action", Label = string.Empty, Category = string.Empty, Bindings = new InputBindings() };
 
         bool result = typeof(KeybindingProcessorService)
             .GetMethod("HasBindingsOrValidLabel", BindingFlags.NonPublic | BindingFlags.Static)!
@@ -138,7 +144,10 @@ public sealed class KeybindingProcessorServiceTests
     {
         KeybindingActionData action = new()
         {
-            Name = "test_action", Label = "", Category = "", Bindings = new InputBindings { Keyboard = "SPACE" }
+            Name = "test_action",
+            Label = string.Empty,
+            Category = string.Empty,
+            Bindings = new InputBindings { Keyboard = "SPACE" }
         };
 
         bool result = typeof(KeybindingProcessorService)
@@ -220,7 +229,8 @@ public sealed class KeybindingProcessorServiceTests
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, string>
             {
-                ["@label"] = "Localized Label", ["@category"] = "Localized Category"
+                ["@label"] = "Localized Label",
+                ["@category"] = "Localized Category"
             });
 
         KeybindingProcessorService service = new(
@@ -597,7 +607,10 @@ public sealed class KeybindingProcessorServiceTests
 
         KeybindingActionData action = new()
         {
-            Name = "test_action", Label = "@label", Category = "@category", Bindings = new InputBindings()
+            Name = "test_action",
+            Label = "@label",
+            Category = "@category",
+            Bindings = new InputBindings()
         };
 
         typeof(KeybindingProcessorService)
@@ -614,7 +627,10 @@ public sealed class KeybindingProcessorServiceTests
 
         KeybindingActionData action = new()
         {
-            Name = "test_action", Label = "@label", Category = "@category", Bindings = new InputBindings()
+            Name = "test_action",
+            Label = "@label",
+            Category = "@category",
+            Bindings = new InputBindings()
         };
 
         typeof(KeybindingProcessorService)
@@ -655,7 +671,7 @@ public sealed class KeybindingProcessorServiceTests
             Name = "test_action",
             Label = "@label",
             Category = "@category",
-            Description = "",
+            Description = string.Empty,
             Bindings = new InputBindings()
         };
 
@@ -663,7 +679,7 @@ public sealed class KeybindingProcessorServiceTests
             .GetMethod("ApplyLocalization", BindingFlags.NonPublic | BindingFlags.Static)!
             .Invoke(null, [localization, action]);
 
-        action.Description.Should().Be("");
+        action.Description.Should().Be(string.Empty);
     }
 
     [Fact]
@@ -694,7 +710,10 @@ public sealed class KeybindingProcessorServiceTests
 
         KeybindingActionData action = new()
         {
-            Name = "test_action", Label = "@label", Category = "@category", Bindings = new InputBindings()
+            Name = "test_action",
+            Label = "@label",
+            Category = "@category",
+            Bindings = new InputBindings()
         };
 
         typeof(KeybindingProcessorService)
@@ -793,7 +812,8 @@ public sealed class KeybindingProcessorServiceTests
                 x.LoadGlobalIniAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, string>
             {
-                ["@label"] = "Localized Label", ["@category"] = "Localized Category"
+                ["@label"] = "Localized Label",
+                ["@category"] = "Localized Category"
             });
 
         Mock<IKeybindingOutputService> mockOutputService = new();
@@ -970,7 +990,7 @@ public sealed class KeybindingProcessorServiceTests
 
         Mock<IKeybindingXmlParserService> mockXmlParser = new();
         mockXmlParser.Setup(x => x.ParseActivationModes(It.IsAny<string>()))
-            .Returns(new Dictionary<string, ActivationModeMetadata>());
+            .Returns([]);
 
         mockXmlParser.Setup(x => x.ParseXmlToActions(It.IsAny<string>()))
             .Returns([]);

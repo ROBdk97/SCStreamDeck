@@ -14,7 +14,7 @@ public static partial class KeyboardLayoutDetector
     /// </summary>
     private static readonly nint s_defaultUsEnglishHkl = new(0x04090409);
 
-    private static readonly object s_lock = new();
+    private static readonly Lock s_lock = new();
     private static KeyboardLayoutInfo? s_cached;
 
     [LibraryImport("user32.dll")]

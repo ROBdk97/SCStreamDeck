@@ -43,7 +43,8 @@
       displaySelectedInInput: true,
       minLoadingMs: 500,
       successFlashMs: 220,
-      emptyText: 'No themes found',
+      placeholder: {key: 'PropertyInspector.ControlPanel.ThemePlaceholder', fallback: 'Selected theme'},
+      emptyText: {key: 'PropertyInspector.Common.Dropdown.NoThemesFound', fallback: 'No themes found'},
       getText: (t) => String(t?.name ?? ''),
       getValue: (t) => String(t?.file ?? ''),
       onSelect: (t) => {
@@ -57,7 +58,10 @@
       }
     });
 
-    dropdown?.setLoading?.(true, 'Loading themes');
+    dropdown?.setLoading?.(true, {
+      key: 'PropertyInspector.Common.Status.LoadingThemes',
+      fallback: 'Loading themes'
+    });
 
     // Receive themes + selected theme from plugin (via shared bus)
     SCPI.bus?.on?.((payload) => {

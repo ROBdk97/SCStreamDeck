@@ -254,7 +254,7 @@ public sealed class FunctionsPayloadBuilderTests
             ActivationMode.press,
             keyboardBinding: "f1",
             uiCategory: "FLIGHT",
-            mapLabel: "",
+            mapLabel: string.Empty,
             mapName: "Gameplay");
 
         JArray payload = BuildPayload(action);
@@ -362,7 +362,7 @@ public sealed class FunctionsPayloadBuilderTests
         JArray payload = BuildPayload(actionOne, actionTwo);
         JObject group = (JObject)payload[0];
         JArray options = (JArray)group["options"]!;
-        List<string> labels = options.Select(option => option["text"]!.Value<string>()!).ToList();
+        List<string> labels = [.. options.Select(option => option["text"]!.Value<string>()!)];
 
         labels.Should().Contain(label => label.StartsWith("Boost (Up", StringComparison.Ordinal));
         labels.Should().Contain(label => label.StartsWith("Boost (Down", StringComparison.Ordinal));
@@ -387,7 +387,7 @@ public sealed class FunctionsPayloadBuilderTests
         JArray payload = BuildPayload(actionOne, actionTwo);
         JObject group = (JObject)payload[0];
         JArray options = (JArray)group["options"]!;
-        List<string> labels = options.Select(option => option["text"]!.Value<string>()!).ToList();
+        List<string> labels = [.. options.Select(option => option["text"]!.Value<string>()!)];
 
         labels.Should().Contain(label => label.Contains("Press", StringComparison.Ordinal));
         labels.Should().Contain(label => label.Contains("Hold", StringComparison.Ordinal));
@@ -412,7 +412,7 @@ public sealed class FunctionsPayloadBuilderTests
         JArray payload = BuildPayload(actionOne, actionTwo);
         JObject group = (JObject)payload[0];
         JArray options = (JArray)group["options"]!;
-        List<string> labels = options.Select(option => option["text"]!.Value<string>()!).ToList();
+        List<string> labels = [.. options.Select(option => option["text"]!.Value<string>()!)];
 
         labels.Should().Contain(label => label.StartsWith("Scanner (Primary", StringComparison.Ordinal));
         labels.Should().Contain(label => label.StartsWith("Scanner (Secondary", StringComparison.Ordinal));

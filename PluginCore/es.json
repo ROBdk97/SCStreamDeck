@@ -1,0 +1,138 @@
+{
+  "Name": "Star Citizen Stream Deck",
+  "Description": "Plugin que proporciona acciones asignables para Star Citizen mediante Stream Deck.\nEste plugin no está respaldado por ni afiliado al grupo de empresas Cloud Imperium o Roberts Space Industries. Todo el contenido y los materiales del juego son propiedad intelectual de Cloud Imperium Rights LLC y Cloud Imperium Rights Ltd. Star Citizen®, Squadron 42®, Roberts Space Industries® y Cloud Imperium® son marcas registradas de Cloud Imperium Rights LLC. Todos los derechos reservados.",
+  "Category": "Star Citizen para Stream Deck",
+  "com.robdk97.scstreamdeck.adaptivekey": {
+    "Name": "Tecla adaptativa",
+    "Tooltip": "Tecla adaptativa para Star Citizen"
+  },
+  "com.robdk97.scstreamdeck.adaptivedial": {
+    "Name": "Dial adaptativo",
+    "Tooltip": "Dial adaptativo para Star Citizen",
+    "Encoder": {
+      "TriggerDescription": {
+        "Rotate": "Ejecuta la función izquierda o derecha",
+        "Push": "Ejecuta la función de pulsación"
+      }
+    }
+  },
+  "com.robdk97.scstreamdeck.togglekey": {
+    "Name": "Tecla de alternancia",
+    "Tooltip": "Tecla de alternancia para Star Citizen"
+  },
+  "com.robdk97.scstreamdeck.controlpanel": {
+    "Name": "Panel de control",
+    "Tooltip": "Panel de control para Star Citizen",
+    "States": [
+      {
+        "Name": "Panel de control"
+      }
+    ]
+  },
+  "Localization": {
+    "PropertyInspector": {
+      "Common": {
+        "Binding": {
+          "Keyboard": "TECLADO",
+          "Mouse": "RATÓN",
+          "Gamepad": "MANDO",
+          "Joystick": "JOYSTICK"
+        },
+        "State": {
+          "Unbound": "Sin asignar",
+          "NoDescription": "No hay ninguna descripción disponible."
+        },
+        "Dropdown": {
+          "NoItemsFound": "No se encontraron elementos",
+          "NoMatchingFunctionsFound": "No se encontraron funciones coincidentes",
+          "NoThemesFound": "No se encontraron temas",
+          "NoValidChannels": "No hay canales válidos"
+        },
+        "Status": {
+          "Loading": "Cargando",
+          "LoadingFunctions": "Cargando funciones",
+          "LoadingThemes": "Cargando temas",
+          "LoadingStatus": "Cargando estado",
+          "NoInstallationDetected": "No se detectó ninguna instalación. Establece una ruta personalizada."
+        },
+        "FilePicker": {
+          "Button": "ARCH.",
+          "SelectFile": "Seleccionar archivo",
+          "Clear": "Borrar",
+          "NoFileSelected": "Ningún archivo seleccionado"
+        },
+        "Audio": {
+          "Label": "Sonido",
+          "SelectTitle": "Seleccionar archivo de audio",
+          "ClearTitle": "Borrar archivo de audio"
+        }
+      },
+      "FunctionAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Tecla adaptativa",
+        "SearchPlaceholder": "Buscar funciones..."
+      },
+      "ToggleAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Tecla de alternancia",
+        "ResetLabel": "Reinic. (s)",
+        "ResetTooltip": "Duración de pulsación (en segundos) para cambiar el estado sin ejecutar la asignación.",
+        "ResetAriaLabel": "Segundos de reinicio por pulsación",
+        "ResetDefaultTitle": "Restablecer valor predeterminado"
+      },
+      "DialAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Dial adaptativo",
+        "RotateLeftLabel": "Girar a la izquierda",
+        "RotateLeftPlaceholder": "Seleccionar función de giro a la izquierda...",
+        "RotateLeftHint": "Se ejecuta una vez por cada paso cuando el dial gira a la izquierda.",
+        "RotateRightLabel": "Girar a la derecha",
+        "RotateRightPlaceholder": "Seleccionar función de giro a la derecha...",
+        "RotateRightHint": "Se ejecuta una vez por cada paso cuando el dial gira a la derecha.",
+        "PushLabel": "Pulsar",
+        "PushPlaceholder": "Seleccionar función de pulsación...",
+        "PushHint": "Usa el modo de activación de la acción mientras el dial se pulsa y se suelta."
+      },
+      "ControlPanel": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Panel de control",
+        "Title": "Panel de control",
+        "ThemeLabel": "Tema:",
+        "ThemePlaceholder": "Tema seleccionado",
+        "ChannelLabel": "Canal:",
+        "ChannelPlaceholder": "Canal preferido",
+        "CustomPathsTitle": "Rutas de instalación personalizadas",
+        "CustomPathsHelp": "Configura anulaciones por canal seleccionando el archivo <b>Data.p4k</b> correspondiente.",
+        "ChannelSuffixAuto": "Auto",
+        "ChannelSuffixCustom": "Personalizado",
+        "OverridePlaceholder": "Sin anulación",
+        "OverrideSelectTitle": "Seleccionar {channel} Data.p4k",
+        "OverrideClearTitle": "Borrar anulación de {channel}",
+        "ForceRedetection": "Forzar redetección",
+        "FactoryReset": "Restablecimiento de fábrica",
+        "FactoryResetConfirm": "El restablecimiento de fábrica eliminará las instalaciones en caché, borrará todas las anulaciones personalizadas de Data.p4k, restablecerá la selección del tema y reconstruirá las asignaciones de teclas desde cero.\n\n¿Continuar?",
+        "PluginLocale": {
+          "Title": "Idioma del plugin",
+          "Help": "Auto usa el idioma del sistema detectado. La anulación manual fija el idioma del plugin para el contenido del Property Inspector.",
+          "Label": "Idioma:",
+          "Placeholder": "Idioma del plugin",
+          "StatusMode": "Modo",
+          "StatusOverride": "Anulación",
+          "StatusDetected": "Detectado",
+          "StatusEffective": "Efectivo",
+          "Unavailable": "No disponible",
+          "None": "Ninguna",
+          "ModeAuto": "Detectado automáticamente",
+          "ModeOverride": "Anulación manual",
+          "Loading": "Cargando idioma",
+          "NoLanguagesFound": "No se encontraron idiomas",
+          "AutoDetectedTarget": "Detectado: {locale}",
+          "AutoDefaultTarget": "Predeterminado: {locale}",
+          "AutoOption": "Auto ({target})",
+          "Language": {
+            "en": "English",
+            "de": "Deutsch",
+            "fr": "Français",
+            "es": "Español"
+          }
+        }
+      }
+    }
+  }
+}

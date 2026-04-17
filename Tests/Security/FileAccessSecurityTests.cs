@@ -1,4 +1,3 @@
-using System.Security;
 using FluentAssertions;
 using Moq;
 using SCStreamDeck.Common;
@@ -6,6 +5,7 @@ using SCStreamDeck.Models;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.Data;
 using SCStreamDeck.Services.Installation;
+using System.Security;
 using Tests.Testing;
 
 namespace Tests.Security;

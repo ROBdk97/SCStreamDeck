@@ -1,6 +1,6 @@
-using System.Security;
 using FluentAssertions;
 using SCStreamDeck.Common;
+using System.Security;
 
 namespace Tests.Unit.Common;
 

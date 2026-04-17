@@ -128,7 +128,7 @@ public sealed class ActivationModeHandlerRegistryTests
     {
         public int PressNoRepeatCount { get; private set; }
         public int DownCount { get; private set; }
-        public List<ScheduledHold> ScheduledHolds { get; } = new();
+        public List<ScheduledHold> ScheduledHolds { get; } = [];
 
         public bool ExecutePress(ParsedInput input) => true;
 

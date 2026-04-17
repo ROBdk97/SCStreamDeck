@@ -1,5 +1,5 @@
-using System.Collections.Concurrent;
 using SCStreamDeck.Models;
+using System.Collections.Concurrent;
 
 namespace SCStreamDeck.Services.Keybinding.ActivationHandlers;
 

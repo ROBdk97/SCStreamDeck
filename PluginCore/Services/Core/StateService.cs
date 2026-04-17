@@ -1,9 +1,9 @@
-using System.Security;
 using Newtonsoft.Json;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Installation;
+using System.Security;
 
 namespace SCStreamDeck.Services.Core;
 
@@ -124,6 +124,6 @@ public sealed class StateService(PathProviderService pathProvider, IFileSystem f
             return currentState;
         }
 
-        return new PluginState(DateTime.UtcNow, SCChannel.Live, null, null, null, null, null);
+        return PluginState.CreateDefault();
     }
 }

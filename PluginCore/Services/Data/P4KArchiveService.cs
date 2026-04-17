@@ -1,10 +1,10 @@
-using System.Reflection;
-using System.Security;
-using System.Text;
 using ICSharpCode.SharpZipLib.Zip;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Reflection;
+using System.Security;
+using System.Text;
 
 namespace SCStreamDeck.Services.Data;
 
@@ -18,7 +18,7 @@ public sealed class P4KArchiveService(IFileSystem fileSystem) : IP4KArchiveServi
 
     private readonly IFileSystem _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
 
-    private readonly object _lock = new();
+    private readonly Lock _lock = new();
 
     private bool _disposed;
     private Stream? _fileStream;

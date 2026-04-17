@@ -1,6 +1,6 @@
-using System.Xml;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Xml;
 
 namespace SCStreamDeck.Common;
 
@@ -152,10 +152,10 @@ internal static class UserOverrideParser
             {
                 if (actionsForMap.TryGetValue(actionName, out KeybindingActionData? action))
                 {
-                applyBinding(action, binding);
-                updatedActionKeys.Add(BuildMapActionKey(action.MapName, action.Name));
+                    applyBinding(action, binding);
+                    updatedActionKeys.Add(BuildMapActionKey(action.MapName, action.Name));
+                }
             }
-        }
         }
 
         foreach ((string actionName, string? binding) in globalOverrides)
@@ -198,7 +198,10 @@ internal static class UserOverrideParser
         using XmlReader xmlReader = XmlReader.Create(sr,
             new XmlReaderSettings
             {
-                IgnoreComments = true, IgnoreWhitespace = true, DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null
+                IgnoreComments = true,
+                IgnoreWhitespace = true,
+                DtdProcessing = DtdProcessing.Prohibit,
+                XmlResolver = null
             });
 
         string currentMapName = string.Empty;

@@ -12,6 +12,7 @@ public sealed class ControlPanelPayloadBuilderTests
     {
         JObject payload = ControlPanelPayloadBuilder.Build(
             null,
+            new PluginLocaleResolution("auto", null, "de", "de"),
             true,
             SCChannel.Hotfix,
             ch => ch == SCChannel.Ptu,
@@ -22,10 +23,11 @@ public sealed class ControlPanelPayloadBuilderTests
         payload["preferredChannel"]!.Value<string>().Should().Be("Live");
         payload["preferredAvailable"]!.Value<bool>().Should().BeFalse();
         payload["lastInitialized"]!.Value<string>().Should().BeEmpty();
+        payload["pluginLocale"]!["effective"]!.Value<string>().Should().Be("de");
 
         JArray channels = (JArray)payload["channels"]!;
-        channels.Should().HaveCount(4);
-        channels.Select(c => c["channel"]!.Value<string>()).Should().Equal("Live", "Hotfix", "Ptu", "Eptu");
+        channels.Should().HaveCount(5);
+        channels.Select(c => c["channel"]!.Value<string>()).Should().Equal("Live", "Hotfix", "Ptu", "Eptu", "TechPreview");
 
         JObject ptu = (JObject)channels.Single(c => c["channel"]!.Value<string>() == "Ptu");
         ptu["configured"]!.Value<bool>().Should().BeFalse();
@@ -51,10 +53,12 @@ public sealed class ControlPanelPayloadBuilderTests
             live,
             null,
             ptu,
+            null,
             null);
 
         JObject payload = ControlPanelPayloadBuilder.Build(
             state,
+            new PluginLocaleResolution("auto", null, "fr", "fr"),
             false,
             SCChannel.Live,
             _ => false,
@@ -76,10 +80,12 @@ public sealed class ControlPanelPayloadBuilderTests
             null,
             null,
             null,
-            eptu);
+            eptu,
+            null);
 
         JObject payload = ControlPanelPayloadBuilder.Build(
             state,
+            new PluginLocaleResolution("override", "es", "de", "es"),
             true,
             SCChannel.Eptu,
             ch => ch == SCChannel.Eptu,
@@ -107,6 +113,13 @@ public sealed class ControlPanelPayloadBuilderTests
         payload["preferredChannel"]!.Value<string>().Should().Be("Live");
         payload["preferredAvailable"]!.Value<bool>().Should().BeFalse();
         payload["lastInitialized"]!.Value<string>().Should().BeEmpty();
+        payload["pluginLocale"]!["mode"]!.Value<string>().Should().Be("auto");
+        payload["pluginLocale"]!["override"]!.Type.Should().Be(JTokenType.Null);
+        payload["pluginLocale"]!["detected"]!.Type.Should().Be(JTokenType.Null);
+        payload["pluginLocale"]!["effective"]!.Value<string>().Should().Be("en");
+        ((JArray)payload["pluginLocale"]!["supported"]!).Select(v => v.Value<string>())
+            .Should()
+            .Equal("en", "de", "fr", "es");
         ((JArray)payload["channels"]!).Should().BeEmpty();
     }
 
@@ -125,10 +138,12 @@ public sealed class ControlPanelPayloadBuilderTests
             live,
             null,
             ptu,
+            null,
             null);
 
         JObject payload = ControlPanelPayloadBuilder.Build(
             state,
+            new PluginLocaleResolution("auto", null, "de", "de"),
             true,
             SCChannel.Live,
             ch => ch == SCChannel.Ptu,
@@ -136,10 +151,15 @@ public sealed class ControlPanelPayloadBuilderTests
 
         payload.Properties().Select(p => p.Name)
             .Should()
-            .Equal("initialized", "currentChannel", "preferredChannel", "preferredAvailable", "lastInitialized", "channels");
+            .Equal("initialized", "currentChannel", "preferredChannel", "preferredAvailable", "lastInitialized",
+                "pluginLocale", "channels");
+
+        ((JObject)payload["pluginLocale"]!).Properties().Select(p => p.Name)
+            .Should()
+            .Equal("mode", "override", "detected", "effective", "supported");
 
         JArray channels = (JArray)payload["channels"]!;
-        channels.Should().HaveCount(4);
+        channels.Should().HaveCount(5);
 
         foreach (JToken token in channels)
         {

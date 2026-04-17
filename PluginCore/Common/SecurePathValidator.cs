@@ -1,5 +1,5 @@
-using System.Security;
 using SCStreamDeck.Logging;
+using System.Security;
 
 namespace SCStreamDeck.Common;
 

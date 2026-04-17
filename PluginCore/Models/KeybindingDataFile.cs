@@ -24,7 +24,8 @@ public sealed class KeybindingMetadata
 
     [JsonProperty("language")] public string Language { get; set; } = "english";
 
-    [JsonProperty("dataP4kPath")] public string DataP4KPath { get; set; } = "";
+    [JsonProperty("dataP4kPath")]
+    public string DataP4KPath { get; set; } = string.Empty;
 
     [JsonProperty("dataP4kSize")] public long DataP4KSize { get; set; }
 
@@ -50,17 +51,23 @@ public sealed class KeybindingMetadata
 /// </summary>
 public sealed class KeybindingActionData
 {
-    [JsonProperty("name")] public string Name { get; set; } = "";
+    [JsonProperty("name")]
+    public string Name { get; set; } = string.Empty;
 
-    [JsonProperty("label")] public string Label { get; set; } = "";
+    [JsonProperty("label")]
+    public string Label { get; set; } = string.Empty;
 
-    [JsonProperty("description")] public string Description { get; set; } = "";
+    [JsonProperty("description")]
+    public string Description { get; set; } = string.Empty;
 
-    [JsonProperty("category")] public string Category { get; set; } = "";
+    [JsonProperty("category")]
+    public string Category { get; set; } = string.Empty;
 
-    [JsonProperty("mapName")] public string MapName { get; set; } = "";
+    [JsonProperty("mapName")]
+    public string MapName { get; set; } = string.Empty;
 
-    [JsonProperty("mapLabel")] public string MapLabel { get; set; } = "";
+    [JsonProperty("mapLabel")]
+    public string MapLabel { get; set; } = string.Empty;
 
     [JsonProperty("activationMode")] public ActivationMode ActivationMode { get; set; } = ActivationMode.press;
 

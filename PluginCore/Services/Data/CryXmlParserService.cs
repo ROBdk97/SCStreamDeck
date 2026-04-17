@@ -1,7 +1,7 @@
+using SCStreamDeck.Common;
 using System.Buffers.Binary;
 using System.Text;
 using System.Xml;
-using SCStreamDeck.Common;
 
 // ReSharper disable NotAccessedPositionalProperty.Local
 

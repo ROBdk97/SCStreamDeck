@@ -21,6 +21,13 @@ Notes:
 
 - Added `Adaptive Dial` action for Stream Deck+ devices. Supports assigning separate Star Citizen functions to rotate left, rotate right, and dial push. Rotation executes the assigned function once per tick. Push respects the action's activation mode (e.g., Tap vs Hold).
 - Click sound support for the `Adaptive Dial` (same `.wav`/`.mp3` configuration as `Adaptive Key`).
+- Added dual release packages for installation:
+  - `runtime-included` for the simple install path with the .NET runtime bundled
+  - `runtime-required` for the smaller advanced install path that uses the system-installed .NET 10 Desktop Runtime x64
+- Updated the plugin/runtime target to `.NET 10`.
+- Added plugin UI localization for English, German, French, and Spanish.
+- Added a `Plugin Language` setting in the `Control Panel` with auto-detect and manual override support.
+- Added `TECH-PREVIEW` as a supported Star Citizen channel alongside `LIVE`, `HOTFIX`, `PTU`, and `EPTU`.
 
 ### Internal / Refactor
 
@@ -28,6 +35,11 @@ Notes:
 - Added explicit `Controllers` declarations (`Keypad` / `Encoder`) to all actions in `manifest.json`.
 - Added unit tests for `AdaptiveDial` covering rotation resolution and executable binding resolution.
 - Refactored Property Inspector function picker logic into shared helpers (`SCPI.functionPicker`) used by both key and dial scripts, reducing duplicated code.
+
+### Documentation
+
+- Updated the docs for the two install methods (`Simple` and `Advanced`) and the new release package names.
+- Documented `Control Panel` language selection, plugin localization support, and `TECH-PREVIEW` channel support.
 
 ## v1.1.3.0 - Patch Release
 
@@ -158,7 +170,7 @@ Notes:
 - The plugin checks these paths if auto-detection does not find a valid installation
 - Instructions for editing `custom-paths.ini` are included in the file
 
-Path to plugin: `%APPDATA%\Elgato\StreamDeck\Plugins\com.jarex985.scstreamdeck.sdPlugin`
+Path to plugin: `%APPDATA%\Elgato\StreamDeck\Plugins\com.robdk97.scstreamdeck.sdPlugin`
 
 ### Bug Fixes
 

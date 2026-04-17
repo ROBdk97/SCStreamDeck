@@ -1,9 +1,9 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Collections.Concurrent;
 using BarRaider.SdTools;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.ActionKeys;
 
@@ -11,7 +11,7 @@ namespace SCStreamDeck.ActionKeys;
 ///     ToggleKey: short press executes binding on KeyUp; long hold flips state at threshold and suppresses execution.
 /// </summary>
 [SuppressMessage("ReSharper", "UnusedType.Global", Justification = "Stream Deck action instantiated via SDK reflection")]
-[PluginActionId("com.jarex985.scstreamdeck.togglekey")]
+[PluginActionId("com.robdk97.scstreamdeck.togglekey")]
 public sealed class ToggleKey : SCActionBase
 {
     private const double DefaultResetHoldSeconds = 1.0;
@@ -371,7 +371,7 @@ internal readonly record struct ToggleKeyDecision(int? ExecuteId, IReadOnlyList<
 /// </summary>
 internal sealed class ToggleKeyCore(TimeSpan holdThreshold)
 {
-    private readonly object _gate = new();
+    private readonly Lock _gate = new();
 
     private TimeSpan _holdThreshold = holdThreshold;
 

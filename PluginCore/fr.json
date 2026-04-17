@@ -1,0 +1,138 @@
+{
+  "Name": "Star Citizen Stream Deck",
+  "Description": "Plugin qui fournit des actions assignables pour Star Citizen via Stream Deck.\nCe plugin n'est ni approuvé par, ni affilié au groupe de sociétés Cloud Imperium ou Roberts Space Industries. Tous les contenus et éléments du jeu sont protégés par le droit d'auteur de Cloud Imperium Rights LLC et Cloud Imperium Rights Ltd. Star Citizen®, Squadron 42®, Roberts Space Industries® et Cloud Imperium® sont des marques déposées de Cloud Imperium Rights LLC. Tous droits réservés.",
+  "Category": "Star Citizen pour Stream Deck",
+  "com.robdk97.scstreamdeck.adaptivekey": {
+    "Name": "Touche adaptative",
+    "Tooltip": "Touche adaptative pour Star Citizen"
+  },
+  "com.robdk97.scstreamdeck.adaptivedial": {
+    "Name": "Molette adaptative",
+    "Tooltip": "Molette adaptative pour Star Citizen",
+    "Encoder": {
+      "TriggerDescription": {
+        "Rotate": "Exécute la fonction gauche ou droite",
+        "Push": "Exécute la fonction d'appui"
+      }
+    }
+  },
+  "com.robdk97.scstreamdeck.togglekey": {
+    "Name": "Touche à bascule",
+    "Tooltip": "Touche à bascule pour Star Citizen"
+  },
+  "com.robdk97.scstreamdeck.controlpanel": {
+    "Name": "Panneau de contrôle",
+    "Tooltip": "Panneau de contrôle pour Star Citizen",
+    "States": [
+      {
+        "Name": "Panneau de contrôle"
+      }
+    ]
+  },
+  "Localization": {
+    "PropertyInspector": {
+      "Common": {
+        "Binding": {
+          "Keyboard": "CLAVIER",
+          "Mouse": "SOURIS",
+          "Gamepad": "MANETTE",
+          "Joystick": "JOYSTICK"
+        },
+        "State": {
+          "Unbound": "Non assigné",
+          "NoDescription": "Aucune description disponible."
+        },
+        "Dropdown": {
+          "NoItemsFound": "Aucun élément trouvé",
+          "NoMatchingFunctionsFound": "Aucune fonction correspondante trouvée",
+          "NoThemesFound": "Aucun thème trouvé",
+          "NoValidChannels": "Aucun canal valide"
+        },
+        "Status": {
+          "Loading": "Chargement",
+          "LoadingFunctions": "Chargement des fonctions",
+          "LoadingThemes": "Chargement des thèmes",
+          "LoadingStatus": "Chargement de l'état",
+          "NoInstallationDetected": "Aucune installation détectée. Définissez un chemin personnalisé."
+        },
+        "FilePicker": {
+          "Button": "FICH.",
+          "SelectFile": "Sélectionner un fichier",
+          "Clear": "Effacer",
+          "NoFileSelected": "Aucun fichier sélectionné"
+        },
+        "Audio": {
+          "Label": "Son",
+          "SelectTitle": "Sélectionner un fichier audio",
+          "ClearTitle": "Effacer le fichier audio"
+        }
+      },
+      "FunctionAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Touche adaptative",
+        "SearchPlaceholder": "Rechercher des fonctions..."
+      },
+      "ToggleAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Touche à bascule",
+        "ResetLabel": "Réinit. (s)",
+        "ResetTooltip": "Durée de maintien (en secondes) pour inverser l'état sans exécuter l'affectation.",
+        "ResetAriaLabel": "Durée de maintien de réinitialisation",
+        "ResetDefaultTitle": "Réinitialiser par défaut"
+      },
+      "DialAction": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Molette adaptative",
+        "RotateLeftLabel": "Rotation à gauche",
+        "RotateLeftPlaceholder": "Sélectionner la fonction de rotation à gauche...",
+        "RotateLeftHint": "Exécutée une fois pour chaque cran lorsque la molette tourne à gauche.",
+        "RotateRightLabel": "Rotation à droite",
+        "RotateRightPlaceholder": "Sélectionner la fonction de rotation à droite...",
+        "RotateRightHint": "Exécutée une fois pour chaque cran lorsque la molette tourne à droite.",
+        "PushLabel": "Appui",
+        "PushPlaceholder": "Sélectionner la fonction d'appui...",
+        "PushHint": "Utilise le mode d'activation de l'action pendant l'appui et le relâchement de la molette."
+      },
+      "ControlPanel": {
+        "PageTitle": "Star Citizen Stream Deck Plugin PI - Panneau de contrôle",
+        "Title": "Panneau de contrôle",
+        "ThemeLabel": "Thème :",
+        "ThemePlaceholder": "Thème sélectionné",
+        "ChannelLabel": "Canal :",
+        "ChannelPlaceholder": "Canal préféré",
+        "CustomPathsTitle": "Chemins d'installation personnalisés",
+        "CustomPathsHelp": "Définissez des remplacements par canal en sélectionnant le fichier <b>Data.p4k</b> correspondant.",
+        "ChannelSuffixAuto": "Auto",
+        "ChannelSuffixCustom": "Personnalisé",
+        "OverridePlaceholder": "Aucun remplacement",
+        "OverrideSelectTitle": "Sélectionner {channel} Data.p4k",
+        "OverrideClearTitle": "Effacer le remplacement {channel}",
+        "ForceRedetection": "Forcer la redétection",
+        "FactoryReset": "Réinitialisation usine",
+        "FactoryResetConfirm": "La réinitialisation usine supprimera les installations mises en cache, effacera tous les remplacements personnalisés de Data.p4k, réinitialisera la sélection du thème et reconstruira entièrement les associations de touches.\n\nContinuer ?",
+        "PluginLocale": {
+          "Title": "Langue du plugin",
+          "Help": "Le mode Auto utilise la langue système détectée. Le remplacement manuel fixe la langue du plugin pour le contenu du Property Inspector.",
+          "Label": "Langue :",
+          "Placeholder": "Langue du plugin",
+          "StatusMode": "Mode",
+          "StatusOverride": "Remplacement",
+          "StatusDetected": "Détectée",
+          "StatusEffective": "Effective",
+          "Unavailable": "Indisponible",
+          "None": "Aucun",
+          "ModeAuto": "Détection automatique",
+          "ModeOverride": "Remplacement manuel",
+          "Loading": "Chargement de la langue",
+          "NoLanguagesFound": "Aucune langue trouvée",
+          "AutoDetectedTarget": "Détectée : {locale}",
+          "AutoDefaultTarget": "Par défaut : {locale}",
+          "AutoOption": "Auto ({target})",
+          "Language": {
+            "en": "English",
+            "de": "Deutsch",
+            "fr": "Français",
+            "es": "Español"
+          }
+        }
+      }
+    }
+  }
+}

@@ -54,7 +54,7 @@ public sealed class CachedInstallationsCleanupService(
 
         return new CachedInstallationsCleanupResult
         {
-            ValidCandidates = result.ValidCandidates.ToList(),
+            ValidCandidates = [.. result.ValidCandidates],
             NeedsFullDetection = result.NeedsFullDetection,
             AnyKeybindingsDeleted = anyKeybindingsDeleted
         };

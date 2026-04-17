@@ -1,9 +1,9 @@
-using System.Reflection;
 using FluentAssertions;
 using Newtonsoft.Json;
 using SCStreamDeck.Common;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Keybinding;
+using System.Reflection;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
@@ -220,11 +220,11 @@ public sealed class KeybindingLoaderServiceTests
         KeybindingActionData actionData = new()
         {
             Name = "test_action",
-            Label = "",
-            Description = "",
-            Category = "",
-            MapName = "",
-            MapLabel = "",
+            Label = string.Empty,
+            Description = string.Empty,
+            Category = string.Empty,
+            MapName = string.Empty,
+            MapLabel = string.Empty,
             ActivationMode = ActivationMode.tap,
             Bindings = new InputBindings()
         };

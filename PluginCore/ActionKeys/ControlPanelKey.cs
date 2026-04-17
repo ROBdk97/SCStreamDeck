@@ -1,7 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
 using BarRaider.SdTools;
 using BarRaider.SdTools.Events;
-using BarRaider.SdTools.Payloads;
 using BarRaider.SdTools.Wrappers;
 using Newtonsoft.Json.Linq;
 using SCStreamDeck.Infrastructure;
@@ -9,6 +7,7 @@ using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Core;
 using SCStreamDeck.Services.UI;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.ActionKeys;
 
@@ -17,7 +16,7 @@ namespace SCStreamDeck.ActionKeys;
 ///     Intended as a "settings" UI entrypoint (no-op on press).
 /// </summary>
 [SuppressMessage("ReSharper", "UnusedType.Global", Justification = "Stream Deck action instantiated via SDK reflection")]
-[PluginActionId("com.jarex985.scstreamdeck.controlpanel")]
+[PluginActionId("com.robdk97.scstreamdeck.controlpanel")]
 public sealed class ControlPanelKey : KeypadBase
 {
     private const string PiEventConnected = "propertyInspectorConnected";
@@ -26,6 +25,7 @@ public sealed class ControlPanelKey : KeypadBase
     private const string PiEventForceRedetection = "forceRedetection";
     private const string PiEventFactoryReset = "factoryReset";
     private const string PiEventSetDataP4KOverride = "setDataP4KOverride";
+    private const string PiEventSetPluginLocale = "setPluginLocale";
 
     [ExcludeFromCodeCoverage]
     public ControlPanelKey(SDConnection connection, InitialPayload payload) : base(connection, payload)
@@ -34,6 +34,7 @@ public sealed class ControlPanelKey : KeypadBase
         InitializationService = deps.InitializationService;
         StateService = deps.StateService;
         ThemeService = deps.ThemeService;
+        PluginLocaleService = deps.PluginLocaleService;
         KeybindingsJsonCache = deps.KeybindingsJsonCache;
 
         Connection.OnPropertyInspectorDidAppear += OnPropertyInspectorDidAppear;
@@ -45,6 +46,7 @@ public sealed class ControlPanelKey : KeypadBase
     private InitializationService InitializationService { get; }
     private StateService StateService { get; }
     private ThemeService ThemeService { get; }
+    private PluginLocaleService PluginLocaleService { get; }
     private IKeybindingsJsonCache KeybindingsJsonCache { get; }
 
     public override void KeyPressed(KeyPayload payload)
@@ -116,6 +118,9 @@ public sealed class ControlPanelKey : KeypadBase
                 case PiEventSetDataP4KOverride:
                     HandleSetDataP4KOverride(e.Event.Payload);
                     return;
+                case PiEventSetPluginLocale:
+                    HandleSetPluginLocale(e.Event.Payload);
+                    return;
                 default:
                     return;
             }
@@ -184,6 +189,17 @@ public sealed class ControlPanelKey : KeypadBase
         });
     }
 
+    private void HandleSetPluginLocale(JObject payload)
+    {
+        string? mode = payload.Value<string>("mode");
+        string? overrideLocale = payload.Value<string>("override");
+
+        RunBackground(async () =>
+        {
+            await PluginLocaleService.UpdateSettingsAsync(mode, overrideLocale).ConfigureAwait(false);
+        });
+    }
+
     private void RunBackground(Func<Task> work) =>
         _ = Task.Run(async () =>
         {
@@ -246,9 +262,11 @@ public sealed class ControlPanelKey : KeypadBase
         try
         {
             PluginState? state = await StateService.LoadStateAsync().ConfigureAwait(false);
+            PluginLocaleResolution pluginLocale = await PluginLocaleService.GetCurrentAsync().ConfigureAwait(false);
 
             return ControlPanelPayloadBuilder.Build(
                 state,
+                pluginLocale,
                 InitializationService.IsInitialized,
                 InitializationService.CurrentChannel,
                 ch => KeybindingsJsonCache.Exists(ch),

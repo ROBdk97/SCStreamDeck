@@ -18,7 +18,7 @@ namespace WindowsInput
         /// <summary>
         ///     Initializes a new instance of the <see cref="InputBuilder" /> class.
         /// </summary>
-        public InputBuilder() => _inputList = new List<INPUT>();
+        public InputBuilder() => _inputList = [];
 
         /// <summary>
         ///     Gets the <see cref="INPUT" /> at the specified position.
@@ -50,7 +50,7 @@ namespace WindowsInput
         ///     Returns the list of <see cref="INPUT" /> messages as a <see cref="System.Array" /> of <see cref="INPUT" /> messages.
         /// </summary>
         /// <returns>The <see cref="System.Array" /> of <see cref="INPUT" /> messages.</returns>
-        public INPUT[] ToArray() => _inputList.ToArray();
+        public INPUT[] ToArray() => [.. _inputList];
 
         /// <summary>
         ///     Determines if the <see cref="VirtualKeyCode" /> is an ExtendedKey

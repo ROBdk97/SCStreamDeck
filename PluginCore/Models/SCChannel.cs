@@ -8,7 +8,8 @@ public enum SCChannel
     Live,
     Hotfix,
     Ptu,
-    Eptu
+    Eptu,
+    TechPreview
 }
 
 /// <summary>
@@ -18,7 +19,11 @@ public static class SCChannelExtensions
 {
     private static readonly Dictionary<SCChannel, string> s_channelFolderNames = new()
     {
-        { SCChannel.Live, "LIVE" }, { SCChannel.Hotfix, "HOTFIX" }, { SCChannel.Ptu, "PTU" }, { SCChannel.Eptu, "EPTU" }
+        { SCChannel.Live, "LIVE" },
+        { SCChannel.Hotfix, "HOTFIX" },
+        { SCChannel.Ptu, "PTU" },
+        { SCChannel.Eptu, "EPTU" },
+        { SCChannel.TechPreview, "TECH-PREVIEW" }
     };
 
     /// <summary>

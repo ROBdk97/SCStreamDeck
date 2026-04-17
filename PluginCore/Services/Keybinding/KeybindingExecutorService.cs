@@ -1,7 +1,7 @@
-using System.Collections.Concurrent;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
 using SCStreamDeck.Services.Keybinding.ActivationHandlers;
+using System.Collections.Concurrent;
 using WindowsInput;
 
 namespace SCStreamDeck.Services.Keybinding;
@@ -36,7 +36,7 @@ public sealed class KeybindingExecutorService : IDisposable
             return;
         }
 
-        Timer[] timers = _activationTimers.Values.ToArray();
+        Timer[] timers = [.. _activationTimers.Values];
 
         _activationTimers.Clear();
 
@@ -102,7 +102,8 @@ public sealed class KeybindingExecutorService : IDisposable
                         bool success =
                             _inputExecutor.ExecutePressNoRepeat(new ParsedInput
                             {
-                                Type = parsedInput.Type, Value = parsedInput.Value
+                                Type = parsedInput.Type,
+                                Value = parsedInput.Value
                             });
                         if (!success)
                         {

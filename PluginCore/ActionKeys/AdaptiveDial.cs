@@ -1,10 +1,10 @@
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using BarRaider.SdTools;
 using BarRaider.SdTools.Payloads;
 using SCStreamDeck.Common;
 using SCStreamDeck.Logging;
 using SCStreamDeck.Models;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SCStreamDeck.ActionKeys;
 
@@ -13,7 +13,7 @@ namespace SCStreamDeck.ActionKeys;
 ///     Supports separate functions for rotate left, rotate right, and dial press.
 /// </summary>
 [SuppressMessage("ReSharper", "UnusedType.Global", Justification = "Stream Deck action instantiated via SDK reflection")]
-[PluginActionId("com.jarex985.scstreamdeck.adaptivedial")]
+[PluginActionId("com.robdk97.scstreamdeck.adaptivedial")]
 public sealed class AdaptiveDial(SDConnection connection, InitialPayload payload) : SCDialActionBase(connection, payload)
 {
     public override async void DialRotate(DialRotatePayload payload)

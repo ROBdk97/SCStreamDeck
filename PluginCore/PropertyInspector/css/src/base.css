@@ -825,6 +825,35 @@ body {
   overflow-x: hidden;
 }
 
+.pi-status-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.pi-status-row {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: flex-start;
+}
+
+.pi-status-label {
+  min-width: 72px;
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.pi-status-value {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  word-break: break-word;
+}
+
 /* === AUDIO FILE PICKER === */
 .file-picker-container {
   display: flex;

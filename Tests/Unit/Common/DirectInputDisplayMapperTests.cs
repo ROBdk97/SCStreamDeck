@@ -161,7 +161,7 @@ public sealed class DirectInputDisplayMapperTests
     {
         DirectInputDisplayMapper.ToDisplay(null, DummyHkl).Should().BeEmpty();
         DirectInputDisplayMapper.ToDisplay(" ", DummyHkl).Should().BeEmpty();
-        DirectInputDisplayMapper.ToDisplay("", DummyHkl).Should().BeEmpty();
+        DirectInputDisplayMapper.ToDisplay(string.Empty, DummyHkl).Should().BeEmpty();
     }
 
     [Fact]
