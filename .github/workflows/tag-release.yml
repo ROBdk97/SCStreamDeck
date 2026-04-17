@@ -91,13 +91,19 @@ jobs:
                         -p:AssemblyVersion=${{ steps.version.outputs.version }} `
                         -p:FileVersion=${{ steps.version.outputs.version }}
 
+            -   name: Install Stream Deck CLI
+                shell: pwsh
+                run: |
+                    npm install -g @elgato/cli@latest
+                    streamdeck --version
+
             -   name: Pack Stream Deck plugin
-                uses: neilenns/streamdeck-cli-pack@v2
-                with:
-                    path: ${{ env.PLUGIN_FOLDER }}
-                    outputPath: plugin-out
-                    version: ${{ steps.version.outputs.version }}
-                    force: true
+                shell: pwsh
+                run: |
+                    streamdeck pack $env:PLUGIN_FOLDER `
+                        -o plugin-out `
+                        --version ${{ steps.version.outputs.version }} `
+                        -f
 
             -   name: Rename packaged plugin
                 shell: pwsh
@@ -191,13 +197,19 @@ jobs:
                         -p:AssemblyVersion=${{ steps.version.outputs.version }} `
                         -p:FileVersion=${{ steps.version.outputs.version }}
 
+            -   name: Install Stream Deck CLI
+                shell: pwsh
+                run: |
+                    npm install -g @elgato/cli@latest
+                    streamdeck --version
+
             -   name: Pack Stream Deck plugin
-                uses: neilenns/streamdeck-cli-pack@v2
-                with:
-                    path: ${{ env.PLUGIN_FOLDER }}
-                    outputPath: plugin-out
-                    version: ${{ steps.version.outputs.version }}
-                    force: true
+                shell: pwsh
+                run: |
+                    streamdeck pack $env:PLUGIN_FOLDER `
+                        -o plugin-out `
+                        --version ${{ steps.version.outputs.version }} `
+                        -f
 
             -   name: Rename packaged plugin
                 shell: pwsh
