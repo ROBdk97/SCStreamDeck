@@ -98,7 +98,7 @@
         "ChannelLabel": "Channel:",
         "ChannelPlaceholder": "Preferred channel",
         "CustomPathsTitle": "Custom Installation Paths",
-        "CustomPathsHelp": "Set per-channel overrides by selecting the corresponding <b>Data.p4k</b>.",
+        "CustomPathsHelp": "Set per-channel overrides by selecting the corresponding Data.p4k.",
         "ChannelSuffixAuto": "Auto",
         "ChannelSuffixCustom": "Custom",
         "OverridePlaceholder": "No override",

@@ -15,6 +15,12 @@ Notes:
 
 ---
 
+## v1.2.2.0 - Patch Release
+
+### Bug Fixes
+
+- Fixed a Property Inspector localization security issue by removing HTML-based translation rendering from the shared i18n helper and switching localized help text to plain text.
+
 ## v1.2.1.0 - Patch Release
 
 ### Features / Improvements

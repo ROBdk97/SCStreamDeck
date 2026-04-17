@@ -98,7 +98,7 @@
         "ChannelLabel": "Canal :",
         "ChannelPlaceholder": "Canal préféré",
         "CustomPathsTitle": "Chemins d'installation personnalisés",
-        "CustomPathsHelp": "Définissez des remplacements par canal en sélectionnant le fichier <b>Data.p4k</b> correspondant.",
+        "CustomPathsHelp": "Définissez des remplacements par canal en sélectionnant le fichier Data.p4k correspondant.",
         "ChannelSuffixAuto": "Auto",
         "ChannelSuffixCustom": "Personnalisé",
         "OverridePlaceholder": "Aucun remplacement",
