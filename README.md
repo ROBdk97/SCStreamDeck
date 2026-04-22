@@ -100,4 +100,4 @@ This project was inspired by the following repositories (code rewritten from scr
 - [unp4k by dolkensp](https://github.com/dolkensp/unp4k) - for letting me browse through the P4K file and understand its structure.
 - [SCJMapper-V2 by SCToolsfactory](https://github.com/SCToolsfactory/SCJMapper-V2) - for the great work on Star Citizen keybindings extraction.
 - [streamdeck-starcitizen by mhwlng](https://github.com/mhwlng/streamdeck-starcitizen) - for the initial idea of a Stream Deck plugin for Star Citizen. :)
-- [SCStreamDeck by Jarex985](https://github.com/Jarex985/SCStreamDeck) - Forked because the owner was inactive
+- [SCStreamDeck by Jarex985](https://github.com/Jarex985/SCStreamDeck) - Forked/Optimized/Modernized because the owner was inactive
