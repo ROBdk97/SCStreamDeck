@@ -15,6 +15,12 @@ Notes:
 
 ---
 
+## v1.2.2.1 - Build Release
+
+### Internal / Refactor
+
+- Updated multiple NuGet dependencies to their latest versions, including analyzers, DI, NLog, SystemEvents, ZstdSharp, FluentAssertions, and test tools. These updates bring bug fixes, improvements, and new features.
+
 ## v1.2.2.0 - Patch Release
 
 ### Bug Fixes
