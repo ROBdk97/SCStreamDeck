@@ -15,6 +15,17 @@ Notes:
 
 ---
 
+## v1.2.3.0 - Minor Release
+
+### Features / Improvements
+
+- Added a `Touch Strip Text` toggle for `Adaptive Dial` so the dial title can be shown or hidden on the Stream Deck+ touch strip.
+
+### Bug Fixes
+
+- Reworked the Adaptive Dial feedback layouts to remove the default grey bottom-right bar.
+- Increased the usable icon area and balanced the captioned layout so the icon no longer looks cramped next to the touch-strip text.
+
 ## v1.2.2.1 - Build Release
 
 ### Internal / Refactor

@@ -18,4 +18,7 @@ public sealed class DialSettings
 
     [JsonProperty(PropertyName = "clickSoundPath")]
     public string? ClickSoundPath { get; set; }
+
+    [JsonProperty(PropertyName = "showTouchText")]
+    public bool ShowTouchText { get; set; } = false;
 }
