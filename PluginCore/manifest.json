@@ -25,7 +25,7 @@
         "Encoder"
       ],
       "Encoder": {
-        "layout": "$B1",
+        "layout": "Layouts/adaptiveDial.json",
         "TriggerDescription": {
           "Rotate": "Execute left or right function",
           "Push": "Execute push function"

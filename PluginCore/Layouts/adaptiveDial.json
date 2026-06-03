@@ -1,0 +1,19 @@
+{
+  "id": "scsd-adaptive-dial",
+  "items": [
+    {
+      "key": "background",
+      "type": "pixmap",
+      "rect": [0, 0, 200, 100],
+      "zOrder": 0,
+      "value": ""
+    },
+    {
+      "key": "icon",
+      "type": "pixmap",
+      "rect": [50, 0, 100, 100],
+      "zOrder": 1,
+      "value": ""
+    }
+  ]
+}

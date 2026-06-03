@@ -21,6 +21,13 @@ namespace SCStreamDeck.ActionKeys;
 /// </summary>
 public abstract class SCDialActionBase : EncoderBase
 {
+    private const string DefaultDialTitle = "Adaptive Dial";
+    private const string DialLayoutNoCaption = "Layouts/adaptiveDial.json";
+    private const string DialLayoutWithCaption = "Layouts/adaptiveDial.caption.json";
+
+    private string _customDialTitle = DefaultDialTitle;
+    private string? _activeDialLayout;
+
     [ExcludeFromCodeCoverage]
     protected SCDialActionBase(SDConnection connection, InitialPayload payload) : base(connection, payload)
     {
@@ -39,6 +46,7 @@ public abstract class SCDialActionBase : EncoderBase
         InitializationService.KeybindingsStateChanged += OnKeybindingsStateChanged;
         PluginLocaleService.LocaleChanged += OnPluginLocaleChanged;
         Connection.OnPropertyInspectorDidAppear += OnPropertyInspectorDidAppear;
+        Connection.OnTitleParametersDidChange += OnTitleParametersDidChange;
         Connection.OnSendToPlugin += OnSendToPlugin;
 
         TryMigrateFunctionSettingsIfPossible();
@@ -47,6 +55,8 @@ public abstract class SCDialActionBase : EncoderBase
         {
             SendPropertyInspectorUpdate();
         }
+
+        SendDialTextUpdate();
     }
 
     private InitializationService InitializationService { get; }
@@ -99,6 +109,7 @@ public abstract class SCDialActionBase : EncoderBase
     public override void Dispose()
     {
         Connection.OnPropertyInspectorDidAppear -= OnPropertyInspectorDidAppear;
+        Connection.OnTitleParametersDidChange -= OnTitleParametersDidChange;
         Connection.OnSendToPlugin -= OnSendToPlugin;
         InitializationService.KeybindingsStateChanged -= OnKeybindingsStateChanged;
         PluginLocaleService.LocaleChanged -= OnPluginLocaleChanged;
@@ -116,9 +127,43 @@ public abstract class SCDialActionBase : EncoderBase
         }
 
         TryMigrateFunctionSettingsIfPossible();
+        SendDialTextUpdate();
     }
 
     private void SendPropertyInspectorUpdate() => _ = SendPropertyInspectorUpdateAsync();
+
+    private void SendDialTextUpdate() => _ = UpdateDialTextAsync();
+
+    private async Task UpdateDialTextAsync()
+    {
+        try
+        {
+            bool showText = Settings.ShowTouchText;
+            string targetLayout = showText ? DialLayoutWithCaption : DialLayoutNoCaption;
+
+            if (!string.Equals(_activeDialLayout, targetLayout, StringComparison.Ordinal))
+            {
+                await Connection.SetFeedbackLayoutAsync(targetLayout).ConfigureAwait(false);
+                _activeDialLayout = targetLayout;
+            }
+
+            string caption = showText ? BuildTouchStripText() : string.Empty;
+
+            await Connection.SetFeedbackAsync(new JObject
+            {
+                ["caption"] = caption
+            }).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Log.Err($"[{GetType().Name}] Failed to update dial text: {ex.Message}", ex);
+        }
+    }
+
+    private string BuildTouchStripText()
+    {
+        return string.IsNullOrWhiteSpace(_customDialTitle) ? DefaultDialTitle : _customDialTitle;
+    }
 
     private async Task SendPropertyInspectorUpdateAsync()
     {
@@ -171,10 +216,28 @@ public abstract class SCDialActionBase : EncoderBase
     private void OnPropertyInspectorDidAppear(object? sender, SDEventReceivedEventArgs<PropertyInspectorDidAppear> e) =>
         SendPropertyInspectorUpdate();
 
+    private void OnTitleParametersDidChange(object? sender, SDEventReceivedEventArgs<TitleParametersDidChange> e)
+    {
+        try
+        {
+            string? incomingTitle = e.Event?.Payload?.Title;
+            _customDialTitle = string.IsNullOrWhiteSpace(incomingTitle)
+                ? DefaultDialTitle
+                : incomingTitle.Trim();
+
+            SendDialTextUpdate();
+        }
+        catch (Exception ex)
+        {
+            Log.Err($"[{GetType().Name}] Failed to process title update: {ex.Message}", ex);
+        }
+    }
+
     private void OnKeybindingsStateChanged()
     {
         TryMigrateFunctionSettingsIfPossible();
         SendPropertyInspectorUpdate();
+        SendDialTextUpdate();
     }
 
     private void OnPluginLocaleChanged() => SendPropertyInspectorUpdate();

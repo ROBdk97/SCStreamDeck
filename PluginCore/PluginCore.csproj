@@ -84,6 +84,9 @@
     <Content Include="PropertyInspector\**\*.*" Exclude="PropertyInspector\**\src\**\*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Layouts\**\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <Target Name="BuildPropertyInspectorAssets" BeforeTargets="CopyFilesToOutputDirectory">

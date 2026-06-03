@@ -89,6 +89,39 @@
     settingsKey: 'clickSoundPath'
   });
 
+  const showTouchTextToggle = document.getElementById('showTouchTextToggle');
+  function toBoolean(value, defaultValue = true) {
+    if (typeof value === 'boolean') {
+      return value;
+    }
+
+    if (typeof value === 'string') {
+      const normalized = value.trim().toLowerCase();
+      if (normalized === 'false' || normalized === '0' || normalized === 'off' || normalized === 'no') {
+        return false;
+      }
+
+      if (normalized === 'true' || normalized === '1' || normalized === 'on' || normalized === 'yes') {
+        return true;
+      }
+    }
+
+    return defaultValue;
+  }
+
+  const [getShowTouchText, setShowTouchText] = globalThis.SDPIComponents.useSettings(
+    'showTouchText',
+    (value) => {
+      if (showTouchTextToggle) {
+        showTouchTextToggle.checked = toBoolean(value, true);
+      }
+    }
+  );
+
+  showTouchTextToggle?.addEventListener('change', () => {
+    setShowTouchText(showTouchTextToggle.checked);
+  });
+
   function flattenFunctionsData(groups) {
     const flatten = SCPI?.functionPicker?.flattenFunctionsData;
     if (typeof flatten !== 'function') {
@@ -218,6 +251,11 @@
   });
 
   SCPI?.util?.onDocumentReady?.(() => {
+    if (showTouchTextToggle) {
+      const current = getShowTouchText();
+      showTouchTextToggle.checked = toBoolean(current, true);
+    }
+
     slotStates.forEach((slot) => {
       const savedValue = slot.getValue();
       slot.currentValue = savedValue || '';
