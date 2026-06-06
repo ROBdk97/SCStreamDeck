@@ -2,6 +2,7 @@
 
 !!! note "Important"
     There are **two install methods**:
+
     - **Simple:** download the runtime-included package. No extra runtime install is required.
     - **Advanced:** download the smaller runtime-required package and install **.NET 10.0 Desktop Runtime x64** first.
 
