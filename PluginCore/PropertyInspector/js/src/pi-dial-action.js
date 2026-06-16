@@ -41,7 +41,7 @@
   const slotStates = slotConfigs.map((config) => {
     const dropdown = SCPI?.ui?.dropdown?.initDropdown?.({
       rootId: config.rootId,
-      placeholder: {key: config.placeholderKey, fallback: config.placeholderFallback},
+      placeholder: { key: config.placeholderKey, fallback: config.placeholderFallback },
       searchEnabled: true,
       minLoadingMs: 0,
       successFlashMs: 100,
@@ -54,7 +54,7 @@
       getValue: (opt) => String(opt?.value ?? ''),
       getGroup: (opt) => String(opt?.group ?? ''),
       isDisabled: (opt) => !!opt?.disabled,
-      onSelect: (opt) => selectOption(config.settingsKey, opt, {persist: true})
+      onSelect: (opt) => selectOption(config.settingsKey, opt, { persist: true })
     });
 
     dropdown?.setLoading?.(true, {
@@ -82,10 +82,10 @@
 
   SCPI?.ui?.filePicker?.createFilePicker?.({
     rootId: 'audioFilePicker',
-    placeholderText: {key: 'PropertyInspector.Common.FilePicker.NoFileSelected', fallback: 'No file selected'},
-    buttonText: {key: 'PropertyInspector.Common.FilePicker.Button', fallback: 'FILE'},
-    selectTitle: {key: 'PropertyInspector.Common.Audio.SelectTitle', fallback: 'Select audio file'},
-    clearTitle: {key: 'PropertyInspector.Common.Audio.ClearTitle', fallback: 'Clear audio file'},
+    placeholderText: { key: 'PropertyInspector.Common.FilePicker.NoFileSelected', fallback: 'No file selected' },
+    buttonText: { key: 'PropertyInspector.Common.FilePicker.Button', fallback: 'FILE' },
+    selectTitle: { key: 'PropertyInspector.Common.Audio.SelectTitle', fallback: 'Select audio file' },
+    clearTitle: { key: 'PropertyInspector.Common.Audio.ClearTitle', fallback: 'Clear audio file' },
     settingsKey: 'clickSoundPath'
   });
 
@@ -130,7 +130,7 @@
 
     return flatten(groups, {
       requireToggleCandidates: false,
-      excludeBindingTypes: ['mouseaxis', 'joystick', 'gamepad']
+      excludeBindingTypes: ['joystick', 'gamepad']
     });
   }
 
@@ -139,7 +139,7 @@
 
     slotStates.forEach((slot) => {
       slot.dropdown?.setItems?.(allOptions);
-      slot.dropdown?.setSelectedValue?.(slot.currentValue, {rerender: false});
+      slot.dropdown?.setSelectedValue?.(slot.currentValue, { rerender: false });
 
       if (slot.currentValue) {
         syncSelection(slot.settingsKey, slot.currentValue);
@@ -164,7 +164,7 @@
     }
 
     const isLegacyMatch = opt.legacyValue === value && opt.value !== value;
-    selectOption(settingsKey, opt, {persist: isLegacyMatch});
+    selectOption(settingsKey, opt, { persist: isLegacyMatch });
   }
 
   function selectOption(settingsKey, opt, opts = {}) {
@@ -177,7 +177,7 @@
 
     isSelectingOption = true;
     slot.currentValue = opt.value;
-    slot.dropdown?.setSelectedValue?.(opt.value, {rerender: true});
+    slot.dropdown?.setSelectedValue?.(opt.value, { rerender: true });
     updateFunctionDetails(slot, opt);
 
     if (persist) {
@@ -259,7 +259,7 @@
     slotStates.forEach((slot) => {
       const savedValue = slot.getValue();
       slot.currentValue = savedValue || '';
-      slot.dropdown?.setSelectedValue?.(slot.currentValue, {rerender: false});
+      slot.dropdown?.setSelectedValue?.(slot.currentValue, { rerender: false });
       updateFunctionDetails(slot, null);
     });
 

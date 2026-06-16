@@ -528,20 +528,23 @@
       titleEl.textContent = slotLabel.length > 0 ? `${slotLabel}: ${title}` : title;
     }
 
+    const deviceAliases = {
+      mouse: ['mouse', 'mouseaxis']
+    };
+
     devices.forEach((deviceType) => {
-      const deviceData = detailDevices.find((d) => d.device && d.device.toLowerCase() === deviceType);
       const bindingEl = bindingElements[deviceType] || null;
+      const matches = deviceAliases[deviceType] || [deviceType];
 
-      let bindingValue = unboundText;
-      if (deviceData && Array.isArray(deviceData.bindings) && deviceData.bindings.length > 0) {
-        const bindingLines = deviceData.bindings
-          .map((binding) => String(binding.display || binding.raw || ''))
-          .filter((text) => text);
+      const bindingLines = detailDevices
+        .filter((d) => d.device && matches.includes(d.device.toLowerCase()))
+        .flatMap((d) => Array.isArray(d.bindings) ? d.bindings : [])
+        .map((binding) => String(binding.display || binding.raw || ''))
+        .filter(Boolean);
 
-        if (bindingLines.length > 0) {
-          bindingValue = bindingLines.join(', ');
-        }
-      }
+      const bindingValue = bindingLines.length > 0
+        ? bindingLines.join(', ')
+        : unboundText;
 
       if (bindingEl) {
         bindingEl.textContent = bindingValue;
