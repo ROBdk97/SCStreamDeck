@@ -15,6 +15,17 @@ Notes:
 
 ---
 
+## v1.2.4.0 - Patch Release
+
+### Bug Fixes
+
+- Fixed issue #7 where some mouse wheel/mouse-axis actions (for example `Mining Increase Laser Power`) were missing from the `Adaptive Dial` function dropdown.
+- Fixed function details in the Property Inspector so mouse-axis bindings are shown under `Mouse` instead of incorrectly appearing as `Unbound`.
+
+### Internal / Refactor
+
+- Updated selected `PluginCore` NuGet dependencies to newer patch versions (`Microsoft.CodeAnalysis.NetAnalyzers`, `Microsoft.Extensions.DependencyInjection`, `Microsoft.Extensions.DependencyInjection.Abstractions`, `Microsoft.Win32.SystemEvents`, and `System.Drawing.Common`).
+
 ## v1.2.3.0 - Minor Release
 
 ### Features / Improvements
