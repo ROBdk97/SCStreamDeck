@@ -15,7 +15,7 @@ Notes:
 
 ---
 
-## v1.2.4.0 - Patch Release
+## v1.2.4.1 - Patch Release
 
 ### Bug Fixes
 
