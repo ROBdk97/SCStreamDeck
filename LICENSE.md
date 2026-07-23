@@ -1,6 +1,10 @@
 MIT License
 
-Copyright (c) 2025 ROBdk97
+Copyright (c) 2019 mhwlng
+Copyright (c) 2025 Jarex985
+Copyright (c) 2026 ROBdk97
+
+This project includes original work and derivative work based on prior MIT-licensed projects by the copyright holders listed above.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
