@@ -15,7 +15,7 @@ public sealed class AudioPlayerService : IDisposable
     private readonly MMDeviceEnumerator _deviceEnumerator;
     private readonly Lock _lock = new();
     private readonly MixingSampleProvider _mixer;
-    private readonly WasapiOut _outputDevice;
+    private readonly WasapiPlayer _outputDevice;
     private bool _disposed;
 
     public AudioPlayerService()
@@ -23,7 +23,12 @@ public sealed class AudioPlayerService : IDisposable
         _deviceEnumerator = new MMDeviceEnumerator();
 
         MMDevice device = _deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-        _outputDevice = new WasapiOut(device, AudioClientShareMode.Shared, false, 50);
+        _outputDevice = new WasapiPlayerBuilder()
+            .WithDevice(device)
+            .WithSharedMode()
+            .WithPollingSync()
+            .WithLatency(50)
+            .Build();
 
         _mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(48000, 2)) { ReadFully = true };
 
@@ -34,7 +39,7 @@ public sealed class AudioPlayerService : IDisposable
     /// <summary>
     ///     Disposes audio resources.
     ///     Marked as [ExcludeFromCodeCoverage] because:
-    ///     - Depends on NAudio WASAPI audio device (MMDeviceEnumerator, WasapiOut)
+    ///     - Depends on NAudio WASAPI audio device (MMDeviceEnumerator, WasapiPlayer)
     ///     - Integration testing requires audio system initialization
     ///     - Resource cleanup pattern verified manually
     /// </summary>

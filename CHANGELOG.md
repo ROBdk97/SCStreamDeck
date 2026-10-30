@@ -15,6 +15,18 @@ Notes:
 
 ---
 
+## v1.2.5.0 - Patch Release
+
+### Security
+
+- Updated .NET 10 package dependencies to `10.0.14` in response to Brotli2Shell (`CVE-2026-111497`).
+
+### Internal / Refactor
+
+- Updated the audio playback components and related dependencies.
+- Improved audio data handling and added tests to verify it behaves correctly.
+- Updated supporting libraries and refreshed the Property Inspector files.
+
 ## v1.2.4.1 - Patch Release
 
 ### Bug Fixes
