@@ -20,6 +20,7 @@ Notes:
 ### Security
 
 - Updated .NET 10 package dependencies to `10.0.14` in response to Brotli2Shell (`CVE-2026-111497`).
+- Raised the minimum `mkdocs-material` version to `9.7.7` to exclude releases affected by search-suggestion XSS (`CVE-2026-73295`).
 
 ### Internal / Refactor
 
