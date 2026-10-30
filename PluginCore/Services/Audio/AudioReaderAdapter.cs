@@ -13,14 +13,16 @@ internal sealed class AudioReaderAdapter(ISampleProvider source, IDisposable? di
 
     public WaveFormat WaveFormat { get; } = source.WaveFormat;
 
-    public int Read(float[] buffer, int offset, int count)
+    public int Read(float[] buffer, int offset, int count) => Read(buffer.AsSpan(offset, count));
+
+    public int Read(Span<float> buffer)
     {
         if (_disposed)
         {
             return 0;
         }
 
-        int samplesRead = _source.Read(buffer, offset, count);
+        int samplesRead = _source.Read(buffer);
 
         if (samplesRead != 0)
         {
