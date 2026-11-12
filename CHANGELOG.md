@@ -15,6 +15,23 @@ Notes:
 
 ---
 
+## v1.2.6.0 - Patch Release
+
+### Features / Improvements
+
+- Updated the plugin and all solution projects to .NET 11.
+- **Advanced installation:** the runtime-required package now requires the .NET 11 Desktop Runtime x64.
+
+### Internal / Refactor
+
+- Updated .NET dependencies and supporting build and test libraries.
+- Removed the separate .NET analyzers package in favor of the SDK-provided analyzers.
+- Updated CI and release workflows to use the .NET 11 SDK.
+
+### Documentation
+
+- Updated installation and troubleshooting instructions with the .NET 11 runtime requirement.
+
 ## v1.2.5.0 - Patch Release
 
 ### Security

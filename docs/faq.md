@@ -15,7 +15,7 @@ Go to [Update & Uninstall](update.md). Current release builds require you to uni
 ## Which package should I install?
 
 Use **Simple** if you just want the plugin to work without installing anything else.  
-Use **Advanced** if you want the smaller plugin package and are happy to install the **.NET 10 Desktop Runtime x64** first.
+Use **Advanced** if you want the smaller plugin package and are happy to install the **.NET 11 Desktop Runtime x64** first.
 
 ## Which languages does the plugin support?
 
