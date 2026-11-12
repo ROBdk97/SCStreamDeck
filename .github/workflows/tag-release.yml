@@ -35,10 +35,10 @@ jobs:
                 with:
                     node-version: 20
 
-            -   name: Setup .NET 10
+            -   name: Setup .NET 11
                 uses: actions/setup-dotnet@v4
                 with:
-                    dotnet-version: 10.0.x
+                    dotnet-version: 11.0.x
 
             -   name: Clean plugin output
                 shell: pwsh
@@ -140,10 +140,10 @@ jobs:
                 with:
                     node-version: 20
 
-            -   name: Setup .NET 10
+            -   name: Setup .NET 11
                 uses: actions/setup-dotnet@v4
                 with:
-                    dotnet-version: 10.0.x
+                    dotnet-version: 11.0.x
 
             -   name: Clean plugin output
                 shell: pwsh

@@ -4,7 +4,7 @@
     There are **two install methods**:
 
     - **Simple:** download the runtime-included package. No extra runtime install is required.
-    - **Advanced:** download the smaller runtime-required package and install **.NET 10.0 Desktop Runtime x64** first.
+    - **Advanced:** download the smaller runtime-required package and install **.NET 11.0 Desktop Runtime x64** first.
 
 
 ## Download the Plugin
@@ -33,7 +33,7 @@ Choose one of these packages from the latest release:
 | Install method | Requirements |
 | --- | --- |
 | Simple | Windows 10+, [Stream Deck App 6.4+](https://www.elgato.com/s/stream-deck-app) |
-| Advanced | Windows 10+, [Stream Deck App 6.4+](https://www.elgato.com/s/stream-deck-app), [.NET 10.0 Desktop Runtime x64](https://dotnet.microsoft.com/download/dotnet/10.0) |
+| Advanced | Windows 10+, [Stream Deck App 6.4+](https://www.elgato.com/s/stream-deck-app), [.NET 11.0 Desktop Runtime x64](https://dotnet.microsoft.com/download/dotnet/11.0) |
 
 
 
